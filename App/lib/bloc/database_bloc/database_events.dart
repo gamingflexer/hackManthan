@@ -29,3 +29,19 @@ class StopLocationStream extends DatabaseEvent {
   @override
   List<Object?> get props => [toString()];
 }
+
+class GetCrimes extends DatabaseEvent {
+  @override
+  String toString() => 'GetHomeContents';
+
+  @override
+  List<Object?> get props => [toString()];
+}
+
+class GetPolice extends DatabaseEvent {
+  @override
+  String toString() => 'GetHomeContents';
+
+  @override
+  List<Object?> get props => [toString()];
+}

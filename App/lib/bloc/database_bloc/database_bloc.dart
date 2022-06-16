@@ -9,16 +9,16 @@ import 'package:hackmanthan_app/repositories/location_repository.dart';
 import 'package:location/location.dart';
 
 class DatabaseBloc extends Bloc<DatabaseEvent, DatabaseState> {
-  final AuthRepository authRepository;
-  late DatabaseRepository databaseRepository;
-  late UserData user;
+  DatabaseRepository databaseRepository;
+  UserData user;
 
-  DatabaseBloc({required this.authRepository}) : super(const Init()) {
-    user = authRepository.getUserData;
-    databaseRepository = DatabaseRepository(uid: user.uid);
+  DatabaseBloc({required this.user, required this.databaseRepository})
+      : super(const Init()) {
     on<GetHomeContents>(_onGetHomeContents);
     on<StartLocationStream>(_onStartLocationStream);
     on<StopLocationStream>(_onStopLocationStream);
+    on<GetHomeContents>(_onGetHomeContents);
+
   }
 
   // When
@@ -27,7 +27,6 @@ class DatabaseBloc extends Bloc<DatabaseEvent, DatabaseState> {
     emit(const HomePageState(pageState: PageState.loading));
     try {
       // API call to get Map Data
-      
 
     } on Exception catch (_) {
       // If something goes wrong
@@ -39,9 +38,17 @@ class DatabaseBloc extends Bloc<DatabaseEvent, DatabaseState> {
   FutureOr<void> _onStartLocationStream(
       StartLocationStream event, Emitter<DatabaseState> emit) async {
     try {
-      // 
-      LocationData? locationData = await getLocation();
-
+      emit(state.copyWith(locationStreaming: true));
+      if (state.locationStreaming) {
+        LocationData? locationData = await LocationRepository.getLocation();
+        if (locationData != null) {
+          UserData newUser = user.copyWith(
+            lat: locationData.latitude,
+            long: locationData.longitude,
+          );
+          await databaseRepository.updateUser(newUser);
+        }
+      }
     } on Exception catch (_) {
       // If something goes wrong
     }
@@ -51,8 +58,8 @@ class DatabaseBloc extends Bloc<DatabaseEvent, DatabaseState> {
   FutureOr<void> _onStopLocationStream(
       StopLocationStream event, Emitter<DatabaseState> emit) async {
     try {
-      //
-    } on Exception catch (e) {
+      emit(state.copyWith(locationStreaming: false));
+    } on Exception catch (_) {
       // If something goes wrong
     }
   }

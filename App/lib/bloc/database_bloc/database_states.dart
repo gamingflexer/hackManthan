@@ -4,8 +4,21 @@ import 'package:hackmanthan_app/models/user.dart';
 import 'package:meta/meta.dart';
 
 @immutable
-abstract class DatabaseState extends Equatable {
-  const DatabaseState([List props = const []]) : super();
+class DatabaseState extends Equatable {
+  final bool locationStreaming;
+
+  const DatabaseState({this.locationStreaming = false}) : super();
+
+  DatabaseState copyWith({
+    bool? locationStreaming,
+  }) {
+    return DatabaseState(
+      locationStreaming: locationStreaming ?? this.locationStreaming,
+    );
+  }
+  
+  @override
+  List<Object?> get props => [];
 }
 
 class Init extends DatabaseState {
@@ -26,6 +39,16 @@ class HomePageState extends DatabaseState {
     this.locationStreaming = false,
     this.pageState = PageState.init,
   });
+
+  HomePageState copyWith({
+    bool? locationStreaming,
+    PageState? pageState,
+  }) {
+    return HomePageState(
+      locationStreaming: locationStreaming ?? this.locationStreaming,
+      pageState: pageState ?? this.pageState,
+    );
+  }
 
   @override
   String toString() => '';

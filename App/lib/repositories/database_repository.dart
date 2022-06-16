@@ -29,4 +29,9 @@ class DatabaseRepository {
       throw const SomethingWentWrong();
     }
   }
+
+  // Update User in DB
+  Future<void> updateUser(UserData userData) async {
+    await usersRef.doc(uid).set(userData);
+  }
 }
