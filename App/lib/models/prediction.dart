@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
-class Crime extends Equatable{
+class Prediction extends Equatable {
   final String uid;
   final String eventId;
   final String eventType;
@@ -14,7 +14,7 @@ class Crime extends Equatable{
   final double long;
   final Timestamp time;
 
-  const Crime({
+  const Prediction({
     this.uid = '',
     this.eventId = '',
     this.eventType = '',
@@ -28,12 +28,12 @@ class Crime extends Equatable{
     required this.time,
   });
 
-  static Crime empty = Crime(
+  static Prediction empty = Prediction(
     uid: '',
     time: Timestamp(0, 0),
   );
 
-  Crime.fromJson(Map<String, dynamic> json)
+  Prediction.fromJson(Map<String, dynamic> json)
       : this(
           uid: json['uid'],
           eventId: json['eventId'],
@@ -64,7 +64,7 @@ class Crime extends Equatable{
     return data;
   }
 
-  Crime copyWith({
+  Prediction copyWith({
     String? uid,
     String? eventId,
     String? eventType,
@@ -77,7 +77,7 @@ class Crime extends Equatable{
     double? long,
     Timestamp? time,
   }) {
-    return Crime(
+    return Prediction(
       uid: uid ?? this.uid,
       eventId: eventId ?? this.eventId,
       eventType: eventType ?? this.eventType,
@@ -94,7 +94,7 @@ class Crime extends Equatable{
 
   @override
   String toString() {
-    return 'Crime($uid, $eventId, $eventType, $eventSubType, $circle, $ward, $district, $policeStation, $lat, $long, $time)';
+    return 'Prediction($uid, $eventId, $eventType, $eventSubType, $circle, $ward, $district, $policeStation, $lat, $long, $time)';
   }
 
   @override
