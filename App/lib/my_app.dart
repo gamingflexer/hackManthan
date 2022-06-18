@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hackmanthan_app/bloc/app_bloc/app_bloc_files.dart';
+import 'package:hackmanthan_app/bloc/map_bloc/map_bloc.dart';
 import 'package:hackmanthan_app/models/user.dart';
 import 'package:hackmanthan_app/repositories/auth_repository.dart';
+import 'package:hackmanthan_app/repositories/database_repository.dart';
 import 'package:hackmanthan_app/shared/error_screen.dart';
 import 'package:hackmanthan_app/theme/theme.dart';
 import 'package:hackmanthan_app/views/wrapper.dart';
@@ -32,24 +34,30 @@ class _MyAppState extends State<MyApp> {
             return BlocBuilder<AppBloc, AppState>(
               builder: (context, state) {
                 UserData user = context.read<AppBloc>().user;
-                // DatabaseBloc
-                return ScreenUtilInit(
-                  designSize: const Size(414, 896),
-                  builder: (context, child) {
-                    return MaterialApp(
-                      debugShowCheckedModeBanner: false,
-                      theme: CustomTheme.getTheme(context),
-                      home: Wrapper(state: state),
-                      builder: (context, child) {
-                        int width = MediaQuery.of(context).size.width.toInt();
+                MapBloc mapBloc = MapBloc(
+                  user: user,
+                  databaseRepository: DatabaseRepository(uid: user.uid),
+                );
+                return BlocProvider<MapBloc>.value(
+                  value: mapBloc,
+                  child: ScreenUtilInit(
+                    designSize: const Size(414, 896),
+                    builder: (context, child) {
+                      return MaterialApp(
+                        debugShowCheckedModeBanner: false,
+                        theme: CustomTheme.getTheme(context),
+                        home: Wrapper(state: state),
+                        builder: (context, child) {
+                          int width = MediaQuery.of(context).size.width.toInt();
                           return MediaQuery(
-                            data:
-                            MediaQuery.of(context).copyWith(textScaleFactor: width / 414),
+                            data: MediaQuery.of(context)
+                                .copyWith(textScaleFactor: width / 414),
                             child: child ?? const SomethingWentWrong(),
                           );
-                      },
-                    );
-                  },
+                        },
+                      );
+                    },
+                  ),
                 );
               },
             );

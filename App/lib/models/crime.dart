@@ -3,7 +3,7 @@ import 'package:equatable/equatable.dart';
 
 class Crime extends Equatable{
   final String uid;
-  final String eventId;
+  // final String eventId;
   final String eventType;
   final String eventSubType;
   final String circle;
@@ -12,11 +12,12 @@ class Crime extends Equatable{
   final String policeStation;
   final double lat;
   final double long;
+  final bool isViolent;
   final Timestamp time;
 
   const Crime({
     this.uid = '',
-    this.eventId = '',
+    // this.eventId = '',
     this.eventType = '',
     this.eventSubType = '',
     this.circle = '',
@@ -25,6 +26,7 @@ class Crime extends Equatable{
     this.policeStation = '',
     this.lat = 0,
     this.long = 0,
+    this.isViolent = false,
     required this.time,
   });
 
@@ -36,7 +38,7 @@ class Crime extends Equatable{
   Crime.fromJson(Map<String, dynamic> json)
       : this(
           uid: json['uid'],
-          eventId: json['eventId'],
+          // eventId: json['eventId'],
           eventType: json['eventType'],
           eventSubType: json['eventSubType'],
           circle: json['circle'],
@@ -45,13 +47,14 @@ class Crime extends Equatable{
           policeStation: json['policeStation'],
           lat: json['lat'],
           long: json['long'],
+          isViolent: json['isViolent'],
           time: json['time'],
         );
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['uid'] = uid;
-    data['eventId'] = eventId;
+    // data['eventId'] = eventId;
     data['eventType'] = eventType;
     data['eventSubType'] = eventSubType;
     data['circle'] = circle;
@@ -60,13 +63,14 @@ class Crime extends Equatable{
     data['policeStation'] = policeStation;
     data['lat'] = lat;
     data['long'] = long;
+    data['isViolent'] = isViolent;
     data['time'] = time;
     return data;
   }
 
   Crime copyWith({
     String? uid,
-    String? eventId,
+    // String? eventId,
     String? eventType,
     String? eventSubType,
     String? circle,
@@ -75,11 +79,12 @@ class Crime extends Equatable{
     String? policeStation,
     double? lat,
     double? long,
+    bool? isViolent,
     Timestamp? time,
   }) {
     return Crime(
       uid: uid ?? this.uid,
-      eventId: eventId ?? this.eventId,
+      // eventId: eventId ?? this.eventId,
       eventType: eventType ?? this.eventType,
       eventSubType: eventSubType ?? this.eventSubType,
       circle: circle ?? this.circle,
@@ -88,19 +93,20 @@ class Crime extends Equatable{
       policeStation: policeStation ?? this.policeStation,
       lat: lat ?? this.lat,
       long: long ?? this.long,
+      isViolent: isViolent ?? this.isViolent,
       time: time ?? this.time,
     );
   }
 
   @override
   String toString() {
-    return 'Crime($uid, $eventId, $eventType, $eventSubType, $circle, $ward, $district, $policeStation, $lat, $long, $time)';
+    return 'Crime($uid, $eventType, $eventSubType, $circle, $ward, $district, $policeStation, $lat, $long, $isViolent, $time)';
   }
 
   @override
   List<Object?> get props => [
         uid,
-        eventId,
+        // eventId,
         eventType,
         eventSubType,
         circle,
@@ -109,6 +115,7 @@ class Crime extends Equatable{
         policeStation,
         lat,
         long,
+        isViolent,
         time,
       ];
 }

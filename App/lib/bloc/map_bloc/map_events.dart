@@ -93,3 +93,11 @@ class UnfocusCrime extends MapEvent {
   @override
   List<Object?> get props => [toString()];
 }
+
+class FocusOnCurrent extends MapEvent {
+  @override
+  String toString() => 'FocusOnCurrent';
+
+  @override
+  List<Object?> get props => [toString()];
+}

@@ -24,6 +24,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     on<HideOfficers>(_onHideOfficers);
     on<FocusCrime>(_onFocusCrime);
     on<UnfocusCrime>(_onUnfocusCrime);
+    on<FocusOnCurrent>(_onFocusOnCurrent);
     // on<>(_on);
   }
 
@@ -33,7 +34,13 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     emit(state.copyWith(pageState: PageState.loading));
     try {
       // API call to get Map Data
-      
+      LocationData? locationData = await LocationRepository.getLocation();
+      if (locationData != null) {
+        
+        while (true) {
+          
+        }
+      }
     } on Exception catch (_) {
       // If something goes wrong
       emit(state.copyWith(pageState: PageState.success));
@@ -45,7 +52,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       StartLocationStream event, Emitter<MapState> emit) async {
     try {
       emit(state.copyWith(locationStreaming: true));
-      if (state.locationStreaming) {
+      while (state.locationStreaming) {
         LocationData? locationData = await LocationRepository.getLocation();
         if (locationData != null) {
           UserData newUser = user.copyWith(
@@ -53,6 +60,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
             long: locationData.longitude,
           );
           await databaseRepository.updateUser(newUser);
+          await Future.delayed(const Duration(seconds: 30));
         }
       }
     } on Exception catch (_) {
@@ -140,6 +148,16 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   // When
   FutureOr<void> _onUnfocusCrime(
       UnfocusCrime event, Emitter<MapState> emit) async {
+    try {
+      emit(state.copyWith(locationStreaming: false));
+    } on Exception catch (_) {
+      // If something goes wrong
+    }
+  }
+
+  // When
+  FutureOr<void> _onFocusOnCurrent(
+      FocusOnCurrent event, Emitter<MapState> emit) async {
     try {
       emit(state.copyWith(locationStreaming: false));
     } on Exception catch (_) {

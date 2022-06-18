@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
 class Prediction extends Equatable {
@@ -12,7 +11,8 @@ class Prediction extends Equatable {
   final String policeStation;
   final double lat;
   final double long;
-  final Timestamp time;
+  final bool isViolent;
+  // final Timestamp time;
 
   const Prediction({
     this.uid = '',
@@ -25,12 +25,12 @@ class Prediction extends Equatable {
     this.policeStation = '',
     this.lat = 0,
     this.long = 0,
-    required this.time,
+    this.isViolent = false,
   });
 
-  static Prediction empty = Prediction(
+  static Prediction empty = const Prediction(
     uid: '',
-    time: Timestamp(0, 0),
+    // time: Timestamp(0, 0),
   );
 
   Prediction.fromJson(Map<String, dynamic> json)
@@ -45,7 +45,7 @@ class Prediction extends Equatable {
           policeStation: json['policeStation'],
           lat: json['lat'],
           long: json['long'],
-          time: json['time'],
+          isViolent: json['isViolent'],
         );
 
   Map<String, dynamic> toJson() {
@@ -60,7 +60,7 @@ class Prediction extends Equatable {
     data['policeStation'] = policeStation;
     data['lat'] = lat;
     data['long'] = long;
-    data['time'] = time;
+    data['isViolent'] = isViolent;
     return data;
   }
 
@@ -75,7 +75,7 @@ class Prediction extends Equatable {
     String? policeStation,
     double? lat,
     double? long,
-    Timestamp? time,
+    bool? isViolent,
   }) {
     return Prediction(
       uid: uid ?? this.uid,
@@ -88,13 +88,13 @@ class Prediction extends Equatable {
       policeStation: policeStation ?? this.policeStation,
       lat: lat ?? this.lat,
       long: long ?? this.long,
-      time: time ?? this.time,
+      isViolent: isViolent ?? this.isViolent,
     );
   }
 
   @override
   String toString() {
-    return 'Prediction($uid, $eventId, $eventType, $eventSubType, $circle, $ward, $district, $policeStation, $lat, $long, $time)';
+    return 'Prediction($uid, $eventId, $eventType, $eventSubType, $circle, $ward, $district, $policeStation, $lat, $long, $isViolent)';
   }
 
   @override
@@ -109,6 +109,6 @@ class Prediction extends Equatable {
         policeStation,
         lat,
         long,
-        time,
+        isViolent,
       ];
 }

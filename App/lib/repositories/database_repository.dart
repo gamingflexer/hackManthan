@@ -78,6 +78,17 @@ class DatabaseRepository {
     }
   }
 
+  // Add Crimes from DB
+  Future<void> addCrime(Crime crime) async {
+    try {
+      await crimesRef.add(crime);
+      // TODO: Hit API after adding in Firestore
+      // return res;
+    } on Exception catch (_) {
+      throw const SomethingWentWrong();
+    }
+  }
+
   // Get Officers from DB
   Future<List<UserData>> getOfficers() async {
     try {
