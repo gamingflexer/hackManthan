@@ -16,7 +16,7 @@ InputDecoration customInputDecoration(
             ),
           )
         : null,
-    contentPadding: EdgeInsets.fromLTRB(20.w, 22.5.w, 22.5.w, 15.w),
+    contentPadding: EdgeInsets.fromLTRB(24.w, 20.w, 22.w, 19.w),
     enabledBorder: OutlineInputBorder(
       borderSide: BorderSide(
         color: Colors.transparent,
@@ -27,7 +27,8 @@ InputDecoration customInputDecoration(
     ),
     fillColor: CustomTheme.card,
     labelText: labelText,
-    labelStyle: TextStyle(fontSize: 17.w),
+    labelStyle: TextStyle(
+        fontSize: 16.w, color: CustomTheme.t2, fontWeight: FontWeight.w400),
     alignLabelWithHint: true,
     floatingLabelBehavior: FloatingLabelBehavior.never,
     helperStyle: const TextStyle(
@@ -109,125 +110,17 @@ InputDecoration customInputDecoration(
         style: BorderStyle.solid,
       ),
       borderRadius: BorderRadius.all(Radius.circular(15.w)),
-    ),
-  );
-}
-
-InputDecoration customInputDecorationChat(
-    {String labelText = '', bool isSearch = false}) {
-  return InputDecoration(
-    suffixIcon: isSearch
-        ? Padding(
-            padding: EdgeInsets.only(right: 20.w),
-            child: Icon(
-              Icons.search,
-              size: 25.w,
-            ),
-          )
-        : null,
-    contentPadding: EdgeInsets.fromLTRB(24.w, 22.5.w, 22.5.w, 15.w),
-    enabledBorder: OutlineInputBorder(
-      borderSide: BorderSide(
-        color: Colors.transparent,
-        width: 2.w,
-        style: BorderStyle.solid,
-      ),
-      borderRadius: BorderRadius.all(Radius.circular(90.w)),
-    ),
-    fillColor: CustomTheme.card,
-    labelText: labelText,
-    labelStyle: TextStyle(fontSize: 17.w),
-    alignLabelWithHint: true,
-    floatingLabelBehavior: FloatingLabelBehavior.never,
-    helperStyle: const TextStyle(
-      color: Color(0xdd000000),
-      fontSize: 16.0,
-      fontWeight: FontWeight.w400,
-      fontStyle: FontStyle.normal,
-    ),
-    hintStyle: const TextStyle(
-      color: Color(0xdd000000),
-      fontSize: 16.0,
-      fontWeight: FontWeight.w400,
-      fontStyle: FontStyle.normal,
-    ),
-    errorStyle: const TextStyle(
-      color: Color(0xffd32f2f),
-      fontSize: 15.0,
-      fontWeight: FontWeight.w400,
-      fontStyle: FontStyle.normal,
-    ),
-    errorMaxLines: null,
-    isDense: false,
-    isCollapsed: false,
-    prefixStyle: const TextStyle(
-      color: Color(0xdd000000),
-      fontSize: 16.0,
-      fontWeight: FontWeight.w400,
-      fontStyle: FontStyle.normal,
-    ),
-    suffixStyle: const TextStyle(
-      color: Color(0xdd000000),
-      fontSize: 16.0,
-      fontWeight: FontWeight.w400,
-      fontStyle: FontStyle.normal,
-    ),
-    counterStyle: const TextStyle(
-      color: Color(0xdd000000),
-      fontSize: 16.0,
-      fontWeight: FontWeight.w400,
-      fontStyle: FontStyle.normal,
-    ),
-    filled: true,
-    errorBorder: OutlineInputBorder(
-      borderSide: BorderSide(
-        color: const Color(0xffd32f2f),
-        width: 2.w,
-        style: BorderStyle.solid,
-      ),
-      borderRadius: BorderRadius.all(Radius.circular(90.w)),
-    ),
-    focusedBorder: OutlineInputBorder(
-      borderSide: BorderSide(
-        color: CustomTheme.accent,
-        width: 2.w,
-        style: BorderStyle.solid,
-      ),
-      borderRadius: BorderRadius.all(Radius.circular(90.w)),
-    ),
-    focusedErrorBorder: OutlineInputBorder(
-      borderSide: BorderSide(
-        color: const Color(0xffd32f2f),
-        width: 2.w,
-        style: BorderStyle.solid,
-      ),
-      borderRadius: BorderRadius.all(Radius.circular(90.w)),
-    ),
-    disabledBorder: OutlineInputBorder(
-      borderSide: BorderSide(
-        color: const Color(0xff000000),
-        width: 2.w,
-        style: BorderStyle.solid,
-      ),
-      borderRadius: BorderRadius.all(Radius.circular(90.w)),
-    ),
-    border: OutlineInputBorder(
-      borderSide: BorderSide(
-        color: const Color(0xff000000),
-        width: 2.w,
-        style: BorderStyle.solid,
-      ),
-      borderRadius: BorderRadius.all(Radius.circular(90.w)),
     ),
   );
 }
 
 TextStyle formTextStyle() => TextStyle(
-      fontSize: 18,
+      fontSize: 17,
       color: CustomTheme.t1,
+      fontWeight: FontWeight.w500,
     );
 
-TextStyle formTextStyle2() => TextStyle(fontSize: 18, color: CustomTheme.t1);
+TextStyle formTextStyle2() => TextStyle(fontSize: 17, color: CustomTheme.t1);
 
 List<BoxShadow> customBoxShadow = [
   BoxShadow(
@@ -316,7 +209,6 @@ class CustomBackButton extends StatelessWidget {
         Padding(
           padding: EdgeInsets.only(top: 25.w),
           child: IconButton(
-            padding: EdgeInsets.only(left: 25.w),
             iconSize: 32.w,
             color: color ?? CustomTheme.accent,
             icon: const Icon(Icons.arrow_back_ios_rounded),

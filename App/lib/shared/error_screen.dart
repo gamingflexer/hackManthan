@@ -142,6 +142,7 @@ void showErrorSnackBar(BuildContext context, String message) {
         message,
         style: TextStyle(
           fontSize: 16,
+          fontFamily: 'Montserrat',
           color: CustomTheme.t1,
           fontWeight: FontWeight.w400,
         ),

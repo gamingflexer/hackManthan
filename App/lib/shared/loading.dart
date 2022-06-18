@@ -69,22 +69,28 @@ void showLoadingSnackBar(BuildContext context) {
       ),
       margin: EdgeInsets.all(15.w),
       behavior: SnackBarBehavior.floating,
-      backgroundColor: CustomTheme.bg,
+      backgroundColor: CustomTheme.card,
       content: Row(
         children: [
           Text(
             'Loading',
             style: TextStyle(
               fontSize: 16,
+              fontFamily: 'Montserrat',
               color: CustomTheme.accent,
               fontWeight: FontWeight.w400,
             ),
           ),
           const Spacer(),
-          CircularProgressIndicator(color: CustomTheme.accent),
+          SizedBox(
+              height: 20.w,
+              width: 20.w,
+              child: CircularProgressIndicator(
+                color: CustomTheme.accent,
+                strokeWidth: 2.w,
+              )),
         ],
       ),
-
     ),
   );
 }
