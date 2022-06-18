@@ -29,7 +29,7 @@ def format_server_time():
 
 # Initialize Firestore DB
 try:
-    cred = credentials.Certificate("/Users/cosmos/Desktop/hackManthan/backend/config/serviceAccountKey.json")
+    cred = credentials.Certificate(basepath+"/config/serviceAccountKey.json")
 
     firebase_admin.initialize_app(cred, {'storageBucket': 'hackmanthan-lostminds.appspot.com'})
 
