@@ -3,9 +3,9 @@ from firebase_admin import credentials, firestore
 import threading
 from time import sleep
 
-cred = credentials. Certificate(
+cred1 = credentials. Certificate(
     "/Users/cosmos/Desktop/hackManthan/backend/config/serviceAccountKey.json")
-firebase_admin.initialize_app(cred)
+firebase_admin.initialize_app(cred1)
 
 db = firestore.client()
 
@@ -15,6 +15,8 @@ docs = users_ref.stream()
 
 for doc in docs:
     print(f'{doc.id} => {doc.to_dict()}')
+
+#docs = clus_ref.where(u'lastUpdated', u'==', 'x@x.com').stream()
 
 # # add data crimes
 # doc_ref = db.collection(u'crimes').document(u'id2')

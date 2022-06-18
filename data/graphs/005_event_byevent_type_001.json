@@ -1,0 +1,86 @@
+{
+    "Monday": {
+        "Dispute": 0.1323434474,
+        "Domestic Violence": 0.1325503356,
+        "Threat In Person": 0.1332179931,
+        "Corona": 0.1397590361,
+        "Theft": 0.1297935103,
+        "Unknown": 0.1256544503,
+        "Information Against Police": 0.1497005988,
+        "Crime On Phone Mobile Social Media Internet": 0.1307692308,
+        "Property Disputes": 0.15625,
+        "Missing": 0.099009901
+    },
+    "Tuesday": {
+        "Dispute": 0.1504196256,
+        "Domestic Violence": 0.1661073826,
+        "Threat In Person": 0.1401384083,
+        "Corona": 0.1469879518,
+        "Theft": 0.1740412979,
+        "Unknown": 0.1256544503,
+        "Information Against Police": 0.1077844311,
+        "Crime On Phone Mobile Social Media Internet": 0.1692307692,
+        "Property Disputes": 0.140625,
+        "Missing": 0.1584158416
+    },
+    "Wednesday": {
+        "Dispute": 0.1536475145,
+        "Domestic Violence": 0.1459731544,
+        "Threat In Person": 0.1487889273,
+        "Corona": 0.1084337349,
+        "Theft": 0.1622418879,
+        "Unknown": 0.1308900524,
+        "Information Against Police": 0.1616766467,
+        "Crime On Phone Mobile Social Media Internet": 0.1230769231,
+        "Property Disputes": 0.09375,
+        "Missing": 0.1584158416
+    },
+    "Thursday": {
+        "Dispute": 0.1542930923,
+        "Domestic Violence": 0.1526845638,
+        "Threat In Person": 0.1522491349,
+        "Corona": 0.1397590361,
+        "Theft": 0.1297935103,
+        "Unknown": 0.1518324607,
+        "Information Against Police": 0.1077844311,
+        "Crime On Phone Mobile Social Media Internet": 0.1076923077,
+        "Property Disputes": 0.140625,
+        "Missing": 0.1584158416
+    },
+    "Friday": {
+        "Dispute": 0.1433182699,
+        "Domestic Violence": 0.1342281879,
+        "Threat In Person": 0.1401384083,
+        "Corona": 0.1373493976,
+        "Theft": 0.1268436578,
+        "Unknown": 0.167539267,
+        "Information Against Police": 0.1017964072,
+        "Crime On Phone Mobile Social Media Internet": 0.2384615385,
+        "Property Disputes": 0.125,
+        "Missing": 0.1485148515
+    },
+    "Saturday": {
+        "Dispute": 0.1420271143,
+        "Domestic Violence": 0.1275167785,
+        "Threat In Person": 0.1418685121,
+        "Corona": 0.1542168675,
+        "Theft": 0.1651917404,
+        "Unknown": 0.1518324607,
+        "Information Against Police": 0.1616766467,
+        "Crime On Phone Mobile Social Media Internet": 0.1461538462,
+        "Property Disputes": 0.15625,
+        "Missing": 0.1386138614
+    },
+    "Sunday": {
+        "Dispute": 0.1239509361,
+        "Domestic Violence": 0.1409395973,
+        "Threat In Person": 0.1435986159,
+        "Corona": 0.1734939759,
+        "Theft": 0.1120943953,
+        "Unknown": 0.1465968586,
+        "Information Against Police": 0.2095808383,
+        "Crime On Phone Mobile Social Media Internet": 0.0846153846,
+        "Property Disputes": 0.1875,
+        "Missing": 0.1386138614
+    }
+}
