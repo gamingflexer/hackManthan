@@ -11,8 +11,8 @@ class UserData extends Equatable {
   final String ward;
   final String district;
   final String policeStation;
-  final String lat;
-  final String long;
+  final double lat;
+  final double long;
   final Timestamp lastUpdated;
 
   const UserData({
@@ -24,8 +24,8 @@ class UserData extends Equatable {
     this.ward = '',
     this.district = '',
     this.policeStation = '',
-    this.lat = '',
-    this.long = '',
+    this.lat = 0,
+    this.long = 0,
     required this.lastUpdated,
   });
 
@@ -71,6 +71,34 @@ class UserData extends Equatable {
     data['long'] = long;
     data['lastUpdated'] = lastUpdated;
     return data;
+  }
+
+  UserData copyWith({
+    String? uid,
+    String? email,
+    String? name,
+    String? policeId,
+    String? post,
+    String? ward,
+    String? district,
+    String? policeStation,
+    double? lat,
+    double? long,
+    Timestamp? lastUpdated,
+  }) {
+    return UserData(
+      uid: uid ?? this.uid,
+      email: email ?? this.email,
+      name: name ?? this.name,
+      policeId: policeId ?? this.policeId,
+      post: post ?? this.post,
+      ward: ward ?? this.ward,
+      district: district ?? this.district,
+      policeStation: policeStation ?? this.policeStation,
+      lat: lat ?? this.lat,
+      long: long ?? this.long,
+      lastUpdated: lastUpdated ?? this.lastUpdated,
+    );
   }
 
   bool get isEmpty => this == UserData.empty;
