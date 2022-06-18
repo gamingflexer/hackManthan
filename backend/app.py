@@ -3,6 +3,7 @@ from flask import *
 import firebase_admin
 from firebase_admin import credentials, firestore, initialize_app, storage
 import os
+import time
 import pyrebase
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import  FileStorage
@@ -20,6 +21,11 @@ ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
 def allowed_file(filename):
     return '.' in filename and \
            filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+           
+def format_server_time():
+  server_time = time.localtime()
+  return time.strftime("%I:%M:%S %p", server_time)
+           
 
 # Initialize Firestore DB
 try:
@@ -30,10 +36,17 @@ try:
     db = firestore.client()
     bucket = storage.bucket()
     print("---------------------------> IN <--------------------------")
-except:
+except Exception as e:
+    print(e)
     print("--------------------------------------> Not Logged in !")
     
     
+@app.route('/index')
+def index():
+    context = { 'server_time': format_server_time() }
+    return render_template('index.html', context=context)
+
+
 @app.route('/get-clusters',methods=["POST", "GET"])
 def clusters():
     #get crimes
