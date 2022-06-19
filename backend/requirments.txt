@@ -7,3 +7,4 @@ pandas_profiling==3.0.0
 itsdangerous==2.0.1
 translate
 geopy
+flask_cors
