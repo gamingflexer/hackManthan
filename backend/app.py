@@ -140,13 +140,12 @@ def upload_file():
 @app.route('/001',methods=["POST", "GET"])
 @cross_origin()
 def graph_001():
-    def disaster():
-        if request.method == "OPTIONS": # CORS preflight
-            return _build_cors_preflight_response()
-        elif request.method == "GET":
-            f = open(graph1)
-            data1 = json.load(f)
-            return data1
+    if request.method == "OPTIONS": # CORS preflight
+        return _build_cors_preflight_response()
+    elif request.method == "GET":
+        f = open(graph1)
+        data1 = json.load(f)
+        return data1
 
 @app.route('/002',methods=["POST", "GET"])
 @cross_origin()
