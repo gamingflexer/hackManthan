@@ -92,6 +92,6 @@ class MapState extends Equatable {
           officers: const [],
           currentLat: 0,
           currentLong: 0,
-          pageState: PageState.init,
+          pageState: PageState.loading,
         );
 }

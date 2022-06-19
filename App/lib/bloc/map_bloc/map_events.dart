@@ -2,11 +2,11 @@ import 'package:equatable/equatable.dart';
 import 'package:meta/meta.dart';
 
 @immutable
-abstract class MapEvent extends Equatable {
-  const MapEvent([List props = const []]) : super();
+abstract class MapEvents extends Equatable {
+  const MapEvents([List props = const []]) : super();
 }
 
-class GetHomeContents extends MapEvent {
+class GetHomeContents extends MapEvents {
   @override
   String toString() => 'GetHomeContents';
 
@@ -14,7 +14,7 @@ class GetHomeContents extends MapEvent {
   List<Object?> get props => [toString()];
 }
 
-class StartLocationStream extends MapEvent {
+class StartLocationStream extends MapEvents {
   @override
   String toString() => 'StartLocationStream';
 
@@ -22,7 +22,7 @@ class StartLocationStream extends MapEvent {
   List<Object?> get props => [toString()];
 }
 
-class StopLocationStream extends MapEvent {
+class StopLocationStream extends MapEvents {
   @override
   String toString() => 'StopLocationStream';
 
@@ -30,7 +30,7 @@ class StopLocationStream extends MapEvent {
   List<Object?> get props => [toString()];
 }
 
-class ShowPredictions extends MapEvent {
+class ShowPredictions extends MapEvents {
   @override
   String toString() => 'ShowPredictions';
 
@@ -38,7 +38,7 @@ class ShowPredictions extends MapEvent {
   List<Object?> get props => [toString()];
 }
 
-class HidePredictions extends MapEvent {
+class HidePredictions extends MapEvents {
   @override
   String toString() => 'HidePredictions';
 
@@ -46,7 +46,7 @@ class HidePredictions extends MapEvent {
   List<Object?> get props => [toString()];
 }
 
-class ShowCrimes extends MapEvent {
+class ShowCrimes extends MapEvents {
   @override
   String toString() => 'ShowCrimes';
 
@@ -54,7 +54,7 @@ class ShowCrimes extends MapEvent {
   List<Object?> get props => [toString()];
 }
 
-class HideCrime extends MapEvent {
+class HideCrime extends MapEvents {
   @override
   String toString() => 'HideCrime';
 
@@ -62,7 +62,7 @@ class HideCrime extends MapEvent {
   List<Object?> get props => [toString()];
 }
 
-class ShowOfficers extends MapEvent {
+class ShowOfficers extends MapEvents {
   @override
   String toString() => 'ShowOfficers';
 
@@ -70,7 +70,7 @@ class ShowOfficers extends MapEvent {
   List<Object?> get props => [toString()];
 }
 
-class HideOfficers extends MapEvent {
+class HideOfficers extends MapEvents {
   @override
   String toString() => 'HideOfficers';
 
@@ -78,7 +78,7 @@ class HideOfficers extends MapEvent {
   List<Object?> get props => [toString()];
 }
 
-class FocusCrime extends MapEvent {
+class FocusCrime extends MapEvents {
   @override
   String toString() => 'FocusCrime';
 
@@ -86,7 +86,7 @@ class FocusCrime extends MapEvent {
   List<Object?> get props => [toString()];
 }
 
-class UnfocusCrime extends MapEvent {
+class UnfocusCrime extends MapEvents {
   @override
   String toString() => 'UnfocusCrime';
 
@@ -94,7 +94,7 @@ class UnfocusCrime extends MapEvent {
   List<Object?> get props => [toString()];
 }
 
-class FocusOnCurrent extends MapEvent {
+class FocusOnCurrent extends MapEvents {
   @override
   String toString() => 'FocusOnCurrent';
 

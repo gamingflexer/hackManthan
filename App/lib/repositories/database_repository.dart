@@ -61,8 +61,8 @@ class DatabaseRepository {
   // Crimes Collection Reference
   // Reference allows for easy from and to operations
   CollectionReference<Crime> get crimesRef =>
-      db.collection('predictions').withConverter<Crime>(
-            fromFirestore: (snapshot, _) => Crime.fromJson(snapshot.data()!),
+      db.collection('crimes').withConverter<Crime>(
+            fromFirestore: (snapshot, _) => Crime.fromJson(snapshot.data()!, snapshot.id),
             toFirestore: (crime, _) => crime.toJson(),
           );
 

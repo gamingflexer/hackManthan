@@ -183,13 +183,13 @@ class CustomElevatedButton extends StatelessWidget {
       onPressed: onPressed,
       child: Container(
         alignment: Alignment.center,
-        height: 55.w,
+        height: 60.w,
         child: Text(
           text,
           style: TextStyle(
               color: style == 0 ? CustomTheme.onAccent : Colors.black,
-              fontSize: 17,
-              fontWeight: FontWeight.w600),
+              fontSize: 16,
+              fontWeight: FontWeight.w500),
         ),
       ),
     );

@@ -15,8 +15,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  String email = 'aadi@gmail.com';
-  String password = 'aadi123';
+  String email = '';
+  String password = '';
   String stateMessage = '';
   bool showPassword = false;
 

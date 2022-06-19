@@ -35,9 +35,9 @@ class Crime extends Equatable{
     time: Timestamp(0, 0),
   );
 
-  Crime.fromJson(Map<String, dynamic> json)
+  Crime.fromJson(Map<String, dynamic> json, String uid)
       : this(
-          uid: json['uid'],
+          uid: uid,
           // eventId: json['eventId'],
           eventType: json['eventType'],
           eventSubType: json['eventSubType'],

@@ -1,13 +1,14 @@
 import 'dart:async';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hackmanthan_app/bloc/map_bloc/map_bloc_files.dart';
+import 'package:hackmanthan_app/models/crime.dart';
 import 'package:hackmanthan_app/models/helper_models.dart';
 import 'package:hackmanthan_app/models/user.dart';
 import 'package:hackmanthan_app/repositories/database_repository.dart';
 import 'package:hackmanthan_app/repositories/location_repository.dart';
 import 'package:location/location.dart';
 
-class MapBloc extends Bloc<MapEvent, MapState> {
+class MapBloc extends Bloc<MapEvents, MapState> {
   DatabaseRepository databaseRepository;
   UserData user;
 
@@ -36,14 +37,20 @@ class MapBloc extends Bloc<MapEvent, MapState> {
       // API call to get Map Data
       LocationData? locationData = await LocationRepository.getLocation();
       if (locationData != null) {
-        
-        while (true) {
-          
-        }
+        // while (true) {
+
+        // }
+        List<Crime> crimes = await databaseRepository.getCrimes();
+        emit(state.copyWith(
+          crimes: crimes,
+          currentLat: locationData.latitude,
+          currentLong: locationData.longitude,
+          pageState: PageState.success,
+        ));
       }
     } on Exception catch (_) {
       // If something goes wrong
-      emit(state.copyWith(pageState: PageState.success));
+      emit(state.copyWith(pageState: PageState.error));
     }
   }
 
