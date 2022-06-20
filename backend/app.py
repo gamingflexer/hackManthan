@@ -79,12 +79,17 @@ def clusters():
     for doc in docs:
         data1 = data.update({doc.id : doc.to_dict()})
         
+    output_df = pd.DataFrame()
+    for k in data.keys():
+        output_df = output_df.append(data[k], ignore_index=True)
+
+        
     #doc delete old
     cluster_ref = db.collection(u'cluster_test')
     delete_collection(cluster_ref,3)
     #add new ones
     for i in event_type:
-        a = data.loc[data["eventType"] == i]
+        a = output_df.loc[output_df["eventType"] == i]
         centers = kmeans_centers(a)
         try:
             out_fin = pd.DataFrame(centers).to_json(orient='split')
