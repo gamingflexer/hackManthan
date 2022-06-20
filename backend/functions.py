@@ -65,9 +65,13 @@ def predict_violent(file): #type of input - change the input also
     prediction = loaded_model.predict(data)
     return prediction
     
-def predict_crime(address,DT):
+def predict_crime(address1,DT):
     
     #load
+    try:
+        address = translator(address1)
+    except:
+        address = address1
     geolocator = Nominatim(user_agent="surve790@gmail.com")
     rfc = joblib.load(model_path_2)
     
