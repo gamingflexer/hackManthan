@@ -9,7 +9,7 @@ import pyrebase
 from flask_cors import CORS, cross_origin
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import  FileStorage
-from functions import pandas_profiling,predict_crime,kmeans_centers
+from functions import pandas_profiling,predict_crime,kmeans_centers,delete_collection
 from config import *
 import json
 
@@ -78,15 +78,26 @@ def clusters():
 
     for doc in docs:
         data1 = data.update({doc.id : doc.to_dict()})
-    
-    output_df = pd.DataFrame()
-    for k in data.keys():
-        output_df = output_df.append(data[k], ignore_index=True)
-    
-    #we got a dataframe
-    center_found = kmeans_centers(output_df)
-    out_fin = pd.DataFrame(center_found).to_json(orient='split')
-    return out_fin
+        
+    #doc delete old
+    cluster_ref = db.collection(u'cluster_test')
+    delete_collection(cluster_ref,3)
+    #add new ones
+    for i in event_type:
+        a = data.loc[data["eventType"] == i]
+        centers = kmeans_centers(a)
+        try:
+            out_fin = pd.DataFrame(centers).to_json(orient='split')
+            print(out_fin)
+            res = json.loads(out_fin)
+            test = {"eventType":i,"center1":res['data'][0],"center2":res['data'][1],"center3":res['data'][2],"lastUpdated":firestore.SERVER_TIMESTAMP}
+            print(test)
+            db.collection("cluster_test").add(test)
+        except:
+            pass
+    return "OK ADDED"
+
+#-------------------------------------->
 
 
 @app.route('/predict-voilent',methods=["POST", "GET"])
