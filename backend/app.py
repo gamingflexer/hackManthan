@@ -137,7 +137,7 @@ def upload_file():
         print(path)
         bucket = storage.bucket()
         blob = bucket.blob(path)
-        blob.upload_from_filename()
+        blob.upload_from_filename(path)
         blob.make_public()
         return {"url":blob.public_url}
     else:
