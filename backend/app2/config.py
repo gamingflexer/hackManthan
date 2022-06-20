@@ -44,4 +44,4 @@ event_type = ['Information Against Police', 'Threat In Person', 'Dispute',
        'Human Trafficking', 'Police Help Required By 1090',
        'Suicide Attempt'] 
 
-event_type_test = ["Suspicious Object Information","Threat In Person","Attempted Murder","Domestic Violence","Female Harrassment"]
+event_type_test = ["Suspicious Object Information","Threat In Person","Attempted Murder","Domestic Violence","Female Harrassment","Dispute"]
