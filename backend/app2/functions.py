@@ -35,6 +35,7 @@ def pandas_profiling(file_path):
 
 
 def kmeans_centers(data): #type of input
+    print(data)
     data.dropna(axis=0,how='any',subset=['lat','long'],inplace=True)
     
     X=data.loc[:,['eventType','lat','long']]
