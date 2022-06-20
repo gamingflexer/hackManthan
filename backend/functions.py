@@ -52,7 +52,7 @@ def kmeans_centers(data): #type of input
     # labels = kmeans.predict(X[X.columns[1:3]]) # Labels of each point
     print(X[X.columns[1:3]])
     
-    return {"centers":centers}
+    return centers
 
 
 def predict_violent(file): #type of input - change the input also 

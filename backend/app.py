@@ -85,8 +85,7 @@ def clusters():
     
     #we got a dataframe
     center_found = kmeans_centers(output_df)
-    print(center_found)
-    out_fin = pd.Series(center_found).to_json(orient='values')
+    out_fin = pd.DataFrame(center_found).to_json(orient='split')
     return out_fin
 
 
@@ -106,19 +105,23 @@ def voilent():
 @app.route('/predict-crime',methods=["POST", "GET"])
 @cross_origin()
 def crime():
-    data_base = {}
-    crime_ref = db.collection(u'predict_crime')
-    docs = crime_ref.stream()
-    #fetch
-    for doc in docs:
-        data1 = data_base.update({doc.id : doc.to_dict()})
-    #diff in vvariables
-    for i in data_base:
-        if data_base[i]['prediction']== "":
-            address = data_base[i]['location']
-            DT = data_base[i]['date']
-            out = predict_crime(address,DT)
-    return {"prediction":out}
+    try:
+        data_base = {}
+        crime_ref = db.collection(u'predict_crime')
+        docs = crime_ref.stream()
+        #fetch
+        for doc in docs:
+            data1 = data_base.update({doc.id : doc.to_dict()})
+        #diff in vvariables
+        for i in data_base:
+            if data_base[i]['prediction']== "":
+                address = data_base[i]['location']
+                DT = data_base[i]['date']
+                out = predict_crime(address,DT)
+        return {"prediction":out}
+    except Exception as e:
+        print(e)
+        return "Location not found"
 
 #-------------------------------------->
 

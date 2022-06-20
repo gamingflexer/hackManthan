@@ -83,6 +83,8 @@ def clusters():
     #we got a dataframe
     center_found = kmeans_centers(output_df)
     out_fin = pd.DataFrame(center_found).to_json(orient='split')
+    
+    
     return out_fin
 
 
