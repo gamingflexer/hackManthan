@@ -31,7 +31,7 @@ def pandas_profiling(file_path):
     profile.to_widgets()
     profile.to_file(f"{file_name}_anylasis.html")
     
-    return "/home/azureuser/hackManthan/backend/static/"+f"{file_name}_anylasis.html"
+    return ("/home/azureuser/hackManthan/backend/static/"+f"{file_name}_anylasis.html",f"{file_name}_anylasis.html")
 
 
 def kmeans_centers(file): #type of input

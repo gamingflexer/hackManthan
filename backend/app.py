@@ -133,11 +133,11 @@ def upload_file():
         resp = jsonify({'message' : 'File successfully uploaded'})
         resp.status_code = 201
         print(basepath+"/static/"+filename+"#-------------------------------------->")
-        path = pandas_profiling(basepath+"/static/"+filename)
+        path,name_of_file = pandas_profiling(basepath+"/static/"+filename)
         print(path)
         bucket = storage.bucket()
         blob = bucket.blob(path)
-        blob.upload_from_filename(filename)
+        blob.upload_from_filename(name_of_file)
         blob.make_public()
         return {"url":blob.public_url}
     else:
