@@ -1,10 +1,12 @@
 import { Avatar, Card, CardContent, Grid, Typography } from '@mui/material';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import Link from 'next/link'
+
 
 export const TotalProfit = (props) => (
   <Card {...props}>
     <CardContent>
-      <Grid
+      {/* <Grid
         container
         spacing={3}
         sx={{ justifyContent: 'space-between' }}
@@ -35,7 +37,17 @@ export const TotalProfit = (props) => (
             <AttachMoneyIcon />
           </Avatar>
         </Grid>
-      </Grid>
+      </Grid> */}
+      <div style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        cursor: "pointer"
+      }}>
+        <Link href="/analyse">
+          {"Go To Analysis ->"}
+        </Link>
+      </div>
     </CardContent>
   </Card>
 );

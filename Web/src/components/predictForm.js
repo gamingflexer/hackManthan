@@ -4,68 +4,48 @@ import { makeStyles } from '@material-ui/core/styles'
 import { useState } from "react";
 import { blue } from "@mui/material/colors";
 import { border, color, fontWeight } from "@mui/system";
-import Select from '@mui/material/Select';
-import MenuItem from '@mui/material/MenuItem';
 import db from "src/firebase";
 import { query, onSnapshot, getDocs, collection, doc, setDoc, addDoc } from "firebase/firestore"
+import axios from 'axios';
 
 
-const DataForm = () => {
+const PredictForm = () => {
+    const [time, setTime] = useState("")
+    const [location, setLocation] = useState("")
 
-    const [title, setTitle] = useState("")
-    const [description, setDescription] = useState("")
-    const [lat, setLat] = useState("")
-    const [long, setLong] = useState("")
-    const [priority, setPriority] = useState("")
-    const [label4, setLabel4] = useState("")
-    const listOfWards = ["Ward1", "Ward2", "Ward3"]
-    const priotityList = ["high", "medium", "low"]
 
     const handleReset = () => {
-        setTitle("")
-        setDescription("")
-        setLat("")
-        setPriority("")
-        setLong("")
+        setTime("")
+        setLocation("")
     }
 
     const handleSubmit = async () => {
-        // console.log(title, description, ward, priority, label4)
-        // db.collection("alerts").add({
-        // alert: message,
-        // authBy: authBy,
-        // ward: ward,
-        // priority: priority
-        // })
-
-        const res = await addDoc(collection(db, "alerts"), {
-            title: title,
-            description: description,
-            lat: parseFloat(lat),
-            long: parseFloat(long),
-            priority: priority
+        // console.log(time, location, eventType, subEventType, isLive)
+        var today = new Date()
+        // console.log(today.getFullYear(), today.getMonth(), today.getDate())
+        const timeArr = time.split(":")
+        console.log(timeArr)
+        let timestamp = new Date(today.getFullYear(), today.getMonth(), today.getDate(), timeArr[0], timeArr[1])
+        const res = await addDoc(collection(db, "predict_crime"), {
+            location: location,
+            date: timestamp,
+            prediction: ""
         });
         console.log(res)
-        handleReset()
-        // const q = query(collection(db, "alerts"))
-        // console.log(q)
-        // console.log(await getDocs(collection(db, "alerts")))
-        // await getDocs(collection(db, "alerts")).then((querySnapshot) => {
 
-        //     // Loop through the data and store
-        //     // it in array to display
-        //     querySnapshot.forEach(element => {
-        //         var data = element.data();
-        //         console.log(data)
-        //     });
-        // })
-        // firestore
-        // .getDocs(firestore.collection(db, "quiz"))
-        // .then((querySnapshot) => {
-        //     querySnapshot.forEach((doc) => {
-        //         console.log(`${doc.id} => ${doc.data()}`);
-        //     });
-        // });
+        fetch(
+            "http://20.26.235.201:8888/predict-crime", {
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json'
+            }
+        })
+            .then((res) => res.json())
+            .then((json) => {
+                console.log(json)
+            })
+
+        // handleReset()
     }
 
 
@@ -74,11 +54,11 @@ const DataForm = () => {
             initialValues={{ name: "", email: "", acceptedTerms: false }}
             validate={(values) => {
                 const errors = {};
-                if (title) {
+                if (time) {
                     errors.name = "Required";
                 }
 
-                if (description) {
+                if (location) {
                     errors.email = "Required";
                 } else if (
                     !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
@@ -95,15 +75,8 @@ const DataForm = () => {
         >
             {({ isSubmitting, dirty }) => (
                 <Form >
-                    <TextFieldData label={"Title"} value={title} setValue={setTitle} />
-                    <TextFieldData label={"Description"} value={description} setValue={setDescription} multiline={true} />
-                    <TextFieldData label={"Latitude"} value={lat} setValue={setLat} />
-                    <TextFieldData label={"Longitude"} value={long} setValue={setLong} />
-                    {/* <SelectData value={ward} setValue={setWard} label={"Ward"} listOfValues={listOfWards} /> */}
-                    <SelectData value={priority} setValue={setPriority} label={"Priority"} listOfValues={priotityList} />
-                    {/* <TextFieldData label={"Send To"} value={ward} setValue={setWard} multiline={false} /> */}
-                    {/* <TextFieldData label={"Priority"} value={priority} setValue={setPriority} multiline={false} /> */}
-                    {/* <TextFieldData label={"Label4"} value={label4} setValue={setLabel4} multiline={true} /> */}
+                    <TextFieldData label={"Location"} value={location} setValue={setLocation} multiline={false} />
+                    <TextFieldData label={"Time"} value={time} setValue={setTime} multiline={false} />
                     <div style={{
                         display: "flex",
                         flexDirection: "row",
@@ -143,7 +116,7 @@ const DataForm = () => {
                                 fontWeight: 200,
                                 borderRadius: 10
                             }}>
-                            Send
+                            Submit
                         </button>
                     </div>
 
@@ -153,59 +126,7 @@ const DataForm = () => {
     </>
 };
 
-export default DataForm;
-
-
-const SelectData = ({ value, setValue, label, listOfValues }) => {
-
-    const classes = useStyles()
-
-
-    return <div style={{
-        display: "grid",
-        marginTop: 30,
-        marginBottom: 10,
-        width: "80%",
-        marginLeft: 8,
-        display: "grid",
-        gridTemplateColumns: "14% 86%",
-        flexDirection: "row",
-        alignItems: "center"
-    }}>
-        <div style={{
-            fontSize: 20
-        }}>
-            {label}
-        </div>
-        <Select
-            labelId="demo-simple-select-label"
-            id="demo-simple-select"
-            value={value}
-            label={label}
-            onChange={(e) => { setValue(e.target.value) }}
-            InputLabelProps={{
-                classes: {
-                    root: classes.textFieldLabel,
-                    focused: classes.textFieldLabelFocused
-                }
-            }}
-            InputProps={{
-                classes: {
-                    root: classes.textFieldRoot,
-                    focused: classes.textFieldFocused,
-                    notchedOutline: classes.textFieldNotchedOutline
-                }
-            }}
-            style={{
-                marginLeft: 20
-            }}
-        >
-            {listOfValues.map((value) => (
-                <MenuItem value={value}>{value}</MenuItem>
-            ))}
-        </Select>
-    </div>
-}
+export default PredictForm;
 
 const TextFieldData = ({ value, setValue, label, multiline }) => {
     const classes = useStyles()

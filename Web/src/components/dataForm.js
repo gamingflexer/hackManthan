@@ -4,25 +4,79 @@ import { makeStyles } from '@material-ui/core/styles'
 import { useState } from "react";
 import { blue } from "@mui/material/colors";
 import { border, color, fontWeight } from "@mui/system";
+import db from "src/firebase";
+import { query, onSnapshot, getDocs, collection, doc, setDoc, addDoc } from "firebase/firestore"
+import Select from 'react-select'
+
 
 const DataForm = () => {
 
-    const [name, setname] = useState("")
-    const [label1, setLabel1] = useState("")
-    const [label2, setLabel2] = useState("")
-    const [label3, setLabel3] = useState("")
-    const [label4, setLabel4] = useState("")
+    const [circle, setCrime] = useState("")
+    const [district, setDistrict] = useState("")
+    const [eventType, setEventType] = useState("")
+    const [subEventType, setSubEventType] = useState("")
+    const [isLive, setIsLive] = useState(false)
+    const [isLiveLabel, setIsLiveLabel] = useState("False")
+    const [isViolent, setIsViolent] = useState(false)
+    const [isViolentLabel, setIsViolentLabel] = useState("False")
+    const [lat, setLat] = useState(0)
+    const [long, setLong] = useState(0)
+    const [policeStation, setPoliceStation] = useState("")
+    const [source, setSouce] = useState("")
+    const [time, setTime] = useState("")
+    const [value, onChange] = useState(new Date());
+
+    const options = [
+        { value: true, label: 'True' },
+        { value: false, label: 'False' },
+    ]
 
     const handleReset = () => {
-        setname("")
-        setLabel1("")
-        setLabel2("")
-        setLabel3("")
-        setLabel4("")
+        setCrime("")
+        setDistrict("")
+        setEventType("")
+        setSubEventType("")
+        setIsLive("")
+        setIsViolent("")
+        setLat("")
+        setLong("")
+        setPoliceStation("")
+        setSouce("")
+        setTime("")
     }
 
-    const handleSubmit = () => {
-        console.log(name, label1, label2, label3, label4)
+    const handleChange = ({ value, label }) => {
+        setIsLive(value)
+        setIsLiveLabel(label)
+    }
+
+    const handleChangeViolent = ({ value, label }) => {
+        setIsViolent(value)
+        setIsViolentLabel(label)
+    }
+
+    const handleSubmit = async () => {
+        console.log(circle, district, eventType, subEventType, isLive)
+        var today = new Date()
+        // console.log(today.getFullYear(), today.getMonth(), today.getDate())
+        const timeArr = time.split(":")
+        console.log(timeArr)
+        let timestamp = new Date(today.getFullYear(), today.getMonth(), today.getDate(), timeArr[0], timeArr[1])
+        const res = await addDoc(collection(db, "crimes"), {
+            circle: circle,
+            district: district,
+            eventType: eventType,
+            subEventType: subEventType,
+            isLive: isLive,
+            isViolent: isViolent,
+            lat: parseFloat(lat),
+            long: parseFloat(long),
+            policeStation: policeStation,
+            source: source,
+            time: timestamp
+        });
+        console.log(res)
+        handleReset()
     }
 
 
@@ -31,11 +85,11 @@ const DataForm = () => {
             initialValues={{ name: "", email: "", acceptedTerms: false }}
             validate={(values) => {
                 const errors = {};
-                if (name) {
+                if (circle) {
                     errors.name = "Required";
                 }
 
-                if (label1) {
+                if (district) {
                     errors.email = "Required";
                 } else if (
                     !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(values.email)
@@ -52,11 +106,74 @@ const DataForm = () => {
         >
             {({ isSubmitting, dirty }) => (
                 <Form >
-                    <TextFieldData label={"Name"} value={name} setValue={setname} />
-                    <TextFieldData label={"Label1"} value={label1} setValue={setLabel1} multiline={false} />
-                    <TextFieldData label={"Label2"} value={label2} setValue={setLabel2} multiline={false} />
-                    <TextFieldData label={"Label3"} value={label3} setValue={setLabel3} multiline={false} />
-                    <TextFieldData label={"Label4"} value={label4} setValue={setLabel4} multiline={true} />
+                    <TextFieldData label={"Circle"} value={circle} setValue={setCrime} />
+                    <TextFieldData label={"District"} value={district} setValue={setDistrict} multiline={false} />
+                    <TextFieldData label={"Event Type"} value={eventType} setValue={setEventType} multiline={false} />
+                    <TextFieldData label={"Event Sub Type"} value={subEventType} setValue={setSubEventType} multiline={false} />
+                    <div style={{
+                        marginTop: 30,
+                        marginBottom: 10,
+                        width: "80%",
+                    }}>
+                        <label style={{
+                            marginLeft: 8,
+                            display: "grid",
+                            gridTemplateColumns: "17% 80%",
+                            flexDirection: "row",
+                            alignItems: "center"
+                        }}>
+                            <div style={{
+                                fontSize: 20
+                            }}>
+                                {"Is Live"}
+                            </div>
+                            <Select
+                                options={options}
+                                value={{ value: isLive, label: isLiveLabel }}
+                                onChange={(value) => handleChange(value)}
+                                style={{
+                                    innerHeight: 40,
+                                    outerHeight: 40
+                                }}
+                            />
+                        </label>
+                    </div>
+                    <div style={{
+                        marginTop: 30,
+                        marginBottom: 10,
+                        width: "80%",
+                    }}>
+                        <label style={{
+                            marginLeft: 8,
+                            display: "grid",
+                            gridTemplateColumns: "17% 80%",
+                            flexDirection: "row",
+                            alignItems: "center"
+                        }}>
+                            <div style={{
+                                fontSize: 20
+                            }}>
+                                {"Is Violent"}
+                            </div>
+                            <Select
+                                options={options}
+                                value={{ value: isViolent, label: isViolentLabel }}
+                                onChange={(value) => handleChangeViolent(value)}
+                                style={{
+                                    innerHeight: 40,
+                                    outerHeight: 40
+                                }}
+                            />
+                        </label>
+                    </div>
+                    {/* <TextFieldData label={"Is Live"} value={isLive} setValue={setIsLive} multiline={false} /> */}
+                    {/* <TextFieldData label={"Is Violent"} value={isViolent} setValue={setIsViolent} multiline={false} /> */}
+                    <TextFieldData label={"Latitude"} value={lat} setValue={setLat} multiline={false} />
+                    <TextFieldData label={"Longitude"} value={long} setValue={setLong} multiline={false} />
+                    <TextFieldData label={"Police Station"} value={policeStation} setValue={setPoliceStation} multiline={false} />
+                    <TextFieldData label={"Source"} value={source} setValue={setSouce} multiline={false} />
+                    <TextFieldData label={"Time"} value={time} setValue={setTime} multiline={false} />
+                    <p>Please enter time in HH:MM form and in 24hr form</p>
                     <div style={{
                         display: "flex",
                         flexDirection: "row",

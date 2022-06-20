@@ -2,128 +2,96 @@ import { Bar } from 'react-chartjs-2';
 import { Box, Button, Card, CardContent, CardHeader, Divider, useTheme } from '@mui/material';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
+import { Line, Pie } from 'react-chartjs-2';
+import { useState, useEffect } from 'react';
+import { getDate } from 'date-fns';
+
 
 export const Sales = (props) => {
   const theme = useTheme();
 
-  const data = {
-    datasets: [
-      {
-        backgroundColor: '#3F51B5',
-        barPercentage: 0.5,
-        barThickness: 12,
-        borderRadius: 4,
-        categoryPercentage: 0.5,
-        data: [18, 5, 19, 27, 29, 19, 20],
-        label: 'This year',
-        maxBarThickness: 10
-      },
-      {
-        backgroundColor: '#EEEEEE',
-        barPercentage: 0.5,
-        barThickness: 12,
-        borderRadius: 4,
-        categoryPercentage: 0.5,
-        data: [11, 20, 12, 29, 30, 25, 13],
-        label: 'Last year',
-        maxBarThickness: 10
-      }
-    ],
-    labels: ['1 Aug', '2 Aug', '3 Aug', '4 Aug', '5 Aug', '6 Aug', '7 aug']
-  };
+  const [data, setdata] = useState([])
+  const [labels, setLabels] = useState([])
 
-  const options = {
-    animation: false,
-    cornerRadius: 20,
-    layout: { padding: 0 },
-    legend: { display: false },
-    maintainAspectRatio: false,
-    responsive: true,
-    xAxes: [
-      {
-        ticks: {
-          fontColor: theme.palette.text.secondary
-        },
-        gridLines: {
-          display: false,
-          drawBorder: false
-        }
+  useEffect(() => {
+
+    getData()
+
+  }, [])
+
+  const getData = async () => {
+    fetch(
+      "http://20.26.235.201:8888/002", {
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
       }
-    ],
-    yAxes: [
-      {
-        ticks: {
-          fontColor: theme.palette.text.secondary,
-          beginAtZero: true,
-          min: 0
-        },
-        gridLines: {
-          borderDash: [2],
-          borderDashOffset: [2],
-          color: theme.palette.divider,
-          drawBorder: false,
-          zeroLineBorderDash: [2],
-          zeroLineBorderDashOffset: [2],
-          zeroLineColor: theme.palette.divider
+    })
+      .then((res) => res.json())
+      .then((json) => {
+        console.log(json)
+        let dataTemp = []
+        let labelsTemp = []
+        let labelValuePair = []
+        if (json) {
+          for (var key in json) {
+            dataTemp.push(key)
+            labelsTemp.push(json[key])
+            labelValuePair.push({ "label": json[key], "value": key })
+          }
         }
-      }
-    ],
-    tooltips: {
-      backgroundColor: theme.palette.background.paper,
-      bodyFontColor: theme.palette.text.secondary,
-      borderColor: theme.palette.divider,
-      borderWidth: 1,
-      enabled: true,
-      footerFontColor: theme.palette.text.secondary,
-      intersect: false,
-      mode: 'index',
-      titleFontColor: theme.palette.text.primary
-    }
-  };
+        labelValuePair.sort(function (a, b) {
+          return a.label.localeCompare(b.label)
+        })
+        let dateTemp = []
+        let casesTemp = []
+        labelValuePair.map((obj) => {
+          dateTemp.push(obj.label)
+          casesTemp.push(obj.value)
+        })
+        setdata(casesTemp)
+        setLabels(dateTemp)
+      })
+
+  }
+
 
   return (
     <Card {...props}>
-      <CardHeader
-        action={(
-          <Button
-            endIcon={<ArrowDropDownIcon fontSize="small" />}
-            size="small"
-          >
-            Last 7 days
-          </Button>
-        )}
-        title="Latest Sales"
-      />
+
+      <CardHeader title="No. of Cases per Dates" />
       <Divider />
       <CardContent>
-        <Box
-          sx={{
-            height: 400,
-            position: 'relative'
-          }}
-        >
-          <Bar
-            data={data}
-            options={options}
+        <div style={{
+          // height: 1000
+        }}>
+          <Line
+            data={{
+              labels: labels,
+              datasets: [{
+                data: data,
+                label: "Cases",
+                // backgroundColor: [
+                //     'rgba(255, 99, 132, 0.2)',
+                //     'rgba(54, 162, 235, 0.2)',
+                //     'rgba(255, 206, 86, 0.2)',
+                //     'rgba(75, 192, 192, 0.2)',
+                //     'rgba(153, 102, 255, 0.2)',
+                //     'rgba(255, 159, 64, 0.2)',
+                // ],
+                borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  // 'rgba(54, 162, 235, 1)',
+                  // 'rgba(255, 206, 86, 1)',
+                  // 'rgba(75, 192, 192, 1)',
+                  // 'rgba(153, 102, 255, 1)',
+                  // 'rgba(255, 159, 64, 1)',
+                ],
+                borderWidth: 1,
+              }]
+            }}
           />
-        </Box>
-      </CardContent>
-      <Divider />
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'flex-end',
-          p: 2
-        }}
-      >
-        <Button
-          color="primary"
-          endIcon={<ArrowRightIcon fontSize="small" />}
-          size="small"
-        >
-          Overview
-        </Button>
-      </Box>
+        </div></CardContent>
     </Card>
   );
 };

@@ -35,7 +35,7 @@ export const DashboardNavbar = (props) => {
             px: 2
           }}
         >
-          <IconButton
+          {/* <IconButton
             onClick={onSidebarOpen}
             sx={{
               display: {
@@ -77,7 +77,7 @@ export const DashboardNavbar = (props) => {
             src="/static/images/avatars/avatar_1.png"
           >
             <UserCircleIcon fontSize="small" />
-          </Avatar>
+          </Avatar> */}
         </Toolbar>
       </DashboardNavbarRoot>
     </>

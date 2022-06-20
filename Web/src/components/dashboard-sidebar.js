@@ -27,27 +27,27 @@ const items = [
     title: 'Enter Data'
   },
   {
-    href: '/products',
+    href: '/analyse',
     icon: (<ShowChartIcon />),
     title: 'Analysis'
   },
   {
-    href: '/account',
+    href: '/prediction',
     icon: (<BatchPredictionIcon />),
     title: 'Predictions'
   },
-  {
-    href: '/settings',
-    icon: (<MyLocationIcon />),
-    title: 'Map'
-  },
+  // {
+  //   href: '/mapPolice',
+  //   icon: (<MyLocationIcon />),
+  //   title: 'Map'
+  // },
   {
     href: '/alerts',
     icon: (<AddAlertIcon />),
     title: 'Alerts Sender'
   },
   {
-    href: '/register',
+    href: '/settings',
     icon: (<SettingsIcon />),
     title: 'Settings'
   }
@@ -108,7 +108,7 @@ export const DashboardSidebar = (props) => {
             fontWeight: "bold",
             fontSize: "18px"
           }}>
-            HackManthan
+            Police
           </div>
         </div>
         <Divider
