@@ -85,7 +85,7 @@ def clusters():
 
         
     #doc delete old
-    cluster_ref = db.collection(u'cluster_test')
+    cluster_ref = db.collection(u'clusters')
     delete_collection(cluster_ref,3)
     #add new ones
     for i in event_type:
@@ -97,7 +97,7 @@ def clusters():
             res = json.loads(out_fin)
             test = {"eventType":i,"center1":res['data'][0],"center2":res['data'][1],"center3":res['data'][2],"lastUpdated":firestore.SERVER_TIMESTAMP}
             print(test)
-            db.collection("cluster_test").add(test)
+            db.collection("clusters").add(test)
         except:
             pass
     return "OK ADDED"
