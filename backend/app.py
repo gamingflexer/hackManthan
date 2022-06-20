@@ -8,7 +8,7 @@ import pyrebase
 from flask_cors import CORS, cross_origin
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import  FileStorage
-from functions import pandas_profiling
+from functions import pandas_profiling,crime_or_not
 from config import *
 import json
 
@@ -79,7 +79,7 @@ def clusters():
         data1 = data.update({doc.id : doc.to_dict()})
     print(data1)
     #change the fields acc to kmeans
-    return {"data":data}
+    return {"data":data1}
 
 
 @app.route('/predict-voilent',methods=["POST", "GET"])
@@ -97,9 +97,20 @@ def voilent():
 @app.route('/predict-crime',methods=["POST", "GET"])
 @cross_origin()
 def crime():
-    resp = jsonify({'message' : 'testing'})
-    resp.status_code = 201
-    return resp
+    data = {}
+    crime_ref = db.collection(u'predict_crime')
+    docs = crime_ref.stream()
+    for doc in docs:
+        data1 = data.update({doc.id : doc.to_dict()})
+    
+    for i in data:
+        print(data[i])
+        # out = crime_or_not(i["date"],i["location"])
+        # i = i.update({"prediction": out})
+    # out = crime_or_not(address,DT)
+    # resp = jsonify({'message' : 'testing'})
+    # resp.status_code = 201
+    return {"data":data}
 
 #-------------------------------------->
 
@@ -195,6 +206,11 @@ def graph_008():
     f = open(graph8)
     data1 = json.load(f)
     return data1
+
+@app.route('/test',methods=["POST", "GET"])
+@cross_origin()
+def test():
+    return "OK 200"
 
 #-------------------------------------->
 
