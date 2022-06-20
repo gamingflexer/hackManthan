@@ -132,12 +132,12 @@ def upload_file():
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
         resp = jsonify({'message' : 'File successfully uploaded'})
         resp.status_code = 201
-        print(filename)
         print(basepath+"/static/"+filename+"#-------------------------------------->")
         path = pandas_profiling(basepath+"/static/"+filename)
+        print(path)
         bucket = storage.bucket()
         blob = bucket.blob(path)
-        blob.upload_from_filename(path)
+        blob.upload_from_filename()
         blob.make_public()
         return {"url":blob.public_url}
     else:
