@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:equatable/equatable.dart';
 
-class Crime extends Equatable{
+class Crime extends Equatable {
   final String uid;
-  // final String eventId;
+  final String source;
   final String eventType;
   final String eventSubType;
   final String circle;
-  final String ward;
+  final bool isLive;
   final String district;
   final String policeStation;
   final double lat;
@@ -17,11 +17,11 @@ class Crime extends Equatable{
 
   const Crime({
     this.uid = '',
-    // this.eventId = '',
+    this.source = '',
     this.eventType = '',
     this.eventSubType = '',
     this.circle = '',
-    this.ward = '',
+    this.isLive = false,
     this.district = '',
     this.policeStation = '',
     this.lat = 0,
@@ -38,43 +38,44 @@ class Crime extends Equatable{
   Crime.fromJson(Map<String, dynamic> json, String uid)
       : this(
           uid: uid,
-          // eventId: json['eventId'],
-          eventType: json['eventType'],
-          eventSubType: json['eventSubType'],
-          circle: json['circle'],
-          ward: json['ward'],
-          district: json['district'],
-          policeStation: json['policeStation'],
-          lat: json['lat'],
-          long: json['long'],
-          isViolent: json['isViolent'],
-          time: json['time'],
+          source: json['source'],
+          eventType: json['eventType'] ?? '',
+          eventSubType: json['eventSubType'] ?? '',
+          circle: json['circle'] ?? '',
+          isLive: json['isLive'] ?? false,
+          district: json['district'] ?? '',
+          policeStation: json['policeStation'] ?? '',
+          lat: json['lat'] ?? 0,
+          long: json['long'] ?? 0,
+          isViolent: json['isViolent'] ?? false,
+          time: json['time'] ?? Timestamp(0, 0),
         );
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['uid'] = uid;
-    // data['eventId'] = eventId;
+    data['source'] = source;
     data['eventType'] = eventType;
     data['eventSubType'] = eventSubType;
     data['circle'] = circle;
-    data['ward'] = ward;
+    data['isLive'] = isLive;
     data['district'] = district;
     data['policeStation'] = policeStation;
     data['lat'] = lat;
     data['long'] = long;
     data['isViolent'] = isViolent;
     data['time'] = time;
+    // data['source'] = 'Mobile App';
     return data;
   }
 
   Crime copyWith({
     String? uid,
-    // String? eventId,
+    String? source,
     String? eventType,
     String? eventSubType,
     String? circle,
-    String? ward,
+    bool? isLive,
     String? district,
     String? policeStation,
     double? lat,
@@ -84,11 +85,11 @@ class Crime extends Equatable{
   }) {
     return Crime(
       uid: uid ?? this.uid,
-      // eventId: eventId ?? this.eventId,
+      source: source ?? this.source,
       eventType: eventType ?? this.eventType,
       eventSubType: eventSubType ?? this.eventSubType,
       circle: circle ?? this.circle,
-      ward: ward ?? this.ward,
+      isLive: isLive ?? this.isLive,
       district: district ?? this.district,
       policeStation: policeStation ?? this.policeStation,
       lat: lat ?? this.lat,
@@ -100,17 +101,17 @@ class Crime extends Equatable{
 
   @override
   String toString() {
-    return 'Crime($uid, $eventType, $eventSubType, $circle, $ward, $district, $policeStation, $lat, $long, $isViolent, $time)';
+    return 'Crime($uid, $source, $eventType, $eventSubType, $circle, $isLive, $district, $policeStation, $lat, $long, $isViolent, $time)';
   }
 
   @override
   List<Object?> get props => [
         uid,
-        // eventId,
+        // source,
         eventType,
         eventSubType,
         circle,
-        ward,
+        isLive,
         district,
         policeStation,
         lat,
@@ -119,3 +120,206 @@ class Crime extends Equatable{
         time,
       ];
 }
+
+List<String> subTypeList = [
+  'Misbehavior By Prv',
+  'Attack',
+  'Dispute In Hospital',
+  'Play Cards',
+  'Grp- Person Accident By Train ',
+  'Misbehavior By Ps Incharge',
+  'Gold Shop',
+  'Dispute With Drunk Person',
+  'Money Transactions Dispute',
+  'Family Dispute With Sr. Citizen',
+  'Threatening To Kill',
+  'House Capture',
+  'No Action Has Been Taken By Ps Incharge For Delivery Of Person Vehicle Goods By ',
+  'Boundary Dispute',
+  'Beat Children By Familymembers',
+  'Other Dispute',
+  'Other Location',
+  'Two Wheeler Vehicle',
+  'Illegal Mining Land',
+  'By Hanging',
+  'Residential Building',
+  'Husband To Beat Wife',
+  'Suspect Found Infected',
+  'Bank Account Hacking',
+  'Teasing On Public Place',
+  'Unclaimed Men',
+  'Expellinghouse Wife By Husband Or Family Members From House',
+  'Government Land',
+  'Abuse Men',
+  'Sewer Dispute',
+  'Found Injured Animal',
+  'Unknown',
+  'Women',
+  'Cow Carcass And Slaughtering',
+  'On Road',
+  'Help For Other',
+  'With Neighbor',
+  'Dispute With Service Provider Or Vendor',
+  'Prv Has Taken Money From The Caller',
+  'Illegal Mining',
+  'Black Marketing Over Stocking',
+  'Dispute Between Ride And Driver',
+  'Abuse Women',
+  'Pollution By Dj/Band/Cracker/Others Means',
+  'Beating Senior Citizen',
+  'Notice Of Negligence In Work',
+  'Betting',
+  'Open School/Coaching Institution/College/Office',
+  'Demand For Money By Ps Station Incharge',
+  'Dispute With Unknown Person',
+  'Help For Food Items',
+  'Gathering On Street Park',
+  'Gathering Funeral Other Celebration',
+  'Building Res Insti Auditorial Academic Professional Indus Storage Multiplex Etc',
+  'Husband Relatives To Beat Wife',
+  'Obtain Illegally Atm / Bank  Information',
+  'Dispute Between Hijras',
+  'Threaten Women',
+  'Male Dead Body',
+  'Gathering Vegetable Market',
+  'Information About Suspicious Object In Building/Campus/Location',
+  'House',
+  'Four Wheeler Vehicle',
+  'Beaten With Lathi/Stick',
+  'Threaten Men',
+  'Information About Suspicious Person In Building/Campus/Place',
+  'Other Kind Torturing To Senior Citizen',
+  'Attempted Rape In Building Or Campus',
+  'Forged Signature',
+  'Gathering Crowd Market',
+  'Sound Pollution',
+  'Pollution From Industry',
+  'Mobile',
+  'Insult',
+  'Child Kidnap',
+  'Obscene Message / Picture Post Of Women',
+  'Illegal Sale',
+  'Domestic Violence Against Men Or Boy Or Seniormen',
+  'Business Establishment',
+  'Public Gathering',
+  'Landlord And Tenant',
+  'Serious Road Accident',
+  'Illegally Transfer Money From Bank',
+  'Kidnapping',
+  'Men Kidnap',
+  'Quarantine Violation',
+  'Other Animal Carcass',
+  'Sale Of Meat In Open',
+  'For Parking',
+  'Women Kidnap',
+  'Police Help Required By 108',
+  'Pan Card',
+  'Illegal Construction',
+  'Alone',
+  'Dangerous Animals/Dog Residential Area',
+  'Family Members Beat Wife',
+  'Due To Illegal Parking',
+  'Obscene Talks Women',
+  'House Arrest',
+  'Child',
+  'Mad /Retarded Person',
+  'Crash Between Light Vehicles',
+  'Dispute Between Relatives',
+  'Paving Dispute',
+  'Prostitution',
+  'Due To Vehicle Damage',
+  'Unclaimed Vehicle',
+  'Between Worker And Boss',
+  'Shop',
+  'Gathering Playing In Open',
+  'Insult Of Senior Citizen',
+  'Email Hacking',
+  'Indecent Talks',
+  'Unclaimed Women',
+  'Information About Suspicious Object In The Vehicle',
+  'Farm Forest Agriculture',
+  'In Private Vehicle',
+  'Other Campus',
+  'Teasing In Building Or Premise',
+  'No Proper Medical Support From Hospital Doctor',
+  'Hit And Run',
+  'Sharp Weapons',
+  'Prv Has Taken Money From The Vehicle',
+  'Gathering Open Walk In Group',
+  'Misbehaviour With Child By Outsider',
+  'Offensive/Obscene Material Post On Social Site',
+  'Aadhar Card',
+  'Sos',
+  'Other Means',
+  'Woman Dead Body',
+  'Consuming Poison',
+  'Making Fake Papers',
+  'Between Other Groups',
+  'Electrical Equipment',
+  'Help For Transport',
+  'Dispute Between Hijras And Men',
+  'Hit By Dividers',
+  'Gathering Kotedaar Ration Shop',
+  'Harrasment By Inlaws',
+  'Grp-Animal Accident By Train',
+  'Selling Goods Over Rate',
+  'Website Hacking',
+  'From Any Device',
+  'Green Tree Chopping Incident',
+  'Expelling Kids From Home',
+  'Expelling Senior Citizen From House',
+  'Information About Suspicious Person In The Vehicle',
+  'Gathering Gambling Playing Cards',
+  'Child Marriage',
+  'Identity Card',
+  'Unclaimed Child',
+  'Cycle',
+  'Driving License',
+  'Beating/Harassing/Torturing For Dowry',
+  'Illegal Supply',
+  'Tablet/Pc/Laptop',
+  'Harrassment Of Wife By Family Members',
+  'Notification Of Police Inaction',
+  'Making Or Selling Fake Artwork',
+  'Three Wheeler Vehicle',
+  'Due To Strike',
+  'Inter Religion Marriage',
+  'Chain Snatching',
+  'Illegal Mining River',
+  'Threatening',
+  'Notice Of Negligence In Investigation',
+  'Academic Certificates/Marsheet',
+  'Conducting Election Meeting/Rally Without Permission',
+  'Fake Registry',
+  'Money Distribution',
+  'Notice Of Delay In Work',
+  'House Garbage Dump Huts Slum',
+  'Throttling',
+  'Small Medium Large Industry',
+  'Cow Smuggling',
+  'Crash Between Heavy Vehicles',
+  'Toxic Gas Leakage',
+  'Gathering Construction Place',
+  'Jumping Into Water (River, Canal,Lake,Swimming Pool, Pond Etc.)',
+  'Between Neighbors',
+  'Obscene Message / Picture Post Of Men',
+  'Illegal Possession Of Narcotics',
+  'Inter Caste Marriage',
+  'Other Vehicle',
+  'Senior Citizen Abuse',
+  'Prv Not Reached',
+  'In Public Vehicle',
+  'Illegally Sending Abroad For Job',
+  'Between Workers And Laborers',
+  'Police Help Required By 1090',
+  'Buggery With A Child',
+  'Injury Due To Electical Current',
+  'Notice Of Work To Abolish',
+  'Trafficking',
+  'Violation Of The Instructions Of The Election Commission',
+  'Encroachment On Road',
+  'Familymembers Harrassment Children',
+  'Money',
+  'Illegal Possession',
+  'Forced To Marry'
+];

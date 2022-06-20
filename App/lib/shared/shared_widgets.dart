@@ -19,8 +19,8 @@ InputDecoration customInputDecoration(
     contentPadding: EdgeInsets.fromLTRB(24.w, 20.w, 22.w, 19.w),
     enabledBorder: OutlineInputBorder(
       borderSide: BorderSide(
-        color: Colors.transparent,
-        width: 2.w,
+        color: isSearch ? CustomTheme.t2 : Colors.transparent,
+        width: 1.w,
         style: BorderStyle.solid,
       ),
       borderRadius: BorderRadius.all(Radius.circular(15.w)),

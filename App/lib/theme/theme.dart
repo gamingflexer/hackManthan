@@ -5,7 +5,7 @@ class CustomTheme {
 
   static Color get card => const Color(0xFFFFFFFF);
 
-  static Color get cardShadow => const Color(0xFFCCD4FF).withOpacity(0.4);
+  static Color get cardShadow => const Color(0xFFCCD4FF).withOpacity(0.35);
 
   static Color get onAccent => const Color(0xFFFFFFFF);
 
@@ -23,10 +23,10 @@ class CustomTheme {
             fontFamily: 'Montserrat',
           ),
       colorScheme: const ColorScheme.light().copyWith(
-          // primary: accent,
-          // onPrimary: t1,
-          // background: bg,
-          // surface: card,
+          primary: accent,
+          onPrimary: t1,
+          background: bg,
+          surface: card,
           ),
     );
   }

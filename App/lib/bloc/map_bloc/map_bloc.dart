@@ -35,6 +35,7 @@ class MapBloc extends Bloc<MapEvents, MapState> {
     emit(state.copyWith(pageState: PageState.loading));
     try {
       // API call to get Map Data
+      await Future.delayed(Duration(seconds: 1));
       LocationData? locationData = await LocationRepository.getLocation();
       if (locationData != null) {
         // while (true) {
