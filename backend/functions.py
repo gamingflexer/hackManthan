@@ -4,6 +4,7 @@ import pandas as pd
 import os
 from translate import Translator
 from config import *
+import numpy as np
 
 import pickle
 import joblib
@@ -46,7 +47,8 @@ def kmeans_centers(data): #type of input
     # score = [kmeans[i].fit(Y_axis).score(Y_axis) for i in range(len(kmeans))]
     
     kmeans = KMeans(n_clusters = 2, init ='k-means++')
-    kmeans.fit(X[X.columns[1:3]]) # Compute k-means clustering.
+    input_np = np.array(X[X.columns[1:3]])
+    kmeans.fit(input_np.reshape(-2,2)) # Compute k-means clustering.
     X['cluster_label'] = kmeans.fit_predict(X[X.columns[1:3]])
     centers = kmeans.cluster_centers_ # Coordinates of cluster centers.
     # labels = kmeans.predict(X[X.columns[1:3]]) # Labels of each point
