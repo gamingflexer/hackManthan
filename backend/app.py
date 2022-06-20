@@ -95,9 +95,13 @@ def clusters():
             out_fin = pd.DataFrame(centers).to_json(orient='split')
             print(out_fin)
             res = json.loads(out_fin)
-            test = {"eventType":i,"center1":res['data'][0],"center2":res['data'][1],"center3":res['data'][2],"lastUpdated":firestore.SERVER_TIMESTAMP}
-            print(test)
-            db.collection("clusters").add(test)
+            test1 = {"eventType":i,"lat":res['data'][0][0],"long":res['data'][0][1]}
+            test2 = {"eventType":i,"lat":res['data'][1][0],"long":res['data'][1][1]}
+            test3 = {"eventType":i,"lat":res['data'][2][0],"long":res['data'][2][1]}
+            print(test1)
+            db.collection("clusters").add(test1)
+            db.collection("clusters").add(test2)
+            db.collection("clusters").add(test3)
         except:
             pass
     return "OK ADDED"
