@@ -46,7 +46,7 @@ def kmeans_centers(data): #type of input
     X_axis = data[['long']]
     # score = [kmeans[i].fit(Y_axis).score(Y_axis) for i in range(len(kmeans))]
     
-    kmeans = KMeans(n_clusters = 2, init ='k-means++')
+    kmeans = KMeans(n_clusters = 1, init ='k-means++')
     input_np = np.array(X[X.columns[1:3]])
     kmeans.fit(input_np.reshape(-2,2)) # Compute k-means clustering.
     X['cluster_label'] = kmeans.fit_predict(X[X.columns[1:3]])
