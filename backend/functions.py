@@ -35,24 +35,28 @@ def pandas_profiling(file_path):
 
 
 def kmeans_centers(data): #type of input
-    data.dropna(axis=0,how='any',subset=['lat','long'],inplace=True)
-    
-    X=data.loc[:,['eventType','lat','long']]
+    try:
+        data.dropna(axis=0,how='any',subset=['lat','long'],inplace=True)
+        
+        X=data.loc[:,['eventType','lat','long']]
 
-    K_clusters = range(1,10)
-    kmeans = [KMeans(n_clusters=i) for i in K_clusters]
-    Y_axis = data[['lat']]
-    X_axis = data[['long']]
-    # score = [kmeans[i].fit(Y_axis).score(Y_axis) for i in range(len(kmeans))]
-    
-    kmeans = KMeans(n_clusters = 3, init ='k-means++')
-    kmeans.fit(X[X.columns[1:3]]) # Compute k-means clustering.
-    X['cluster_label'] = kmeans.fit_predict(X[X.columns[1:3]])
-    centers = kmeans.cluster_centers_ # Coordinates of cluster centers.
-    # labels = kmeans.predict(X[X.columns[1:3]]) # Labels of each point
-    print(X[X.columns[1:3]])
-    
-    return centers
+        K_clusters = range(1,10)
+        kmeans = [KMeans(n_clusters=i) for i in K_clusters]
+        Y_axis = data[['lat']]
+        X_axis = data[['long']]
+        # score = [kmeans[i].fit(Y_axis).score(Y_axis) for i in range(len(kmeans))]
+        
+        kmeans = KMeans(n_clusters = 3, init ='k-means++')
+        kmeans.fit(X[X.columns[1:3]]) # Compute k-means clustering.
+        X['cluster_label'] = kmeans.fit_predict(X[X.columns[1:3]])
+        centers = kmeans.cluster_centers_ # Coordinates of cluster centers.
+        # labels = kmeans.predict(X[X.columns[1:3]]) # Labels of each point
+        print(X[X.columns[1:3]])
+        
+        return centers
+    except Exception as e:
+        print(e)
+        return None
 
 
 def predict_violent(file): #type of input - change the input also 
