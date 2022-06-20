@@ -8,7 +8,7 @@ const Account = () => (
   <>
     <Head>
       <title>
-        Account | Material Kit
+      Police - HackManthan
       </title>
     </Head>
     <Box

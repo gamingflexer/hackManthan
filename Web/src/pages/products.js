@@ -9,7 +9,7 @@ const Products = () => (
   <>
     <Head>
       <title>
-        Products | Material Kit
+      Police - HackManthan
       </title>
     </Head>
     <Box

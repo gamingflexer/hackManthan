@@ -8,7 +8,7 @@ const Settings = () => (
   <>
     <Head>
       <title>
-        Settings | Material Kit
+      Police - HackManthan
       </title>
     </Head>
     <Box
