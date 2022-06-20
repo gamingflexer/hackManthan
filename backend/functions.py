@@ -29,7 +29,7 @@ def pandas_profiling(file_path):
     path_of_file = basepath+"/static/"+f'{file_name}_anylasis.html'
     print(path_of_file)
     profile.to_widgets()
-    profile.to_file("/home/azureuser/hackManthan/backend/static/"+f"{file_name}_anylasis.html")
+    profile.to_file(f"{file_name}_anylasis.html")
     
     return path_of_file
 
