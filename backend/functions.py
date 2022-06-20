@@ -24,8 +24,8 @@ def pandas_profiling(file_path):
     data1 = pd.read_csv(file_path)
     
     file_name = os.path.splitext(file_path)[0]
-    path_of_file = basepath+"static"+f'{file_name}_anylasis.html'
     profile = ProfileReport (data1, title='Report - Crime Analysis', explorative=True)
+    path_of_file = basepath+"/static/"+f'{file_name}_anylasis.html'
     profile.to_widgets()
     profile.to_file(path_of_file)
     

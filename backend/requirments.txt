@@ -11,3 +11,5 @@ flask_cors
 sklearn
 joblib
 seaborn
+IPython
+ipywidgets
