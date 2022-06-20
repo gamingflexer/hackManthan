@@ -34,7 +34,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 app.config['UPLOAD_FOLDER'] = upload
 app.config['SECRET_KEY'] = 'cairocoders-ednalan'
 
-ALLOWED_EXTENSIONS = {'txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'}
+ALLOWED_EXTENSIONS = {'csv'}
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -105,10 +105,11 @@ def crime():
     for doc in docs:
         data1 = data_base.update({doc.id : doc.to_dict()})
     #diff in vvariables
-    for i in data_base:
-        address = data_base[i]['location']
-        DT = data_base[i]['date']
-        out = predict_crime(address,DT)
+    if data_base[i]['prediction']== "":
+        for i in data_base:
+            address = data_base[i]['location']
+            DT = data_base[i]['date']
+            out = predict_crime(address,DT)
     return {"prediction":out}
 
 #-------------------------------------->
