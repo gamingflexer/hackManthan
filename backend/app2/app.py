@@ -82,8 +82,8 @@ def clusters():
     
     #we got a dataframe
     center_found = kmeans_centers(output_df)
-    
-    return {"centers":[center_found]}
+    print(center_found)
+    return "OK"
 
 
 
