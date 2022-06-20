@@ -13,3 +13,4 @@ joblib
 seaborn
 IPython
 ipywidgets
+gevent
