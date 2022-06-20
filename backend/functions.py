@@ -21,7 +21,7 @@ def translator(text):
     return translation
 
 def pandas_profiling(file_path):
-    data1 = pd.read_json(file_path)
+    data1 = pd.read_csv(file_path)
     
     file_name = os.path.splitext(file_path)[0]
     path_of_file = basepath+"static"+f'{file_name}_anylasis.html'
