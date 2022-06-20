@@ -8,7 +8,7 @@ import pyrebase
 from flask_cors import CORS, cross_origin
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import  FileStorage
-from functions import pandas_profiling,crime_or_not
+from functions import pandas_profiling,predict_crime
 from config import *
 import json
 
@@ -93,24 +93,23 @@ def voilent():
     resp.status_code = 201
     return resp
 
+#-------------------------------------->
 
 @app.route('/predict-crime',methods=["POST", "GET"])
 @cross_origin()
 def crime():
-    data = {}
+    data_base = {}
     crime_ref = db.collection(u'predict_crime')
     docs = crime_ref.stream()
+    #fetch
     for doc in docs:
-        data1 = data.update({doc.id : doc.to_dict()})
-    
-    for i in data:
-        print(data[i])
-        # out = crime_or_not(i["date"],i["location"])
-        # i = i.update({"prediction": out})
-    # out = crime_or_not(address,DT)
-    # resp = jsonify({'message' : 'testing'})
-    # resp.status_code = 201
-    return {"data":data}
+        data1 = data_base.update({doc.id : doc.to_dict()})
+    #diff in vvariables
+    for i in data_base:
+        address = data_base[i]['location']
+        DT = data_base[i]['date']
+        out = predict_crime(address,DT)
+    return {"prediction":out}
 
 #-------------------------------------->
 

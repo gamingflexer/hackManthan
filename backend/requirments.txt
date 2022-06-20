@@ -8,3 +8,6 @@ itsdangerous==2.0.1
 translate
 geopy
 flask_cors
+sklearn
+joblib
+seaborn

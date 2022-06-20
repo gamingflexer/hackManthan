@@ -59,10 +59,10 @@ def predict_violent(file): #type of input - change the input also
     prediction = loaded_model.predict(data)
     return prediction
     
-def crime_or_not(address,DT):
+def predict_crime(address,DT):
     
     #load
-    geolocator = Nominatim()
+    geolocator = Nominatim(user_agent="surve790@gmail.com")
     rfc = joblib.load(model_path_2)
     
     #function start
@@ -80,7 +80,7 @@ def crime_or_not(address,DT):
 
     data['timestamp'] = pd.to_datetime(data['timestamp'].astype(str), errors='coerce')
     data['timestamp'] = pd.to_datetime(data['timestamp'], format = '%d/%m/%Y %H:%M:%S')
-    column_1 = data.ix[:,0]
+    column_1 = data['timestamp']
     DT=pd.DataFrame({"year": column_1.dt.year,
             "month": column_1.dt.month,
             "day": column_1.dt.day,
