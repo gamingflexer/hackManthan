@@ -105,8 +105,8 @@ def crime():
     for doc in docs:
         data1 = data_base.update({doc.id : doc.to_dict()})
     #diff in vvariables
-    if data_base[i]['prediction']== "":
-        for i in data_base:
+    for i in data_base:
+        if data_base[i]['prediction']== "":
             address = data_base[i]['location']
             DT = data_base[i]['date']
             out = predict_crime(address,DT)
