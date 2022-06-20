@@ -4,6 +4,7 @@ import pandas as pd
 import os
 from translate import Translator
 from config import *
+from sklearn.preprocessing import StandardScaler
 
 import pickle
 import joblib
@@ -35,7 +36,6 @@ def pandas_profiling(file_path):
 
 
 def kmeans_centers(data): #type of input
-    print(data)
     data.dropna(axis=0,how='any',subset=['lat','long'],inplace=True)
     
     X=data.loc[:,['eventType','lat','long']]
@@ -47,15 +47,14 @@ def kmeans_centers(data): #type of input
     # score = [kmeans[i].fit(Y_axis).score(Y_axis) for i in range(len(kmeans))]
     
     kmeans = KMeans(n_clusters = 3, init ='k-means++')
+    kmeans.fit(X[X.columns[1:3]]) # Compute k-means clustering.
+    X['cluster_label'] = kmeans.fit_predict(X[X.columns[1:3]])
+    centers = kmeans.cluster_centers_ # Coordinates of cluster centers.
+    # labels = kmeans.predict(X[X.columns[1:3]]) # Labels of each point
     print(X[X.columns[1:3]])
-    # kmeans.fit(X[X.columns[1:3]]) # Compute k-means clustering.
-    # X['cluster_label'] = kmeans.fit_predict(X[X.columns[1:3]])
-    # centers = kmeans.cluster_centers_ # Coordinates of cluster centers.
-    # # labels = kmeans.predict(X[X.columns[1:3]]) # Labels of each point
-    
-    return {"centers":len(X[X.columns[1:3]])}
     
     return {"centers":centers}
+    
 
 
 def predict_violent(file): #type of input - change the input also 

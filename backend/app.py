@@ -79,9 +79,9 @@ def clusters():
     for doc in docs:
         data1 = data.update({doc.id : doc.to_dict()})
     
-    output = pd.DataFrame()
+    output_df = pd.DataFrame()
     for k in data.keys():
-        output_df = output.append(data[k], ignore_index=True)
+        output_df = output_df.append(data[k], ignore_index=True)
     
     #we got a dataframe
     center_found = kmeans_centers(output_df)
