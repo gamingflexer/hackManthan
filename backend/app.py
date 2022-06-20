@@ -85,8 +85,9 @@ def clusters():
     
     #we got a dataframe
     center_found = kmeans_centers(output_df)
-    
-    return {"centers":center_found}
+    print(center_found)
+    out_fin = pd.Series(center_found).to_json(orient='values')
+    return out_fin
 
 
 @app.route('/predict-voilent',methods=["POST", "GET"])

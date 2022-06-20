@@ -52,8 +52,10 @@ def kmeans_centers(data): #type of input
     centers = kmeans.cluster_centers_ # Coordinates of cluster centers.
     # labels = kmeans.predict(X[X.columns[1:3]]) # Labels of each point
     print(X[X.columns[1:3]])
+    out_fin = pd.Series(center_found).to_json(orient='values')
+
     
-    return {"centers":centers}
+    return {"centers":out_fin}
     
 
 
