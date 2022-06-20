@@ -30,17 +30,17 @@ class StopLocationStream extends MapEvents {
   List<Object?> get props => [toString()];
 }
 
-class ShowPredictions extends MapEvents {
+class ShowAlerts extends MapEvents {
   @override
-  String toString() => 'ShowPredictions';
+  String toString() => 'ShowAlerts';
 
   @override
   List<Object?> get props => [toString()];
 }
 
-class HidePredictions extends MapEvents {
+class HideAlerts extends MapEvents {
   @override
-  String toString() => 'HidePredictions';
+  String toString() => 'HideAlerts';
 
   @override
   List<Object?> get props => [toString()];

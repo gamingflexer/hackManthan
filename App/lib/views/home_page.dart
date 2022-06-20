@@ -3,14 +3,17 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hackmanthan_app/bloc/map_bloc/map_bloc_files.dart';
+import 'package:hackmanthan_app/models/alert.dart';
 import 'package:hackmanthan_app/models/crime.dart';
 import 'package:hackmanthan_app/models/helper_models.dart';
+import 'package:hackmanthan_app/models/user.dart';
 import 'package:hackmanthan_app/repositories/location_repository.dart';
 import 'package:hackmanthan_app/shared/error_screen.dart';
 import 'package:hackmanthan_app/shared/loading.dart';
 import 'package:hackmanthan_app/shared/shared_widgets.dart';
 import 'package:hackmanthan_app/theme/theme.dart';
 import 'package:hackmanthan_app/views/add_crime_page.dart';
+import 'package:hackmanthan_app/views/settings.dart';
 import 'package:intl/intl.dart';
 import 'package:latlong2/latlong.dart';
 
@@ -27,6 +30,8 @@ class _HomePageState extends State<HomePage> {
   late ScrollController innerScrollController;
 
   Crime? crime;
+  UserData? officer;
+  Alert? alert;
 
   @override
   void initState() {
@@ -78,6 +83,12 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                   ),
+                  state.locationStreaming
+                      ? Container(
+                          alignment: Alignment.topCenter,
+                          child: buildSharingLocationIndicator(),
+                        )
+                      : const SizedBox.shrink(),
                   DraggableScrollableSheet(
                     controller: scrollController,
                     minChildSize: 0.2,
@@ -116,6 +127,132 @@ class _HomePageState extends State<HomePage> {
         return const LoadingPage();
       },
     );
+  }
+
+  Container buildSharingLocationIndicator() {
+    return Container(
+      margin: EdgeInsets.only(top: 92.w),
+      decoration: BoxDecoration(
+        color: CustomTheme.card,
+        borderRadius: BorderRadius.circular(15.w),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.grey,
+            blurRadius: 10.0,
+          )
+        ],
+      ),
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.w),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Container(
+            height: 12.w,
+            width: 12.w,
+            decoration: BoxDecoration(
+              color: const Color(0xFF05FF4B),
+              borderRadius: BorderRadius.circular(15.w),
+            ),
+          ),
+          SizedBox(width: 8.w),
+          Text(
+            'Sharing Location',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: CustomTheme.t1,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget buildDialog() {
+    return StatefulBuilder(builder: (context, setState) {
+      MapController mapPickerController = MapController();
+      return Center(
+        child: Container(
+          margin: EdgeInsets.symmetric(
+            horizontal: 20.w,
+          ),
+          decoration: BoxDecoration(
+            color: CustomTheme.card,
+            borderRadius: BorderRadius.circular(20.w),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                height: 62.w,
+                padding: EdgeInsets.only(left: 19.w),
+                alignment: Alignment.centerLeft,
+                child: Material(
+                  child: Text(
+                    'Pick Location',
+                    style: TextStyle(
+                      fontFamily: 'Montserrat',
+                      fontSize: 24,
+                      fontWeight: FontWeight.w700,
+                      color: CustomTheme.t1,
+                    ),
+                  ),
+                ),
+              ),
+              Container(
+                color: CustomTheme.bg,
+                height: 400.w,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: [],
+                  ),
+                ),
+              ),
+              Container(
+                height: 56.w,
+                padding: EdgeInsets.only(right: 20.w),
+                alignment: Alignment.centerRight,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(
+                            context,
+                            LatLng(mapPickerController.center.latitude,
+                                mapPickerController.center.longitude));
+                      },
+                      child: Text(
+                        'Confirm',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: CustomTheme.accent,
+                        ),
+                      ),
+                    ),
+                    SizedBox(width: 9.w),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                      child: Text(
+                        'Cancel',
+                        style: TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                          color: CustomTheme.t1,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      );
+    });
   }
 
   Stack buildCurrentCrimeCard() {
@@ -326,7 +463,13 @@ class _HomePageState extends State<HomePage> {
           ),
           const Spacer(),
           IconButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.push(context, MaterialPageRoute(
+                builder: (context) {
+                  return SettingsPage();
+                },
+              ));
+            },
             icon: Icon(
               Icons.settings_rounded,
               size: 30.w,
@@ -363,8 +506,15 @@ class _HomePageState extends State<HomePage> {
             ),
           ),
           CustomElevatedButton(
-            text: 'Start Location Sharing',
-            onPressed: () {},
+            text:
+                '${!state.locationStreaming ? 'Start' : 'Stop'} Location Sharing',
+            onPressed: () {
+              if (!state.locationStreaming) {
+                context.read<MapBloc>().add(StartLocationStream());
+              } else {
+                context.read<MapBloc>().add(StopLocationStream());
+              }
+            },
           ),
           SizedBox(height: 12.w),
           CustomElevatedButton(
@@ -397,6 +547,8 @@ class _HomePageState extends State<HomePage> {
                   onPressed: () async {
                     await scrollDrawerToTop();
                     setState(() {
+                      officer = null;
+                      alert = null;
                       crime = state.crimes[i];
                     });
                     mapController.moveAndRotate(
@@ -610,44 +762,91 @@ class _HomePageState extends State<HomePage> {
         );
       },
     ));
-    for (var crime in state.crimes) {
-      markers.add(Marker(
-        point: LatLng(crime.lat, crime.long),
-        builder: (context) {
-          return InkWell(
-            onTap: () async {
-              await scrollDrawerToTop();
-              setState(() {
-                this.crime = crime;
-              });
-              mapController.moveAndRotate(
-                LatLng(crime.lat, crime.long),
-                14,
-                0,
-              );
-            },
-            child: Container(
-              height: crime.isLive ? 30.w : 10.w,
-              width: crime.isLive ? 30.w : 10.w,
-              decoration: BoxDecoration(
-                color: crime.isLive ? Colors.redAccent[700] : Colors.grey,
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: Colors.white,
-                  width: 2.w,
+    if (state.showCrimes) {
+      for (var crime in state.crimes) {
+        markers.add(Marker(
+          point: LatLng(crime.lat, crime.long),
+          builder: (context) {
+            return InkWell(
+              onTap: () async {
+                await scrollDrawerToTop();
+                setState(() {
+                  officer = null;
+                  alert = null;
+                  this.crime = crime;
+                });
+                mapController.moveAndRotate(
+                  LatLng(crime.lat, crime.long),
+                  14,
+                  0,
+                );
+              },
+              child: Container(
+                height: crime.isLive ? 30.w : 10.w,
+                width: crime.isLive ? 30.w : 10.w,
+                decoration: BoxDecoration(
+                  color: crime.isLive ? Colors.redAccent[700] : Colors.grey,
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Colors.white,
+                    width: 2.w,
+                  ),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.grey,
+                      blurRadius: 10.0,
+                    )
+                  ],
                 ),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.grey,
-                    blurRadius: 10.0,
-                  )
-                ],
+                alignment: Alignment.center,
               ),
-              alignment: Alignment.center,
-            ),
-          );
-        },
-      ));
+            );
+          },
+        ));
+      }
+    }
+    if (state.showOfficers) {
+      for (var officer in state.officers) {
+        markers.add(Marker(
+          point: LatLng(officer.lat, officer.long),
+          builder: (context) {
+            return InkWell(
+              onTap: () async {
+                await scrollDrawerToTop();
+                setState(() {
+                  crime = null;
+                  alert = null;
+                  this.officer = officer;
+                });
+                mapController.moveAndRotate(
+                  LatLng(officer.lat, officer.long),
+                  14,
+                  0,
+                );
+              },
+              child: Container(
+                height: 30.w,
+                width: 30.w,
+                decoration: BoxDecoration(
+                  color: Colors.greenAccent,
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Colors.white,
+                    width: 2.w,
+                  ),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.grey,
+                      blurRadius: 10.0,
+                    )
+                  ],
+                ),
+                alignment: Alignment.center,
+              ),
+            );
+          },
+        ));
+      }
     }
 
     return markers;

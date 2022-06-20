@@ -42,9 +42,9 @@ class UserData extends Equatable {
     lastUpdated: Timestamp(0, 0),
   );
 
-  UserData.fromJson(Map<String, dynamic> json)
+  UserData.fromJson(Map<String, dynamic> json, String uid)
       : this(
-          uid: json['uid'],
+          uid: uid,
           email: json['email'],
           name: json['name'],
           policeId: json['policeId'],

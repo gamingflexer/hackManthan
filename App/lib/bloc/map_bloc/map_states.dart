@@ -1,17 +1,17 @@
 import 'package:equatable/equatable.dart';
 import 'package:hackmanthan_app/models/crime.dart';
 import 'package:hackmanthan_app/models/helper_models.dart';
-import 'package:hackmanthan_app/models/prediction.dart';
+import 'package:hackmanthan_app/models/alert.dart';
 import 'package:hackmanthan_app/models/user.dart';
 
 class MapState extends Equatable {
   final bool locationStreaming;
-  final bool showPredictions;
+  final bool showAlerts;
   final bool showCrimes;
   final bool showOfficers;
   // final bool focusOnACrime;
   final Crime? focusedCrime;
-  final List<Prediction> predictions;
+  final List<Alert> alerts;
   final List<Crime> crimes;
   final List<UserData> officers;
   final double currentLat;
@@ -20,12 +20,12 @@ class MapState extends Equatable {
 
   const MapState({
     required this.locationStreaming,
-    required this.showPredictions,
+    required this.showAlerts,
     required this.showCrimes,
     required this.showOfficers,
     required this.focusedCrime,
     // required this.focusOnACrime,
-    required this.predictions,
+    required this.alerts,
     required this.crimes,
     required this.officers,
     required this.currentLat,
@@ -35,12 +35,12 @@ class MapState extends Equatable {
 
   MapState copyWith({
     bool? locationStreaming,
-    bool? showPredictions,
+    bool? showAlerts,
     bool? showCrimes,
     bool? showOfficers,
     // bool? focusOnACrime,
     Crime? focusedCrime,
-    List<Prediction>? predictions,
+    List<Alert>? alerts,
     List<Crime>? crimes,
     List<UserData>? officers,
     double? currentLat,
@@ -49,12 +49,12 @@ class MapState extends Equatable {
   }) {
     return MapState(
       locationStreaming: locationStreaming ?? this.locationStreaming,
-      showPredictions: showPredictions ?? this.showPredictions,
+      showAlerts: showAlerts ?? this.showAlerts,
       showCrimes: showCrimes ?? this.showCrimes,
       showOfficers: showOfficers ?? this.showOfficers,
       // focusOnACrime: focusOnACrime ?? this.focusOnACrime,
       focusedCrime: focusedCrime ?? this.focusedCrime,
-      predictions: predictions ?? this.predictions,
+      alerts: alerts ?? this.alerts,
       crimes: crimes ?? this.crimes,
       officers: officers ?? this.officers,
       currentLat: currentLat ?? this.currentLat,
@@ -66,12 +66,12 @@ class MapState extends Equatable {
   @override
   List<Object?> get props => [
         locationStreaming,
-        showPredictions,
+        showAlerts,
         showCrimes,
         showOfficers,
         // focusOnACrime,
         focusedCrime,
-        predictions,
+        alerts,
         crimes,
         officers,
         currentLong,
@@ -82,12 +82,12 @@ class MapState extends Equatable {
   const MapState.init()
       : this(
           locationStreaming: false,
-          showPredictions: false,
+          showAlerts: false,
           showCrimes: false,
           showOfficers: false,
           // focusOnACrime: false,
           focusedCrime: null,
-          predictions: const [],
+          alerts: const [],
           crimes: const [],
           officers: const [],
           currentLat: 0,
