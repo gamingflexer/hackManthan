@@ -4,11 +4,12 @@ import firebase_admin
 from firebase_admin import credentials, firestore, initialize_app, storage
 import os
 import time
+import pandas as pd
 import pyrebase
 from flask_cors import CORS, cross_origin
 from werkzeug.utils import secure_filename
 from werkzeug.datastructures import  FileStorage
-from functions import pandas_profiling,predict_crime
+from functions import pandas_profiling,predict_crime,kmeans_centers
 from config import *
 import json
 
@@ -77,9 +78,15 @@ def clusters():
 
     for doc in docs:
         data1 = data.update({doc.id : doc.to_dict()})
-    print(data1)
-    #change the fields acc to kmeans
-    return {"data":data1}
+    
+    output = pd.DataFrame()
+    for k in data.keys():
+        output_df = output.append(data[k], ignore_index=True)
+    
+    #we got a dataframe
+    center_found = kmeans_centers(output_df)
+    
+    return {"centers":center_found}
 
 
 @app.route('/predict-voilent',methods=["POST", "GET"])

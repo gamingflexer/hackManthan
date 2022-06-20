@@ -10,7 +10,7 @@ import joblib
 from geopy.geocoders import Nominatim
 
 import matplotlib.pyplot as plt
-# from sklearn.cluster import KMeans
+from sklearn.cluster import KMeans
 import seaborn as sns; sns.set()
 import csv
 import pandas as pd
@@ -34,16 +34,15 @@ def pandas_profiling(file_path):
     return ("/home/azureuser/hackManthan/backend/static/"+f"{file_name}_anylasis.html",f"{file_name}_anylasis.html")
 
 
-def kmeans_centers(file): #type of input
-    data = pd.read_csv(file)
-    data.dropna(axis=0,how='any',subset=['Latitude','Longitude'],inplace=True)
+def kmeans_centers(data): #type of input
+    data.dropna(axis=0,how='any',subset=['lat','long'],inplace=True)
     
-    X=data.loc[:,['Event','Latitude','Longitude']]
+    X=data.loc[:,['eventType','lat','long']]
 
     K_clusters = range(1,10)
     kmeans = [KMeans(n_clusters=i) for i in K_clusters]
-    Y_axis = data[['Latitude']]
-    X_axis = data[['Longitude']]
+    Y_axis = data[['lat']]
+    X_axis = data[['long']]
     score = [kmeans[i].fit(Y_axis).score(Y_axis) for i in range(len(kmeans))]
     
     kmeans = KMeans(n_clusters = 3, init ='k-means++')
@@ -52,7 +51,7 @@ def kmeans_centers(file): #type of input
     centers = kmeans.cluster_centers_ # Coordinates of cluster centers.
     labels = kmeans.predict(X[X.columns[1:3]]) # Labels of each point
     
-    return {"centers":centers[0]}
+    return {"centers":centers}
 
 
 def predict_violent(file): #type of input - change the input also 
