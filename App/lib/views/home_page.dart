@@ -79,7 +79,42 @@ class _HomePageState extends State<HomePage> {
                     child: Column(
                       children: [
                         SizedBox(height: 77.w),
-                        buildDirectionButton(state),
+                        Row(
+                          children: [
+                            Container(
+                              alignment: Alignment.bottomRight,
+                              padding: EdgeInsets.only(left: 24.w, top: 24.w),
+                              child: SizedBox(
+                                height: 45.w,
+                                width: 45.w,
+                                child: Card(
+                                  margin: EdgeInsets.zero,
+                                  color: CustomTheme.card,
+                                  shape: const CircleBorder(),
+                                  elevation: 6,
+                                  child: InkWell(
+                                    borderRadius: BorderRadius.circular(25.w),
+                                    onTap: () {
+                                      showDialog(
+                                        context: context,
+                                        builder: (context) {
+                                          return Container();
+                                        },
+                                      );
+                                    },
+                                    child: Icon(
+                                      Icons.info_outline_rounded,
+                                      size: 30.w,
+                                      color: Colors.black,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            const Spacer(),
+                            buildDirectionButton(state),
+                          ],
+                        ),
                       ],
                     ),
                   ),
