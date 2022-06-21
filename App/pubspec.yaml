@@ -47,6 +47,13 @@ dependencies:
   google_fonts: ^2.3.1
   shared_preferences: ^2.0.13
   location: ^4.4.0
+  flutter_map: ^1.1.0
+  latlong2: ^0.8.1
+  floating_action_bubble: ^1.1.4
+  geocoder: ^0.2.1
+  intl: ^0.17.0
+  dropdown_search: ^5.0.2
+  flutter_launcher_icons: ^0.9.3
 
 dev_dependencies:
   flutter_test:
@@ -61,6 +68,11 @@ dev_dependencies:
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
+flutter_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/app_icon_1.png"
+
 
 # The following section is specific to Flutter packages.
 flutter:

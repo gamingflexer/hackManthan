@@ -1,13 +1,17 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hackmanthan_app/bloc/map_bloc/map_bloc_files.dart';
+import 'package:hackmanthan_app/models/alert.dart';
+import 'package:hackmanthan_app/models/crime.dart';
 import 'package:hackmanthan_app/models/helper_models.dart';
 import 'package:hackmanthan_app/models/user.dart';
 import 'package:hackmanthan_app/repositories/database_repository.dart';
 import 'package:hackmanthan_app/repositories/location_repository.dart';
 import 'package:location/location.dart';
 
-class MapBloc extends Bloc<MapEvent, MapState> {
+class MapBloc extends Bloc<MapEvents, MapState> {
   DatabaseRepository databaseRepository;
   UserData user;
 
@@ -16,8 +20,8 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     on<GetHomeContents>(_onGetHomeContents);
     on<StartLocationStream>(_onStartLocationStream);
     on<StopLocationStream>(_onStopLocationStream);
-    on<ShowPredictions>(_onShowPredictions);
-    on<HidePredictions>(_onHidePredictions);
+    on<ShowAlerts>(_onShowAlert);
+    on<HideAlerts>(_onHideAlert);
     on<ShowCrimes>(_onShowCrimes);
     on<HideCrime>(_onHideCrime);
     on<ShowOfficers>(_onShowOfficers);
@@ -28,22 +32,64 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     // on<>(_on);
   }
 
+  void updateCurrentLocation(Emitter<MapState> emit) async {}
+
   // When
   FutureOr<void> _onGetHomeContents(
       GetHomeContents event, Emitter<MapState> emit) async {
     emit(state.copyWith(pageState: PageState.loading));
     try {
       // API call to get Map Data
+      await Future.delayed(const Duration(seconds: 1));
       LocationData? locationData = await LocationRepository.getLocation();
       if (locationData != null) {
-        
+        emit(state.copyWith(
+          currentLat: locationData.latitude,
+          currentLong: locationData.longitude,
+          showCrimes: true,
+          showAlerts: true,
+          showOfficers: true,
+          pageState: PageState.success,
+        ));
+        emit.forEach<List<Crime>>(
+          databaseRepository.getCrimeStream(),
+          onData: (data) {
+            return state.copyWith(
+              crimes: data,
+            );
+          },
+        );
+        emit.forEach<List<UserData>>(
+          databaseRepository.getUserStream(),
+          onData: (data) {
+            data.removeWhere((element) => element.uid == user.uid);
+            return state.copyWith(
+              officers: data,
+            );
+          },
+        );
+        emit.forEach<List<Alert>>(
+          databaseRepository.getAlertStream(),
+          onData: (data) {
+            return state.copyWith(
+              alerts: data,
+            );
+          },
+        );
         while (true) {
-          
+          LocationData? locationData = await LocationRepository.getLocation();
+          if (locationData != null) {
+            await Future.delayed(const Duration(seconds: 5))
+                .whenComplete(() => emit(state.copyWith(
+                      currentLat: locationData.latitude,
+                      currentLong: locationData.longitude,
+                    )));
+          }
         }
       }
     } on Exception catch (_) {
       // If something goes wrong
-      emit(state.copyWith(pageState: PageState.success));
+      emit(state.copyWith(pageState: PageState.error));
     }
   }
 
@@ -53,14 +99,17 @@ class MapBloc extends Bloc<MapEvent, MapState> {
     try {
       emit(state.copyWith(locationStreaming: true));
       while (state.locationStreaming) {
+        print('hi');
         LocationData? locationData = await LocationRepository.getLocation();
         if (locationData != null) {
           UserData newUser = user.copyWith(
             lat: locationData.latitude,
             long: locationData.longitude,
+            lastUpdated: Timestamp.now(),
           );
           await databaseRepository.updateUser(newUser);
-          await Future.delayed(const Duration(seconds: 30));
+          print('updated ${newUser.lat}');
+          await Future.delayed(const Duration(seconds: 10));
         }
       }
     } on Exception catch (_) {
@@ -79,8 +128,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   }
 
   // When
-  FutureOr<void> _onShowPredictions(
-      ShowPredictions event, Emitter<MapState> emit) async {
+  FutureOr<void> _onShowAlert(ShowAlerts event, Emitter<MapState> emit) async {
     try {
       emit(state.copyWith(locationStreaming: false));
     } on Exception catch (_) {
@@ -89,8 +137,7 @@ class MapBloc extends Bloc<MapEvent, MapState> {
   }
 
   // When
-  FutureOr<void> _onHidePredictions(
-      HidePredictions event, Emitter<MapState> emit) async {
+  FutureOr<void> _onHideAlert(HideAlerts event, Emitter<MapState> emit) async {
     try {
       emit(state.copyWith(locationStreaming: false));
     } on Exception catch (_) {

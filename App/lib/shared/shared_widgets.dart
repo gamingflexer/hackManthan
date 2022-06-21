@@ -19,8 +19,8 @@ InputDecoration customInputDecoration(
     contentPadding: EdgeInsets.fromLTRB(24.w, 20.w, 22.w, 19.w),
     enabledBorder: OutlineInputBorder(
       borderSide: BorderSide(
-        color: Colors.transparent,
-        width: 2.w,
+        color: isSearch ? CustomTheme.t2 : Colors.transparent,
+        width: 1.w,
         style: BorderStyle.solid,
       ),
       borderRadius: BorderRadius.all(Radius.circular(15.w)),
@@ -183,13 +183,13 @@ class CustomElevatedButton extends StatelessWidget {
       onPressed: onPressed,
       child: Container(
         alignment: Alignment.center,
-        height: 55.w,
+        height: 60.w,
         child: Text(
           text,
           style: TextStyle(
               color: style == 0 ? CustomTheme.onAccent : Colors.black,
-              fontSize: 17,
-              fontWeight: FontWeight.w600),
+              fontSize: 16,
+              fontWeight: FontWeight.w500),
         ),
       ),
     );

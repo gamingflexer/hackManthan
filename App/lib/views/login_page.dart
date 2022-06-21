@@ -15,8 +15,8 @@ class LoginPage extends StatefulWidget {
 }
 
 class _LoginPageState extends State<LoginPage> {
-  String email = 'aadi@gmail.com';
-  String password = 'aadi123';
+  String email = '';
+  String password = '';
   String stateMessage = '';
   bool showPassword = false;
 
@@ -35,10 +35,7 @@ class _LoginPageState extends State<LoginPage> {
         }
         if (state is Authenticated) {
           stateMessage = 'Success!';
-          Navigator.pop(context);
           ScaffoldMessenger.of(context).hideCurrentSnackBar();
-          print('Navigating..');
-          Navigator.popUntil(context, ModalRoute.withName('/'));
         }
       },
       builder: (context, state) {
@@ -100,7 +97,7 @@ class _LoginPageState extends State<LoginPage> {
                             if (value == null || value.isEmpty) {
                               return 'Please enter your email';
                             }
-                            if (!validateEmail(email)) {
+                            if (!validateEmail(value)) {
                               return 'Invalid email format';
                             }
                             return null;
