@@ -83,6 +83,18 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                   ),
+                  alert != null || crime != null || officer != null
+                      ? Center(
+                          child: Padding(
+                            padding: EdgeInsets.only(bottom: 40.w),
+                            child: Icon(
+                              Icons.location_on_sharp,
+                              color: Colors.black,
+                              size: 50.w,
+                            ),
+                          ),
+                        )
+                      : const SizedBox.shrink(),
                   state.locationStreaming
                       ? Container(
                           alignment: Alignment.topCenter,
@@ -104,7 +116,7 @@ class _HomePageState extends State<HomePage> {
                               children: [
                                 SizedBox(width: 84.w),
                                 const Spacer(),
-                                buildGoToKolkataButton(),
+                                buildGoToLucknowButton(),
                                 const Spacer(),
                                 buildCurrentButton(state),
                               ],
@@ -112,13 +124,19 @@ class _HomePageState extends State<HomePage> {
                             crime != null
                                 ? buildCurrentCrimeCard()
                                 : const SizedBox.shrink(),
+                            alert != null
+                                ? buildCurrentAlertCard()
+                                : const SizedBox.shrink(),
+                            officer != null
+                                ? buildCurrentOfficerCard()
+                                : const SizedBox.shrink(),
                             buildBottomSheet(context, state),
                           ],
                         ),
                       );
                     },
                   ),
-                  buildAppBar(),
+                  buildAppBar(state),
                 ],
               ),
             ),
@@ -168,9 +186,8 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget buildDialog() {
+  Widget buildDialog(MapState state) {
     return StatefulBuilder(builder: (context, setState) {
-      MapController mapPickerController = MapController();
       return Center(
         child: Container(
           margin: EdgeInsets.symmetric(
@@ -189,7 +206,7 @@ class _HomePageState extends State<HomePage> {
                 alignment: Alignment.centerLeft,
                 child: Material(
                   child: Text(
-                    'Pick Location',
+                    'Alerts',
                     style: TextStyle(
                       fontFamily: 'Montserrat',
                       fontSize: 24,
@@ -202,9 +219,43 @@ class _HomePageState extends State<HomePage> {
               Container(
                 color: CustomTheme.bg,
                 height: 400.w,
+                padding: EdgeInsets.symmetric(horizontal: 20.w),
                 child: SingleChildScrollView(
                   child: Column(
-                    children: [],
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      for (var alert in state.alerts)
+                        Row(
+                          children: [
+                            Material(child: buildAlertCard(alert)),
+                            const Spacer(),
+                            Material(
+                              child: IconButton(
+                                onPressed: () async {
+                                  await scrollDrawerToTop();
+                                  setState(() {
+                                    officer = null;
+                                    this.alert = alert;
+                                    crime = null;
+                                  });
+                                  mapController.moveAndRotate(
+                                    LatLng(alert.lat, alert.long),
+                                    14,
+                                    0,
+                                  );
+                                  if (!mounted) return;
+                                  Navigator.pop(context);
+                                },
+                                icon: Icon(
+                                  Icons.travel_explore_rounded,
+                                  color: CustomTheme.accent,
+                                  size: 34.w,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
+                    ],
                   ),
                 ),
               ),
@@ -216,12 +267,7 @@ class _HomePageState extends State<HomePage> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
-                      onPressed: () {
-                        Navigator.pop(
-                            context,
-                            LatLng(mapPickerController.center.latitude,
-                                mapPickerController.center.longitude));
-                      },
+                      onPressed: () {},
                       child: Text(
                         'Confirm',
                         style: TextStyle(
@@ -294,6 +340,84 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Stack buildCurrentAlertCard() {
+    return Stack(
+      children: [
+        Container(
+          width: 366.w,
+          decoration: BoxDecoration(
+            color: CustomTheme.card,
+            borderRadius: BorderRadius.circular(15.w),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.grey,
+                blurRadius: 10.0,
+              )
+            ],
+          ),
+          // margin: EdgeInsets.only(bottom: 12.w),
+          padding: EdgeInsets.symmetric(horizontal: 18.w),
+          child: buildAlertCard(alert!),
+        ),
+        Container(
+          width: 366.w,
+          alignment: Alignment.topRight,
+          padding: EdgeInsets.all(10.w),
+          child: InkWell(
+            onTap: () {
+              setState(() {
+                alert = null;
+              });
+            },
+            child: Icon(
+              Icons.close_rounded,
+              size: 26.w,
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
+  Stack buildCurrentOfficerCard() {
+    return Stack(
+      children: [
+        Container(
+          width: 366.w,
+          decoration: BoxDecoration(
+            color: CustomTheme.card,
+            borderRadius: BorderRadius.circular(15.w),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.grey,
+                blurRadius: 10.0,
+              )
+            ],
+          ),
+          // margin: EdgeInsets.only(bottom: 12.w),
+          padding: EdgeInsets.symmetric(horizontal: 18.w),
+          child: buildOfficerCard(officer!),
+        ),
+        Container(
+          width: 366.w,
+          alignment: Alignment.topRight,
+          padding: EdgeInsets.all(10.w),
+          child: InkWell(
+            onTap: () {
+              setState(() {
+                officer = null;
+              });
+            },
+            child: Icon(
+              Icons.close_rounded,
+              size: 26.w,
+            ),
+          ),
+        )
+      ],
+    );
+  }
+
   Widget buildCurrentButton(MapState state) {
     return Container(
       alignment: Alignment.bottomRight,
@@ -345,7 +469,7 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget buildGoToKolkataButton() {
+  Widget buildGoToLucknowButton() {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         elevation: 4,
@@ -357,7 +481,7 @@ class _HomePageState extends State<HomePage> {
       ),
       onPressed: () {
         mapController.moveAndRotate(
-          LatLng(LocationRepository.kolkataLat, LocationRepository.kolkataLong),
+          LatLng(LocationRepository.lucknowLat, LocationRepository.lucknowLong),
           12,
           0,
         );
@@ -366,7 +490,7 @@ class _HomePageState extends State<HomePage> {
         height: 45.w,
         padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 12.w),
         child: Text(
-          'Go to Kolkata',
+          'Go to Lucknow',
           style: TextStyle(
             color: CustomTheme.t1,
             fontSize: 16,
@@ -440,13 +564,27 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Widget buildAppBar() {
+  Widget buildAppBar(MapState state) {
     return Container(
       height: 77.w,
       color: CustomTheme.card,
       child: Row(
         children: [
-          SizedBox(width: 62.w),
+          SizedBox(width: 16.w),
+          IconButton(
+            onPressed: () {
+              showDialog(
+                context: context,
+                builder: (context) {
+                  return buildDialog(state);
+                },
+              );
+            },
+            icon: Icon(
+              Icons.notification_important,
+              size: 30.w,
+            ),
+          ),
           const Spacer(),
           SizedBox(
             height: 53.w,
@@ -736,32 +874,98 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Widget buildAlertCard(Alert alert) {
+    return SizedBox(
+      // height: 126.w,
+      width: 280.w,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 12.w),
+          Text(
+            alert.title,
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+              color: CustomTheme.t1,
+            ),
+          ),
+          SizedBox(height: 6.w),
+          Text(
+            'Prority: ${alert.priority}',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: CustomTheme.t2,
+            ),
+          ),
+          SizedBox(height: 6.w),
+          Text(
+            alert.description,
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w400,
+              color: CustomTheme.t1,
+            ),
+          ),
+          SizedBox(height: 16.w),
+        ],
+      ),
+    );
+  }
+
+  Widget buildOfficerCard(UserData officer) {
+    return SizedBox(
+      // height: 126.w,
+      width: 310.w,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 12.w),
+          Text(
+            officer.name,
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+              color: CustomTheme.t1,
+            ),
+          ),
+          SizedBox(height: 6.w),
+          Text(
+            'ID: ${officer.policeId}',
+            style: TextStyle(
+              fontSize: 16,
+              fontWeight: FontWeight.w600,
+              color: CustomTheme.t2,
+            ),
+          ),
+          SizedBox(height: 6.w),
+          Text(
+            'Post: ${officer.post}',
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w400,
+              color: CustomTheme.t1,
+            ),
+          ),
+          SizedBox(height: 6.w),
+          Text(
+            'Station: ${officer.policeStation}',
+            style: TextStyle(
+              fontSize: 15,
+              fontWeight: FontWeight.w400,
+              color: CustomTheme.t1,
+            ),
+          ),
+          SizedBox(height: 16.w),
+        ],
+      ),
+    );
+  }
+
   List<Marker> markersFromState(MapState state) {
     List<Marker> markers = [];
-    markers.add(Marker(
-      point: LatLng(state.currentLat, state.currentLong),
-      builder: (context) {
-        return Container(
-          height: 32.w,
-          width: 32.w,
-          decoration: BoxDecoration(
-            color: Colors.blueAccent,
-            shape: BoxShape.circle,
-            border: Border.all(
-              color: Colors.white,
-              width: 4.w,
-            ),
-            boxShadow: const [
-              BoxShadow(
-                color: Colors.grey,
-                blurRadius: 10.0,
-              )
-            ],
-          ),
-          alignment: Alignment.center,
-        );
-      },
-    ));
+
     if (state.showCrimes) {
       for (var crime in state.crimes) {
         markers.add(Marker(
@@ -828,11 +1032,11 @@ class _HomePageState extends State<HomePage> {
                 height: 30.w,
                 width: 30.w,
                 decoration: BoxDecoration(
-                  color: Colors.greenAccent,
+                  color: Color(0xFF05FF4B),
                   shape: BoxShape.circle,
                   border: Border.all(
                     color: Colors.white,
-                    width: 2.w,
+                    width: 4.w,
                   ),
                   boxShadow: const [
                     BoxShadow(
@@ -848,7 +1052,77 @@ class _HomePageState extends State<HomePage> {
         ));
       }
     }
-
+    if (state.showAlerts) {
+      for (var alert in state.alerts) {
+        markers.add(Marker(
+          point: LatLng(alert.lat, alert.long),
+          builder: (context) {
+            return InkWell(
+              onTap: () async {
+                await scrollDrawerToTop();
+                setState(() {
+                  crime = null;
+                  officer = null;
+                  this.alert = alert;
+                });
+                mapController.moveAndRotate(
+                  LatLng(alert.lat, alert.long),
+                  14,
+                  0,
+                );
+              },
+              child: Container(
+                height: 30.w,
+                width: 30.w,
+                decoration: BoxDecoration(
+                  color: Colors.yellow,
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Colors.white,
+                    width: 2.w,
+                  ),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.grey,
+                      blurRadius: 10.0,
+                    )
+                  ],
+                ),
+                alignment: Alignment.center,
+                child: Icon(
+                  Icons.priority_high,
+                  size: 20.w,
+                ),
+              ),
+            );
+          },
+        ));
+      }
+    }
+    markers.add(Marker(
+      point: LatLng(state.currentLat, state.currentLong),
+      builder: (context) {
+        return Container(
+          height: 32.w,
+          width: 32.w,
+          decoration: BoxDecoration(
+            color: Colors.blueAccent,
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: Colors.white,
+              width: 4.w,
+            ),
+            boxShadow: const [
+              BoxShadow(
+                color: Colors.grey,
+                blurRadius: 10.0,
+              )
+            ],
+          ),
+          alignment: Alignment.center,
+        );
+      },
+    ));
     return markers;
   }
 }

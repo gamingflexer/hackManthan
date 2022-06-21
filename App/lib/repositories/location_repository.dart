@@ -1,8 +1,8 @@
 import 'package:location/location.dart';
 
 class LocationRepository {
-  static double get kolkataLat => 26.8467;
-  static double get kolkataLong => 80.9462;
+  static double get lucknowLat => 26.8467;
+  static double get lucknowLong => 80.9462;
 
   static Future<LocationData?> getLocation() async {
     Location location = Location();

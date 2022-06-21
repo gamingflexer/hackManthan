@@ -49,8 +49,9 @@ class DatabaseRepository {
   // alerts Collection Reference
   // Reference allows for easy from and to operations
   CollectionReference<Alert> get alertsRef =>
-      db.collection('alert').withConverter<Alert>(
-            fromFirestore: (snapshot, _) => Alert.fromJson(snapshot.data()!),
+      db.collection('alerts').withConverter<Alert>(
+            fromFirestore: (snapshot, _) =>
+                Alert.fromJson(snapshot.data()!, snapshot.id),
             toFirestore: (alert, _) => alert.toJson(),
           );
 

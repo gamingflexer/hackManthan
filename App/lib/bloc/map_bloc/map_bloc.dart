@@ -59,15 +59,15 @@ class MapBloc extends Bloc<MapEvents, MapState> {
             );
           },
         );
-        // emit.forEach<List<UserData>>(
-        //   databaseRepository.getUserStream(),
-        //   onData: (data) {
-        //     data.removeWhere((element) => element.uid == user.uid);
-        //     return state.copyWith(
-        //       officers: data,
-        //     );
-        //   },
-        // );
+        emit.forEach<List<UserData>>(
+          databaseRepository.getUserStream(),
+          onData: (data) {
+            data.removeWhere((element) => element.uid == user.uid);
+            return state.copyWith(
+              officers: data,
+            );
+          },
+        );
         emit.forEach<List<Alert>>(
           databaseRepository.getAlertStream(),
           onData: (data) {

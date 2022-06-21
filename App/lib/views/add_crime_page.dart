@@ -419,8 +419,8 @@ class _AddCrimePageState extends State<AddCrimePage> {
             FlutterMap(
               mapController: mapController,
               options: MapOptions(
-                center: LatLng(lat == 0 ? LocationRepository.kolkataLat : lat,
-                    long == 0 ? LocationRepository.kolkataLong : long),
+                center: LatLng(lat == 0 ? LocationRepository.lucknowLat : lat,
+                    long == 0 ? LocationRepository.lucknowLong : long),
                 zoom: 13.0,
                 onMapCreated: (c) {
                   mapController = c;
@@ -646,8 +646,8 @@ class _AddCrimePageState extends State<AddCrimePage> {
                             ),
                             onPressed: () {
                               mapPickerController.moveAndRotate(
-                                LatLng(LocationRepository.kolkataLat,
-                                    LocationRepository.kolkataLong),
+                                LatLng(LocationRepository.lucknowLat,
+                                    LocationRepository.lucknowLong),
                                 mapPickerController.zoom,
                                 0,
                               );
@@ -657,7 +657,7 @@ class _AddCrimePageState extends State<AddCrimePage> {
                               padding: EdgeInsets.symmetric(
                                   horizontal: 20.w, vertical: 12.w),
                               child: Text(
-                                'Go to Kolkata',
+                                'Go to Lucknow',
                                 style: TextStyle(
                                   color: CustomTheme.t1,
                                   fontSize: 16,

@@ -21,9 +21,9 @@ class Alert extends Equatable {
     uid: '',
   );
 
-  Alert.fromJson(Map<String, dynamic> json)
+  Alert.fromJson(Map<String, dynamic> json, String uid)
       : this(
-          uid: json['uid'],
+          uid: uid,
           title: json['title'],
           description: json['description'],
           priority: json['priority'],
@@ -33,7 +33,6 @@ class Alert extends Equatable {
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
-    data['uid'] = uid;
     data['title'] = title;
     data['description'] = description;
     data['priority'] = priority;
