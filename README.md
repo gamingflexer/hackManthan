@@ -18,7 +18,7 @@ Result:
   with the Hindi Language will be given preference)
 
 
-# dp-production
+# hackManthan-production
 Version 1.0.0 - 19 June 2022
 
 ### Add Firebase creditialsby making a folder ```backend/config``` and check config.py once 
