@@ -16,3 +16,21 @@ Result:
   Address, Accused Age, etc) and analyzes them to find patterns of crime happening, and
   processes the data to analyze factors that lead to criminal activity. (solutions working
   with the Hindi Language will be given preference)
+
+
+# dp-production
+Version 1.0.0 - 19 June 2022
+
+### Add Firebase creditialsby making a folder ```backend/config``` and check config.py once 
+
+```
+cd backend 
+```
+
+```
+pip install -r requirments.txt
+```
+
+```
+python app.py
+```
