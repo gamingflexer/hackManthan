@@ -12,6 +12,7 @@ import axios from 'axios';
 const PredictForm = () => {
     const [time, setTime] = useState("")
     const [location, setLocation] = useState("")
+    const [prediction, setprediction] = useState("")
 
 
     const handleReset = () => {
@@ -26,6 +27,7 @@ const PredictForm = () => {
         const timeArr = time.split(":")
         console.log(timeArr)
         let timestamp = new Date(today.getFullYear(), today.getMonth(), today.getDate(), timeArr[0], timeArr[1])
+        console.log(timestamp)
         const res = await addDoc(collection(db, "predict_crime"), {
             location: location,
             date: timestamp,
@@ -42,7 +44,12 @@ const PredictForm = () => {
         })
             .then((res) => res.json())
             .then((json) => {
+                console.log("Hi")
                 console.log(json)
+                // setprediction(json)
+            })
+            .catch((error) => {
+                console.log(error)
             })
 
         // handleReset()

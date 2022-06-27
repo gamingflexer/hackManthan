@@ -74,7 +74,7 @@ export const TrafficByDevice = (props) => {
           cursor: "pointer",
           height: "100%"
         }}>
-          <Link href="/analyse">
+          <Link href="/prediction">
             {"Go To Prediction ->"}
           </Link>
         </div>

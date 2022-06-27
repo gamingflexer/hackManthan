@@ -13,7 +13,11 @@ import ShowChartIcon from '@mui/icons-material/ShowChart';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
 import AddAlertIcon from '@mui/icons-material/AddAlert';
 import SettingsIcon from '@mui/icons-material/Settings';
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { fontSize } from '@mui/system';
+import logo from '../../public/static/images/ss.png'
+import Image from 'next/image'
+import Upload from 'src/pages/upload';
 
 const items = [
   {
@@ -41,6 +45,11 @@ const items = [
   //   icon: (<MyLocationIcon />),
   //   title: 'Map'
   // },
+  {
+    href: '/upload',
+    icon: (<CloudUploadIcon />),
+    title: 'Upload'
+  },
   {
     href: '/alerts',
     icon: (<AddAlertIcon />),
@@ -95,12 +104,22 @@ export const DashboardSidebar = (props) => {
               passHref
             >
               <a>
-                <Logo
+                {/* <Logo
                   sx={{
                     height: 42,
                     width: 42
                   }}
-                />
+                /> */}
+                <div style={{
+                  height: 60,
+                  width: 60
+                }}>
+                  <Image src={logo} style={{
+                    height: "50%",
+                    width: "50%"
+                  }} />
+                </div>
+
               </a>
             </NextLink>
           </Box>
@@ -108,7 +127,7 @@ export const DashboardSidebar = (props) => {
             fontWeight: "bold",
             fontSize: "18px"
           }}>
-            Police
+            Police Portal
           </div>
         </div>
         <Divider
