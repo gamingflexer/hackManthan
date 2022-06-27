@@ -45,6 +45,7 @@ def format_server_time():
   server_time = time.localtime()
   return time.strftime("%I:%M:%S %p", server_time)
            
+#-------------------------------------->
 
 # Initialize Firestore DB
 try:
@@ -145,6 +146,17 @@ def crime():
 
 #-------------------------------------->
 
+
+@app.route('/predict-crime=<string:address>=<string:DT>',methods=["POST", "GET"])
+@cross_origin()
+def crime2(address,DT):
+    out = predict_crime(address,DT)
+    print(address,DT)
+    return out
+
+#-------------------------------------->
+
+
 @app.route('/file-upload', methods=['POST'])
 @cross_origin()
 def upload_file():
@@ -164,7 +176,7 @@ def upload_file():
         resp = jsonify({'message' : 'File successfully uploaded'})
         resp.status_code = 201
         print(basepath+"/static/"+filename+"#-------------------------------------->")
-        path,name_of_file = pandas_profiling(basepath+"/static/"+filename)
+        path,name_of_file = pandas_profiling(basepath+"/static/"+filename) #function added here
         print(path)
         bucket = storage.bucket()
         blob = bucket.blob(path)
@@ -245,6 +257,9 @@ def test():
 
 #-------------------------------------->
 
+
 port = int(os.environ.get('PORT', 8888))
 if __name__ == '__main__':
     app.run(host='0.0.0.0',threaded=True,port=port,debug=True)
+    
+    

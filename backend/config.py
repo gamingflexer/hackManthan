@@ -7,6 +7,8 @@ model_path_2 = os.path.join(basepath,"models","predict_crime")
 
 upload = os.path.join(basepath,"static")
 
+"path to add files to analyze"
+auto_analysis = os.path.join(basepath,"static","files")
 
 temp_path = basepath.split("/")
 temp_path.remove("backend")

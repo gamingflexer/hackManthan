@@ -1,0 +1,210 @@
+<!-- Font Awesome -->
+<link
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+  rel="stylesheet"
+/>
+<!-- Google Fonts -->
+<link
+  href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+  rel="stylesheet"
+/>
+<!-- MDB -->
+<link
+  href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.2.0/mdb.min.css"
+  rel="stylesheet"
+/>
+
+<!DOCTYPE html>
+<html lang="en">
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <!-- Container wrapper -->
+    <div class="container">
+      <!-- Navbar brand -->
+      <a class="navbar-brand me-2" href="https://mdbgo.com/">
+        <img
+          src="https://i.ibb.co/VMmjRQH/Hackmanthan-logo-t.png"
+          height="80"
+          alt="ORIGIN"
+          loading="lazy"
+          style="margin-top: -1px;"
+        />
+      </a>
+  
+      <!-- Toggle button -->
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-mdb-toggle="collapse"
+        data-mdb-target="#navbarButtonsExample"
+        aria-controls="navbarButtonsExample"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <i class="fas fa-bars"></i>
+      </button>
+  
+      <!-- Collapsible wrapper -->
+      <div class="collapse navbar-collapse" id="navbarButtonsExample">
+        <!-- Left links -->
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="http://20.26.235.201:3000/">Dashboard</a>
+          </li>
+        </ul>
+        <!-- Left links -->
+  
+        <div class="d-flex align-items-center">
+          <button type="button" class="btn btn-link px-3 me-2">
+            Data Analytics
+          </button>
+          <button type="button" class="btn btn-primary me-3" herf="http://20.26.235.201:3000/">
+            ORIGIN
+          </button>
+          <a
+            class="btn btn-dark px-3"
+            href="https://github.com/gamingflexer"
+            role="button"
+            ><i class="fab fa-github"></i
+          ></a>
+        </div>
+      </div>
+      <!-- Collapsible wrapper -->
+    </div>
+    <!-- Container wrapper -->
+  </nav>
+  <!-- Navbar -->
+
+<!-- Main container -->
+
+<head>
+    <title>{{heading}}</title>
+    <br>
+    <div class="container">
+      <div class="row gx-5 ">
+        <h5 class="h4">Data First 5 Rows</h5>
+        {{data_head}}
+        <div class="col-12">
+        </div>
+      </div>
+    </div>
+    <hr class="divider-horizontal" />
+    <div class="container">
+      <div class="row gx-5 ">
+        <h5 class="h4">Data Last 5 Rows</h5>
+        {{data_tail}}
+        <div class="col-12">
+        </div>
+      </div>
+    </div>
+    <hr class="divider-horizontal" />
+    <div class="container">
+      <div class="row gx-5 ">
+        <h5 class="h4">Columns in the CSV File</h5>
+        {{data_columns}} 
+        <div class="col-12">
+        </div>
+    </div>
+  </div>
+</div>
+<hr class="divider-horizontal" />
+<div class="container">
+  <div class="row gx-5 ">
+    <h5 class="h4">Min Max of the Data</h5>
+    {{data_minMax}} 
+    <div class="col-12">
+    </div>
+</div>
+  <hr class="divider-horizontal" />
+  <div class="container">
+    <div class="row gx-5 ">
+      <h5 class="h4">Correlation Table</h5>
+      {{data_correlation}} 
+      <div class="col-12">
+      </div>
+  </div>
+</div>
+<hr class="divider-horizontal" />
+<div class="container">
+  <div class="row gx-5 ">
+    <h5 class="h4">Numberical Data</h5>
+    {{data_numeric}} 
+    <div class="col-12">
+    </div>
+</div>
+</div>
+<hr class="divider-horizontal" />
+<div class="container">
+  <div class="row gx-5 ">
+    <h5 class="h4">Categorical Data</h5>
+    {{data_categorical}} 
+    <div class="col-12">
+    </div>
+</div>
+
+</head>
+
+<!-- Main container -->
+
+
+<hr class="divider-horizontal" />
+<!-- Footer -->
+<footer class="page-footer font-small blue pt-4">
+    <!-- Footer Links -->
+    <div class="container-fluid text-center text-md-left">
+      <!-- Grid row -->
+      <div class="row">
+        <!-- Grid column -->
+        <div class="col-md-6 mt-md-0 mt-3">
+          <!-- Content -->
+          <h5 class="text-uppercase">ORIGIN</h5>
+          <p>
+            ORIGIN is a Report generated for the data you just uploaded.
+          </p>
+        </div>
+        <!-- Grid column -->
+        <hr class="clearfix w-100 d-md-none pb-3">
+        <!-- Grid column -->
+        <div class="col-md-3 mb-md-0 mb-3">
+          <!-- Links -->
+          <h5 class="text-uppercase">Links</h5>
+          <ul class="list-unstyled">
+            <li>
+              <a href="#!">About</a>
+            </li>
+            <li>
+              <a href="#!">Contact</a>
+            </li>
+            <li>
+              <a href="#!">Terms &amp; Conditions</a>
+            </li>
+          </ul>
+        </div>
+        <!-- Grid column -->
+        <div class="col-md-3 mb-md-0 mb-3">
+          <!-- Links -->
+          <h5 class="text-uppercase">Links</h5>
+          <ul class="list-unstyled">
+            <li>
+              <a href="#!">About</a>
+            </li>
+            <li>
+              <a href="#!">Contact</a>
+            </li>
+            <li>
+              <a href="#!">Terms &amp; Conditions</a>
+            </li>
+          </ul>
+        </div>
+        <!-- Grid column -->
+      </div>
+      <!-- Grid row -->
+    </div>
+    <!-- Footer Links -->
+</html>
+
+<!-- MDB -->
+<script
+  type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.2.0/mdb.min.js"
+></script>
