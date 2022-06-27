@@ -15,3 +15,4 @@ IPython
 ipywidgets
 gevent
 werkzeug==2.0.3
+Cython

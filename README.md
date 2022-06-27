@@ -34,3 +34,7 @@ pip install -r requirments.txt
 ```
 python app.py
 ```
+
+```
+pip install -U scikit-learn==0.21.3
+```

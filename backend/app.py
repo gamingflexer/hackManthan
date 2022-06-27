@@ -150,9 +150,13 @@ def crime():
 @app.route('/predict-crime=<string:address>=<string:DT>',methods=["POST", "GET"])
 @cross_origin()
 def crime2(address,DT):
-    out = predict_crime(address,DT)
-    print(address,DT)
-    return out
+    try:
+        out = predict_crime(address,DT)
+        print(address,DT)
+        return out
+    except Exception as e:
+        print(e)
+        return "Location not found"
 
 #-------------------------------------->
 

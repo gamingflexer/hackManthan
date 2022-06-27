@@ -28,13 +28,13 @@ const Analyse = () => {
     ]
 
     const api = new Map([
-        ["event_by_date", "http://20.26.235.201:8888/002"],
-        ["event_by_day", "http://20.26.235.201:8888/003"],
-        ["event_by_hour", "http://20.26.235.201:8888/004"],
-        ["type_of_crime_by_day", "http://20.26.235.201:8888/005"],
-        ["type_of_crime_by_hour", "http://20.26.235.201:8888/006"],
-        ["cases_by_type_of_crime", "http://20.26.235.201:8888/008"],
-        ["peak_crime_time", "http://20.26.235.201:8888/007"],
+        ["event_by_date", "http://20.204.104.233:8888/002"],
+        ["event_by_day", "http://20.204.104.233:8888/003"],
+        ["event_by_hour", "http://20.204.104.233:8888/004"],
+        ["type_of_crime_by_day", "http://20.204.104.233:8888/005"],
+        ["type_of_crime_by_hour", "http://20.204.104.233:8888/006"],
+        ["cases_by_type_of_crime", "http://20.204.104.233:8888/008"],
+        ["peak_crime_time", "http://20.204.104.233:8888/007"],
     ])
 
     // const api = new Map([

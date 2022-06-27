@@ -36,7 +36,7 @@ const PredictForm = () => {
         console.log(res)
 
         fetch(
-            "http://20.26.235.201:8888/predict-crime", {
+            "http://20.204.104.233:8888/predict-crime", {
             headers: {
                 'Content-Type': 'application/json',
                 'Accept': 'application/json'

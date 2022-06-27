@@ -21,7 +21,7 @@ export const Sales = (props) => {
 
   const getData = async () => {
     fetch(
-      "http://20.26.235.201:8888/002", {
+      "http://20.204.104.233:8888/002", {
       headers: {
         'Content-Type': 'application/json',
         'Accept': 'application/json'
