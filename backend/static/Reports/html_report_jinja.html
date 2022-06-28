@@ -1,0 +1,466 @@
+<!-- Font Awesome -->
+<link
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+  rel="stylesheet"
+/>
+<!-- Google Fonts -->
+<link
+  href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+  rel="stylesheet"
+/>
+<!-- MDB -->
+<link
+  href="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.2.0/mdb.min.css"
+  rel="stylesheet"
+/>
+
+<!DOCTYPE html>
+<html lang="en">
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <!-- Container wrapper -->
+    <div class="container">
+      <!-- Navbar brand -->
+      <a class="navbar-brand me-2" href="https://mdbgo.com/">
+        <img
+          src="https://i.ibb.co/VMmjRQH/Hackmanthan-logo-t.png"
+          height="80"
+          alt="ORIGIN"
+          loading="lazy"
+          style="margin-top: -1px;"
+        />
+      </a>
+  
+      <!-- Toggle button -->
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-mdb-toggle="collapse"
+        data-mdb-target="#navbarButtonsExample"
+        aria-controls="navbarButtonsExample"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <i class="fas fa-bars"></i>
+      </button>
+  
+      <!-- Collapsible wrapper -->
+      <div class="collapse navbar-collapse" id="navbarButtonsExample">
+        <!-- Left links -->
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link" href="http://20.26.235.201:3000/">Dashboard</a>
+          </li>
+        </ul>
+        <!-- Left links -->
+  
+        <div class="d-flex align-items-center">
+          <button type="button" class="btn btn-link px-3 me-2">
+            Data Analytics
+          </button>
+          <button type="button" class="btn btn-primary me-3" herf="http://20.26.235.201:3000/">
+            ORIGIN
+          </button>
+          <a
+            class="btn btn-dark px-3"
+            href="https://github.com/gamingflexer"
+            role="button"
+            ><i class="fab fa-github"></i
+          ></a>
+        </div>
+      </div>
+      <!-- Collapsible wrapper -->
+    </div>
+    <!-- Container wrapper -->
+  </nav>
+  <!-- Navbar -->
+
+<!-- Main container -->
+
+<head>
+    <title>Origin Custom Report</title>
+    <br>
+    <div class="container">
+      <div class="row gx-5 ">
+        <h5 class="h4">Data First 5 Rows</h5>
+        <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>index</th>
+      <th>Unnamed: 0</th>
+      <th>District</th>
+      <th>Event</th>
+      <th>Circle</th>
+      <th>Police Station</th>
+      <th>Caller Source</th>
+      <th>Event Type</th>
+      <th>Event Sub-Type</th>
+      <th>Create Date/Time</th>
+      <th>Latitude</th>
+      <th>Longitude</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0</td>
+      <td>0</td>
+      <td>LUCKNOW</td>
+      <td>P01042100004</td>
+      <td>C1</td>
+      <td>PS1</td>
+      <td>PHONE</td>
+      <td>Information Against Police</td>
+      <td>Misbehavior By Prv</td>
+      <td>2021-04-01 00:00:00</td>
+      <td>26.834</td>
+      <td>81.008</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>1</td>
+      <td>1</td>
+      <td>LUCKNOW</td>
+      <td>P01042104316</td>
+      <td>C1</td>
+      <td>PS1</td>
+      <td>PHONE</td>
+      <td>Threat In Person</td>
+      <td>Attack</td>
+      <td>2021-04-01 12:09:00</td>
+      <td>26.828</td>
+      <td>81.014</td>
+    </tr>
+    <tr>
+      <th>2</th>
+      <td>2</td>
+      <td>2</td>
+      <td>LUCKNOW</td>
+      <td>P01042104847</td>
+      <td>C1</td>
+      <td>PS1</td>
+      <td>PHONE</td>
+      <td>Dispute</td>
+      <td>Dispute In Hospital</td>
+      <td>2021-04-01 12:51:00</td>
+      <td>26.840</td>
+      <td>81.009</td>
+    </tr>
+    <tr>
+      <th>3</th>
+      <td>3</td>
+      <td>3</td>
+      <td>LUCKNOW</td>
+      <td>P01042105074</td>
+      <td>C1</td>
+      <td>PS1</td>
+      <td>PHONE</td>
+      <td>Gambling</td>
+      <td>Play Cards</td>
+      <td>2021-04-01 13:10:00</td>
+      <td>26.828</td>
+      <td>81.002</td>
+    </tr>
+    <tr>
+      <th>4</th>
+      <td>4</td>
+      <td>4</td>
+      <td>LUCKNOW</td>
+      <td>P01042105152</td>
+      <td>C1</td>
+      <td>PS1</td>
+      <td>PHONE</td>
+      <td>Threat In Person</td>
+      <td>Attack</td>
+      <td>2021-04-01 13:18:00</td>
+      <td>26.834</td>
+      <td>81.033</td>
+    </tr>
+  </tbody>
+</table>
+        <div class="col-12">
+        </div>
+      </div>
+    </div>
+    <hr class="divider-horizontal" />
+    <div class="container">
+      <div class="row gx-5 ">
+        <h5 class="h4">Data Last 5 Rows</h5>
+        <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>index</th>
+      <th>Unnamed: 0</th>
+      <th>District</th>
+      <th>Event</th>
+      <th>Circle</th>
+      <th>Police Station</th>
+      <th>Caller Source</th>
+      <th>Event Type</th>
+      <th>Event Sub-Type</th>
+      <th>Create Date/Time</th>
+      <th>Latitude</th>
+      <th>Longitude</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>5118</th>
+      <td>5118</td>
+      <td>5123</td>
+      <td>LUCKNOW</td>
+      <td>P30062111143</td>
+      <td>C2</td>
+      <td>PS4</td>
+      <td>PHONE</td>
+      <td>Dispute</td>
+      <td>With Neighbor</td>
+      <td>2021-06-30 17:59:54</td>
+      <td>26.866</td>
+      <td>81.026</td>
+    </tr>
+    <tr>
+      <th>5119</th>
+      <td>5119</td>
+      <td>5124</td>
+      <td>LUCKNOW</td>
+      <td>P30062111164</td>
+      <td>C2</td>
+      <td>PS4</td>
+      <td>PHONE</td>
+      <td>Dispute</td>
+      <td>Dispute Between Ride And Driver</td>
+      <td>2021-06-30 18:01:05</td>
+      <td>26.864</td>
+      <td>81.006</td>
+    </tr>
+    <tr>
+      <th>5120</th>
+      <td>5120</td>
+      <td>5125</td>
+      <td>LUCKNOW</td>
+      <td>P30062111341</td>
+      <td>C2</td>
+      <td>PS4</td>
+      <td>PHONE</td>
+      <td>Cyber Crimes</td>
+      <td>Bank Account Hacking</td>
+      <td>2021-06-30 18:10:59</td>
+      <td>26.864</td>
+      <td>80.998</td>
+    </tr>
+    <tr>
+      <th>5121</th>
+      <td>5121</td>
+      <td>5126</td>
+      <td>LUCKNOW</td>
+      <td>P30062111700</td>
+      <td>C2</td>
+      <td>PS4</td>
+      <td>PHONE</td>
+      <td>Robbery</td>
+      <td>On Road</td>
+      <td>2021-06-30 18:33:39</td>
+      <td>26.873</td>
+      <td>81.023</td>
+    </tr>
+    <tr>
+      <th>5122</th>
+      <td>5122</td>
+      <td>5127</td>
+      <td>LUCKNOW</td>
+      <td>P30062118243</td>
+      <td>C2</td>
+      <td>PS4</td>
+      <td>PHONE</td>
+      <td>Threat In Person</td>
+      <td>Threatening To Kill</td>
+      <td>2021-06-30 23:59:08</td>
+      <td>26.863</td>
+      <td>81.001</td>
+    </tr>
+  </tbody>
+</table>
+        <div class="col-12">
+        </div>
+      </div>
+    </div>
+    <hr class="divider-horizontal" />
+    <div class="container">
+      <div class="row gx-5 ">
+        <h5 class="h4">Columns in the CSV File</h5>
+        Index(['index', 'Unnamed: 0', 'District', 'Event', 'Circle', 'Police Station',
+       'Caller Source', 'Event Type', 'Event Sub-Type', 'Create Date/Time',
+       'Latitude', 'Longitude'],
+      dtype='object') 
+        <div class="col-12">
+        </div>
+    </div>
+  </div>
+</div>
+<hr class="divider-horizontal" />
+<div class="container">
+  <div class="row gx-5 ">
+    <h5 class="h4">Min Max of the Data</h5>
+    <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>index</th>
+      <th>Unnamed: 0</th>
+      <th>Latitude</th>
+      <th>Longitude</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>0</th>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>25.423</td>
+      <td>77.458</td>
+    </tr>
+    <tr>
+      <th>1</th>
+      <td>5122.0</td>
+      <td>5127.0</td>
+      <td>29.290</td>
+      <td>83.725</td>
+    </tr>
+  </tbody>
+</table> 
+    <div class="col-12">
+    </div>
+</div>
+  <hr class="divider-horizontal" />
+  <div class="container">
+    <div class="row gx-5 ">
+      <h5 class="h4">Correlation Table</h5>
+      <table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th></th>
+      <th>0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>index</th>
+      <th>Unnamed: 0</th>
+      <td>1.000000</td>
+    </tr>
+    <tr>
+      <th>Latitude</th>
+      <th>Longitude</th>
+      <td>0.433615</td>
+    </tr>
+    <tr>
+      <th>index</th>
+      <th>Latitude</th>
+      <td>0.213349</td>
+    </tr>
+    <tr>
+      <th>Unnamed: 0</th>
+      <th>Latitude</th>
+      <td>0.213346</td>
+    </tr>
+    <tr>
+      <th>index</th>
+      <th>Longitude</th>
+      <td>0.094918</td>
+    </tr>
+  </tbody>
+</table> 
+      <div class="col-12">
+      </div>
+  </div>
+</div>
+<hr class="divider-horizontal" />
+<div class="container">
+  <div class="row gx-5 ">
+    <h5 class="h4">Numberical Data</h5>
+    Index(['index', 'Unnamed: 0', 'Latitude', 'Longitude'], dtype='object') 
+    <div class="col-12">
+    </div>
+</div>
+</div>
+<hr class="divider-horizontal" />
+<div class="container">
+  <div class="row gx-5 ">
+    <h5 class="h4">Categorical Data</h5>
+    Index(['District', 'Event', 'Circle', 'Police Station', 'Caller Source',
+       'Event Type', 'Event Sub-Type', 'Create Date/Time'],
+      dtype='object') 
+    <div class="col-12">
+    </div>
+</div>
+
+</head>
+
+<!-- Main container -->
+
+
+<hr class="divider-horizontal" />
+<!-- Footer -->
+<footer class="page-footer font-small blue pt-4">
+    <!-- Footer Links -->
+    <div class="container-fluid text-center text-md-left">
+      <!-- Grid row -->
+      <div class="row">
+        <!-- Grid column -->
+        <div class="col-md-6 mt-md-0 mt-3">
+          <!-- Content -->
+          <h5 class="text-uppercase">ORIGIN</h5>
+          <p>
+            ORIGIN is a Report generated for the data you just uploaded.
+          </p>
+        </div>
+        <!-- Grid column -->
+        <hr class="clearfix w-100 d-md-none pb-3">
+        <!-- Grid column -->
+        <div class="col-md-3 mb-md-0 mb-3">
+          <!-- Links -->
+          <h5 class="text-uppercase">Links</h5>
+          <ul class="list-unstyled">
+            <li>
+              <a href="#!">About</a>
+            </li>
+            <li>
+              <a href="#!">Contact</a>
+            </li>
+            <li>
+              <a href="#!">Terms &amp; Conditions</a>
+            </li>
+          </ul>
+        </div>
+        <!-- Grid column -->
+        <div class="col-md-3 mb-md-0 mb-3">
+          <!-- Links -->
+          <h5 class="text-uppercase">Links</h5>
+          <ul class="list-unstyled">
+            <li>
+              <a href="#!">About</a>
+            </li>
+            <li>
+              <a href="#!">Contact</a>
+            </li>
+            <li>
+              <a href="#!">Terms &amp; Conditions</a>
+            </li>
+          </ul>
+        </div>
+        <!-- Grid column -->
+      </div>
+      <!-- Grid row -->
+    </div>
+    <!-- Footer Links -->
+</html>
+
+<!-- MDB -->
+<script
+  type="text/javascript"
+  src="https://cdnjs.cloudflare.com/ajax/libs/mdb-ui-kit/4.2.0/mdb.min.js"
+></script>

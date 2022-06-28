@@ -18,7 +18,7 @@ const App = (props) => {
     <CacheProvider value={emotionCache}>
       <Head>
         <title>
-          Material Kit Pro
+        Police - HackManthan
         </title>
         {/* <script src="https://apis.mapmyindia.com/advancedmaps/v1/507b8b23f483e615c13f648d32d8d17c/map_load?v=1.3"></script> */}
         <link

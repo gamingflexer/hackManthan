@@ -64,7 +64,7 @@ const Register = () => {
     <>
       <Head>
         <title>
-          Register | Material Kit
+        Police - HackManthan
         </title>
       </Head>
       <Box
