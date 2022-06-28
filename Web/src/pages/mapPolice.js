@@ -1,8 +1,6 @@
 import Map from "mapmyindia-react";
 import { DashboardLayout } from '../components/dashboard-layout';
 import { useState, useEffect } from "react";
-import ReactMapboxGl, { Layer, Feature } from 'react-mapbox-gl';
-import 'mapbox-gl/dist/mapbox-gl.css';
 import { render } from "nprogress";
 import Head from 'next/head';
 
