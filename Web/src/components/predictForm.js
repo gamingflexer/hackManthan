@@ -38,6 +38,7 @@ const PredictForm = () => {
         axios.get("http://20.204.104.233:8888/predict-crime=" + location + "=28-6-2022").then((response) => {
             console.log(response)
             setprediction(response.data)
+
         })
 
         // fetch(

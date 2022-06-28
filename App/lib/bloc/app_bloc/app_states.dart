@@ -1,4 +1,3 @@
-
 import 'package:equatable/equatable.dart';
 import 'package:hackmanthan_app/models/user.dart';
 import 'package:meta/meta.dart';
@@ -61,20 +60,18 @@ class LoginPageState extends AppState {
 
   const LoginPageState({required this.message});
 
-  static LoginPageState loading =
-      const LoginPageState(message: 'Loading');
+  static LoginPageState loading = const LoginPageState(message: 'Loading');
 
-  static LoginPageState success =
-      const LoginPageState(message: 'Successful');
+  static LoginPageState success = const LoginPageState(message: 'Successful');
 
   static LoginPageState noUserFound =
       const LoginPageState(message: 'No user found for that email');
 
-  static LoginPageState wrongPassword = const LoginPageState(
-      message: 'Wrong Password provided for that user');
+  static LoginPageState wrongPassword =
+      const LoginPageState(message: 'Wrong Password provided for that user');
 
-  static LoginPageState somethingWentWrong = const LoginPageState(
-      message: 'Something went wrong, Please try again');
+  static LoginPageState somethingWentWrong =
+      const LoginPageState(message: 'Something went wrong, Please try again');
 
   @override
   List<Object?> get props => [message];

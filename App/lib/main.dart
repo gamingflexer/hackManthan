@@ -14,10 +14,11 @@ void main() {
     DeviceOrientation.portraitDown,
   ]);
   BlocOverrides.runZoned(
-    () => {runApp(const FlutterFireInit())},
+    () => {},
     eventTransformer: sequential<dynamic>(),
     blocObserver: MyAppBlocObserver(),
   );
+  runApp(const FlutterFireInit());
 }
 
 class FlutterFireInit extends StatefulWidget {

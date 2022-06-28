@@ -29,7 +29,7 @@ const EnterData = () => {
   //   console.log(formData)
   //   // console.log(JSON.stringify(params))
   //   fetch(
-  //     'http://20.26.235.201:8888/file-upload',
+  //     'http://20.204.104.233:8888/file-upload',
   //     {
   //       method: 'POST',
   //       body: formData,
