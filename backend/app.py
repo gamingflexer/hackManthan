@@ -35,7 +35,7 @@ app.config['CORS_HEADERS'] = 'Content-Type'
 app.config['UPLOAD_FOLDER'] = upload
 app.config['SECRET_KEY'] = 'cairocoders-ednalan'
 
-ALLOWED_EXTENSIONS = {'csv'}
+ALLOWED_EXTENSIONS = {'csv','xlsv','xls'}
 
 def allowed_file(filename):
     return '.' in filename and \

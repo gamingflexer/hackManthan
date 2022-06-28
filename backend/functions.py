@@ -21,7 +21,7 @@ def translator(text):
     return translation
 
 def pandas_profiling(file_path):
-    data1 = pd.read_csv(file_path)
+    data1 = pd.read_csv(file_path).head(100)
     
     file_name = os.path.splitext(file_path)[0]
     print(file_name)
@@ -30,8 +30,7 @@ def pandas_profiling(file_path):
     print(path_of_file)
     profile.to_widgets()
     profile.to_file(f"{file_name}_anylasis.html")
-    
-    
+
     return ("/home/azureuser/hackManthan/backend/static/"+f"{file_name}_anylasis.html",f"{file_name}_anylasis.html")
 
 
@@ -59,7 +58,6 @@ def kmeans_centers(data): #type of input
         print(e)
         return None
 
-
 def predict_violent(file): #type of input - change the input also 
     data = pd.read_csv(file)
     loaded_model = pickle.load(open(model_path, 'rb'))
@@ -67,7 +65,6 @@ def predict_violent(file): #type of input - change the input also
     return prediction
     
 def predict_crime(address1,DT):
-    
     #load
     try:
         address = translator(address1)

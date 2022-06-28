@@ -6,6 +6,7 @@ import os
 import numpy as np
 from bokeh.plotting import figure, save, gridplot, output_file
 from config import *
+from pandas.api.types import is_string_dtype, is_numeric_dtype
 import matplotlib.pyplot as plt
 import seaborn as sns
 
@@ -13,8 +14,12 @@ import seaborn as sns
 Filenames = glob.glob(auto_analysis + '/*.csv')
 
 for Filename in Filenames:
+    try:
+        data = pd.read_csv(Filename, sep='delimiter', error_bad_lines=False)
+    except Exception as e:
+        print("File - READ"+ e)
+        data = pd.read_excel(Filename, sheet_name=None)
 
-    data = pd.read_csv(Filename, sep='delimiter', error_bad_lines=False)
     
 
 #pre processing
@@ -113,6 +118,13 @@ def tail(data):
 def columns(data):
     return data.columns
 
+def missng_values(data):
+    missing_count = data.isnull().sum() # the count of missing values
+    value_count = data.isnull().count() # the count of all values 
+    missing_percentage = round(missing_count / value_count * 100,2)
+    missing_df = pd.DataFrame({'count': missing_count, 'percentage': missing_percentage}) #create a dataframe        
+    return missing_df.to_html()
+
 #graphs
 #filename = filepath + name_of_ file
 #easiest way to chose the graphs to plot
@@ -129,29 +141,77 @@ df[column].plot(kind = 'hist')
 df[column].value_counts()[:10].plot(kind ='bar')"""
 
 
-def heatmap(data,filename):
+def heatmap(data,filename): #working
     plt.figure(figsize=(10,10))
     numerics = ['int16', 'int32', 'int64','float64']
     data = data.select_dtypes(include=numerics)
     sns.heatmap(data.corr(), annot=True, cmap='GnBu')
     plt.savefig(filename)
     
-def bar_graph(df,x,y,filename,title="Bar Graph"):
-    p = figure(title=title, plot_width=1000, plot_height=600, x_axis_label=x, y_axis_label=y)
-    p.vbar(x=x, top=y, width=0.5, source=df)
-    save(p, filename=filename)
-    return filename
+def bar_graph(data,path,what="bar"): #or "pie" chart
+    
+    data = data.head(300)
+    
+    for column in data:
+        plt.figure(column, figsize = (4.9,4.9))
+        plt.title(column)
+        if is_numeric_dtype(data[column]):
+                data[column].plot(kind = 'hist')
+        elif is_string_dtype(data[column]):
+        # show only the TOP 10 value count in each categorical data
+                data[column].value_counts()[:10].plot(kind = what)
+                try:
+                    plt.savefig(path + column + '_' +what+ '.png')
+                except:
+                    pass    
 
-def pie_chart(label_actual,label_values,filename):
-    explode=[0.3,0.2,0]
-    color=["c", "b", "r"]
-    textprops={"fontsize":15}
-    plt.pie(label_values,labels=label_actual, explode=explode,colors = color,autopct="%0.3f%%"
-            ,shadow=True,radius=1.4,startangle=270,textprops = textprops)
-    plt.savefig(filename)
-    return filename
+def hueplot(data,file_path):
+    num_list = []
+    cat_list = []
 
-def pairplot(data,filename):
+    data = data.head(100)
+    
+    for column in data:
+        if is_numeric_dtype(data[column]):
+                num_list.append(column)
+        elif is_string_dtype(data[column]):
+                cat_list.append(column)
+                   
+    data = data.head(100)
+    for i in range(0, len(cat_list)):
+        hue_cat = cat_list[i]
+        sns.pairplot(data, hue = hue_cat)
+        try:
+            plt.savefig(file_path + str(i) + '.png')
+        except:
+            pass
+
+
+def boxplot(data,path):
+    num_list = []
+    cat_list = []
+
+    data = data.head(100)
+    
+    for column in data:
+        if is_numeric_dtype(data[column]):
+                num_list.append(column)
+        elif is_string_dtype(data[column]):
+                cat_list.append(column)
+                   
+    for i in range(0, len(cat_list)):
+        cat = cat_list[i]
+        for j in range(0, len(num_list)):
+            num = num_list[j]
+            plt.figure (figsize = (15,15))
+            sns.boxplot( x = cat, y = num, data = data, palette = "GnBu")
+            try:
+                plt.savefig(path + column + '.png')
+            except:
+                pass    
+                
+                
+def pairplot(data,filename): #working
     plt.figure(figsize=(10,10))
     sns.pairplot(data, height = 2.5)
     plt.savefig(filename)
