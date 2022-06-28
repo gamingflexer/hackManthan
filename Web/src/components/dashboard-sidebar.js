@@ -15,7 +15,7 @@ import AddAlertIcon from '@mui/icons-material/AddAlert';
 import SettingsIcon from '@mui/icons-material/Settings';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { fontSize } from '@mui/system';
-import logo from '../../public/static/images/ss.png'
+import logo from '../../public/static/images/sih_t.png'
 import Image from 'next/image'
 import Upload from 'src/pages/upload';
 
@@ -55,11 +55,11 @@ const items = [
     icon: (<AddAlertIcon />),
     title: 'Alerts Sender'
   },
-  {
-    href: '/settings',
-    icon: (<SettingsIcon />),
-    title: 'Settings'
-  }
+  // {
+  //   href: '/settings',
+  //   icon: (<SettingsIcon />),
+  //   title: 'Settings'
+  // }
 ];
 
 export const DashboardSidebar = (props) => {
