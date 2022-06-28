@@ -28,35 +28,43 @@ const PredictForm = () => {
         console.log(timeArr)
         let timestamp = new Date(today.getFullYear(), today.getMonth(), today.getDate(), timeArr[0], timeArr[1])
         console.log(timestamp)
-        const res = await addDoc(collection(db, "predict_crime"), {
-            location: location,
-            date: timestamp,
-            prediction: ""
-        });
-        console.log(res)
+        // const res = await addDoc(collection(db, "predict_crime"), {
+        //     location: location,
+        //     date: timestamp,
+        //     prediction: ""
+        // });
+        // console.log(res)
 
-        fetch(
-            "http://20.204.104.233:8888/predict-crime", {
-            headers: {
-                'Content-Type': 'application/json',
-                'Accept': 'application/json'
-            }
+        axios.get("http://20.204.104.233:8888/predict-crime=" + location + "=28-6-2022").then((response) => {
+            console.log(response)
+            setprediction(response.data)
+
         })
-            .then((res) => res.json())
-            .then((json) => {
-                console.log("Hi")
-                console.log(json)
-                // setprediction(json)
-            })
-            .catch((error) => {
-                console.log(error)
-            })
+
+        // fetch(
+        //     "http://20.204.104.233:8888/predict-crime=" + location + "=2-6-2022", {
+        // })
+        //     .then((res) => {
+        //         console.log(res)
+        //         if (res.status >= 400) {
+        //             console.log(res)
+        //         }
+        //         return res.json()
+        //     })
+        //     .then((json) => {
+        //         console.log("Hi")
+        //         console.log(json)
+        //         // setprediction(json)
+        //     })
+        // .catch((error) => {
+        //     console.log(error)
+        // })
 
         // handleReset()
     }
 
 
-    return <>
+    return <div>
         <Formik
             initialValues={{ name: "", email: "", acceptedTerms: false }}
             validate={(values) => {
@@ -130,7 +138,18 @@ const PredictForm = () => {
                 </Form>
             )}
         </Formik>
-    </>
+        {
+            prediction ? <div>
+                <div style={{
+                    fontSize: 30,
+                    marginTop: 40
+                }}>Prediction:</div>
+                <div style={{
+                    fontSize: 20
+                }}>{prediction}</div>
+            </div> : null
+        }
+    </div>
 };
 
 export default PredictForm;

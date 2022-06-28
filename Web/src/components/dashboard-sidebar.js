@@ -40,11 +40,11 @@ const items = [
     icon: (<BatchPredictionIcon />),
     title: 'Predictions'
   },
-  // {
-  //   href: '/mapPolice',
-  //   icon: (<MyLocationIcon />),
-  //   title: 'Map'
-  // },
+  {
+    href: '/mapPolice',
+    icon: (<MyLocationIcon />),
+    title: 'Map'
+  },
   {
     href: '/upload',
     icon: (<CloudUploadIcon />),
