@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:hackmanthan_app/models/cluster.dart';
 import 'package:hackmanthan_app/models/crime.dart';
 import 'package:hackmanthan_app/models/helper_models.dart';
 import 'package:hackmanthan_app/models/alert.dart';
@@ -9,11 +10,12 @@ class MapState extends Equatable {
   final bool showAlerts;
   final bool showCrimes;
   final bool showOfficers;
-  // final bool focusOnACrime;
+  final bool showClusters;
   final Crime? focusedCrime;
   final List<Alert> alerts;
   final List<Crime> crimes;
   final List<UserData> officers;
+  final List<Cluster> clusters;
   final double currentLat;
   final double currentLong;
   final PageState pageState;
@@ -24,10 +26,11 @@ class MapState extends Equatable {
     required this.showCrimes,
     required this.showOfficers,
     required this.focusedCrime,
-    // required this.focusOnACrime,
+    required this.showClusters,
     required this.alerts,
     required this.crimes,
     required this.officers,
+    required this.clusters,
     required this.currentLat,
     required this.currentLong,
     required this.pageState,
@@ -38,11 +41,12 @@ class MapState extends Equatable {
     bool? showAlerts,
     bool? showCrimes,
     bool? showOfficers,
-    // bool? focusOnACrime,
+    bool? showClusters,
     Crime? focusedCrime,
     List<Alert>? alerts,
     List<Crime>? crimes,
     List<UserData>? officers,
+    List<Cluster>? clusters,
     double? currentLat,
     double? currentLong,
     PageState? pageState,
@@ -52,11 +56,12 @@ class MapState extends Equatable {
       showAlerts: showAlerts ?? this.showAlerts,
       showCrimes: showCrimes ?? this.showCrimes,
       showOfficers: showOfficers ?? this.showOfficers,
-      // focusOnACrime: focusOnACrime ?? this.focusOnACrime,
+      showClusters: showClusters ?? this.showClusters,
       focusedCrime: focusedCrime ?? this.focusedCrime,
       alerts: alerts ?? this.alerts,
       crimes: crimes ?? this.crimes,
       officers: officers ?? this.officers,
+      clusters: clusters ?? this.clusters,
       currentLat: currentLat ?? this.currentLat,
       currentLong: currentLong ?? this.currentLong,
       pageState: pageState ?? this.pageState,
@@ -69,11 +74,12 @@ class MapState extends Equatable {
         showAlerts,
         showCrimes,
         showOfficers,
-        // focusOnACrime,
+        showClusters,
         focusedCrime,
         alerts,
         crimes,
         officers,
+        clusters,
         currentLong,
         currentLat,
         pageState,
@@ -85,11 +91,12 @@ class MapState extends Equatable {
           showAlerts: false,
           showCrimes: false,
           showOfficers: false,
-          // focusOnACrime: false,
+          showClusters: false,
           focusedCrime: null,
           alerts: const [],
           crimes: const [],
           officers: const [],
+          clusters: const [],
           currentLat: 0,
           currentLong: 0,
           pageState: PageState.loading,
