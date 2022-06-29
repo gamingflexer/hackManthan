@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:hackmanthan_app/models/cluster.dart';
 import 'package:hackmanthan_app/models/crime.dart';
 import 'package:hackmanthan_app/models/alert.dart';
 import 'package:hackmanthan_app/models/user.dart';
@@ -46,7 +47,7 @@ class DatabaseRepository {
     await usersRef.doc(uid).set(userData);
   }
 
-  // alerts Collection Reference
+  // Alerts Collection Reference
   // Reference allows for easy from and to operations
   CollectionReference<Alert> get alertsRef =>
       db.collection('alerts').withConverter<Alert>(
@@ -67,7 +68,7 @@ class DatabaseRepository {
     }
   }
 
-  // Crime Stream
+  // Alert Stream
   Stream<List<Alert>> getAlertStream() {
     Stream<List<Alert>> res = alertsRef
         .snapshots()
@@ -109,6 +110,7 @@ class DatabaseRepository {
     try {
       await crimesRef.add(crime);
       // TODO: Hit API after adding in Firestore
+
       // return res;
     } on Exception catch (_) {
       throw const SomethingWentWrong();
@@ -125,5 +127,34 @@ class DatabaseRepository {
     } on Exception catch (_) {
       throw const SomethingWentWrong();
     }
+  }
+
+  // Cluster Collection Reference
+  // Reference allows for easy from and to operations
+  CollectionReference<Cluster> get clustersRef =>
+      db.collection('clusters').withConverter<Cluster>(
+            fromFirestore: (snapshot, _) =>
+                Cluster.fromJson(snapshot.data()!, snapshot.id),
+            toFirestore: (cluster, _) => cluster.toJson(),
+          );
+
+  // Get Clusters from DB
+  Future<List<Cluster>> getClusters() async {
+    try {
+      List<Cluster> clusters = await clustersRef
+          .get()
+          .then((value) => value.docs.map((e) => e.data()).toList());
+      return clusters;
+    } on Exception catch (_) {
+      throw const SomethingWentWrong();
+    }
+  }
+
+  // Cluster Stream
+  Stream<List<Cluster>> getClusterStream() {
+    Stream<List<Cluster>> res = clustersRef
+        .snapshots()
+        .map((event) => event.docs.map((e) => e.data()).toList());
+    return res;
   }
 }
