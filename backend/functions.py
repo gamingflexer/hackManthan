@@ -14,6 +14,8 @@ from sklearn.cluster import KMeans
 import seaborn as sns; sns.set()
 import csv
 import pandas as pd
+from upload import *
+
 
 def translator(text):
     translator= Translator(from_lang="hindi",to_lang="english")
@@ -22,7 +24,7 @@ def translator(text):
 
 def pandas_profiling(file_path):
     data1 = pd.read_csv(file_path).head(100)
-    
+    data1 = add_date_time(data1)
     file_name = os.path.splitext(file_path)[0]
     print(file_name)
     profile = ProfileReport (data1, title='Report - Crime Analysis', explorative=True)
