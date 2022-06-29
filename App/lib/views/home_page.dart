@@ -4,6 +4,7 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hackmanthan_app/bloc/map_bloc/map_bloc_files.dart';
 import 'package:hackmanthan_app/models/alert.dart';
+import 'package:hackmanthan_app/models/cluster.dart';
 import 'package:hackmanthan_app/models/crime.dart';
 import 'package:hackmanthan_app/models/helper_models.dart';
 import 'package:hackmanthan_app/models/user.dart';
@@ -32,6 +33,14 @@ class _HomePageState extends State<HomePage> {
   Crime? crime;
   UserData? officer;
   Alert? alert;
+  Cluster? cluster;
+  dynamic current;
+
+  bool showActiveCrimes = true;
+  bool showOldCrimes = true;
+  bool showAlerts = true;
+  bool showOfficers = true;
+  bool showClusters = true;
 
   @override
   void initState() {
@@ -79,38 +88,40 @@ class _HomePageState extends State<HomePage> {
                     child: Column(
                       children: [
                         SizedBox(height: 77.w),
+                        SizedBox(height: 15.w),
+                        buildFilter(),
                         Row(
                           children: [
-                            Container(
-                              alignment: Alignment.bottomRight,
-                              padding: EdgeInsets.only(left: 24.w, top: 24.w),
-                              child: SizedBox(
-                                height: 45.w,
-                                width: 45.w,
-                                child: Card(
-                                  margin: EdgeInsets.zero,
-                                  color: CustomTheme.card,
-                                  shape: const CircleBorder(),
-                                  elevation: 6,
-                                  child: InkWell(
-                                    borderRadius: BorderRadius.circular(25.w),
-                                    onTap: () {
-                                      showDialog(
-                                        context: context,
-                                        builder: (context) {
-                                          return Container();
-                                        },
-                                      );
-                                    },
-                                    child: Icon(
-                                      Icons.info_outline_rounded,
-                                      size: 30.w,
-                                      color: Colors.black,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ),
+                            // Container(
+                            //   alignment: Alignment.bottomRight,
+                            //   padding: EdgeInsets.only(left: 24.w),
+                            //   child: SizedBox(
+                            //     height: 45.w,
+                            //     width: 45.w,
+                            //     child: Card(
+                            //       margin: EdgeInsets.zero,
+                            //       color: CustomTheme.card,
+                            //       shape: const CircleBorder(),
+                            //       elevation: 6,
+                            //       child: InkWell(
+                            //         borderRadius: BorderRadius.circular(25.w),
+                            //         onTap: () {
+                            //           showDialog(
+                            //             context: context,
+                            //             builder: (context) {
+                            //               return Container();
+                            //             },
+                            //           );
+                            //         },
+                            //         child: Icon(
+                            //           Icons.info_outline_rounded,
+                            //           size: 30.w,
+                            //           color: Colors.black,
+                            //         ),
+                            //       ),
+                            //     ),
+                            //   ),
+                            // ),
                             const Spacer(),
                             buildDirectionButton(state),
                           ],
@@ -156,15 +167,19 @@ class _HomePageState extends State<HomePage> {
                                 buildCurrentButton(state),
                               ],
                             ),
-                            crime != null
-                                ? buildCurrentCrimeCard()
-                                : const SizedBox.shrink(),
-                            alert != null
-                                ? buildCurrentAlertCard()
-                                : const SizedBox.shrink(),
-                            officer != null
-                                ? buildCurrentOfficerCard()
-                                : const SizedBox.shrink(),
+                            buildCurrentCard(),
+                            // crime != null
+                            //     ? buildCurrentCrimeCard()
+                            //     : const SizedBox.shrink(),
+                            // alert != null
+                            //     ? buildCurrentAlertCard()
+                            //     : const SizedBox.shrink(),
+                            // officer != null
+                            //     ? buildCurrentOfficerCard()
+                            //     : const SizedBox.shrink(),
+                            // cluster != null
+                            //     ? buildCurrentClusterCard()
+                            //     : const SizedBox.shrink(),
                             buildBottomSheet(context, state),
                           ],
                         ),
@@ -179,6 +194,367 @@ class _HomePageState extends State<HomePage> {
         }
         return const LoadingPage();
       },
+    );
+  }
+
+  Widget buildFilter() {
+    return SizedBox(
+      height: 52.w,
+      // padding: EdgeInsets.only(bottom: 10.w),
+      child: SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
+        child: Row(
+          children: [
+            SizedBox(width: 24.w),
+            showActiveCrimes
+                ? buildChips(
+                    'Live Crimes',
+                    Container(
+                      height: 24.w,
+                      width: 24.w,
+                      decoration: BoxDecoration(
+                        color: Colors.redAccent[700],
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.white,
+                          width: 2.w,
+                        ),
+                      ),
+                      alignment: Alignment.center,
+                    ),
+                    () {
+                      setState(() {
+                        showActiveCrimes = !showActiveCrimes;
+                      });
+                    },
+                    showActiveCrimes,
+                    () {
+                      setState(() {
+                        showActiveCrimes = false;
+                      });
+                    },
+                  )
+                : const SizedBox.shrink(),
+            showOldCrimes
+                ? buildChips(
+                    'Old Crimes',
+                    Container(
+                      height: 24.w,
+                      width: 24.w,
+                      decoration: BoxDecoration(
+                        color: Colors.grey,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.white,
+                          width: 2.w,
+                        ),
+                      ),
+                      alignment: Alignment.center,
+                    ),
+                    () {
+                      setState(() {
+                        showOldCrimes = !showOldCrimes;
+                      });
+                    },
+                    showOldCrimes,
+                    () {
+                      setState(() {
+                        showOldCrimes = false;
+                      });
+                    },
+                  )
+                : const SizedBox.shrink(),
+            showAlerts
+                ? buildChips(
+                    'Alerts',
+                    Container(
+                      height: 24.w,
+                      width: 24.w,
+                      decoration: BoxDecoration(
+                        color: Colors.yellow,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.white,
+                          width: 2.w,
+                        ),
+                      ),
+                      alignment: Alignment.center,
+                      child: Icon(
+                        Icons.priority_high,
+                        size: 20.w,
+                      ),
+                    ),
+                    () {
+                      setState(() {
+                        showAlerts = !showAlerts;
+                      });
+                    },
+                    showAlerts,
+                    () {
+                      setState(() {
+                        showAlerts = false;
+                      });
+                    },
+                  )
+                : const SizedBox.shrink(),
+            showOfficers
+                ? buildChips(
+                    'Officers',
+                    Container(
+                      height: 24.w,
+                      width: 24.w,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF05FF4B),
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.white,
+                          width: 2.w,
+                        ),
+                      ),
+                      alignment: Alignment.center,
+                    ),
+                    () {
+                      setState(() {
+                        showOfficers = !showOfficers;
+                      });
+                    },
+                    showOfficers,
+                    () {
+                      setState(() {
+                        showOfficers = false;
+                      });
+                    },
+                  )
+                : const SizedBox.shrink(),
+            showClusters
+                ? buildChips(
+                    'Clusters',
+                    Container(
+                      height: 24.w,
+                      width: 24.w,
+                      decoration: BoxDecoration(
+                        color: Colors.yellow.withOpacity(0.3),
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.white,
+                          width: 2.w,
+                        ),
+                      ),
+                      alignment: Alignment.center,
+                    ),
+                    () {
+                      setState(() {
+                        showClusters = !showClusters;
+                      });
+                    },
+                    showClusters,
+                    () {
+                      setState(() {
+                        showClusters = false;
+                      });
+                    },
+                  )
+                : const SizedBox.shrink(),
+            !showActiveCrimes
+                ? buildChips(
+                    'Live Crimes',
+                    Container(
+                      height: 24.w,
+                      width: 24.w,
+                      decoration: BoxDecoration(
+                        color: Colors.redAccent[700],
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.white,
+                          width: 2.w,
+                        ),
+                      ),
+                      alignment: Alignment.center,
+                    ),
+                    () {
+                      setState(() {
+                        showActiveCrimes = !showActiveCrimes;
+                      });
+                    },
+                    showActiveCrimes,
+                    () {
+                      setState(() {
+                        showActiveCrimes = false;
+                      });
+                    },
+                  )
+                : const SizedBox.shrink(),
+            !showOldCrimes
+                ? buildChips(
+                    'Old Crimes',
+                    Container(
+                      height: 24.w,
+                      width: 24.w,
+                      decoration: BoxDecoration(
+                        color: Colors.grey,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.white,
+                          width: 2.w,
+                        ),
+                      ),
+                      alignment: Alignment.center,
+                    ),
+                    () {
+                      setState(() {
+                        showOldCrimes = !showOldCrimes;
+                      });
+                    },
+                    showOldCrimes,
+                    () {
+                      setState(() {
+                        showOldCrimes = false;
+                      });
+                    },
+                  )
+                : const SizedBox.shrink(),
+            !showAlerts
+                ? buildChips(
+                    'Alerts',
+                    Container(
+                      height: 24.w,
+                      width: 24.w,
+                      decoration: BoxDecoration(
+                        color: Colors.yellow,
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.white,
+                          width: 2.w,
+                        ),
+                      ),
+                      alignment: Alignment.center,
+                      child: Icon(
+                        Icons.priority_high,
+                        size: 20.w,
+                      ),
+                    ),
+                    () {
+                      setState(() {
+                        showAlerts = !showAlerts;
+                      });
+                    },
+                    showAlerts,
+                    () {
+                      setState(() {
+                        showAlerts = false;
+                      });
+                    },
+                  )
+                : const SizedBox.shrink(),
+            !showOfficers
+                ? buildChips(
+                    'Officers',
+                    Container(
+                      height: 24.w,
+                      width: 24.w,
+                      decoration: BoxDecoration(
+                        color: const Color(0xFF05FF4B),
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.white,
+                          width: 2.w,
+                        ),
+                      ),
+                      alignment: Alignment.center,
+                    ),
+                    () {
+                      setState(() {
+                        showOfficers = !showOfficers;
+                      });
+                    },
+                    showOfficers,
+                    () {
+                      setState(() {
+                        showOfficers = false;
+                      });
+                    },
+                  )
+                : const SizedBox.shrink(),
+            !showClusters
+                ? buildChips(
+                    'Clusters',
+                    Container(
+                      height: 24.w,
+                      width: 24.w,
+                      decoration: BoxDecoration(
+                        color: Colors.yellow.withOpacity(0.3),
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: Colors.white,
+                          width: 2.w,
+                        ),
+                      ),
+                      alignment: Alignment.center,
+                    ),
+                    () {
+                      setState(() {
+                        showClusters = !showClusters;
+                      });
+                    },
+                    showClusters,
+                    () {
+                      setState(() {
+                        showClusters = false;
+                      });
+                    },
+                  )
+                : const SizedBox.shrink(),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget buildChips(String label, Widget icon, void Function() onTap,
+      bool selected, void Function() onClearTap) {
+    return SizedBox(
+      height: 52.w,
+      child: Card(
+        elevation: 6,
+        margin: EdgeInsets.only(right: 14.w, bottom: 10.w),
+        shape: RoundedRectangleBorder(
+          side: BorderSide(
+              color: selected ? CustomTheme.accent : Colors.transparent,
+              width: 2.w),
+          borderRadius: BorderRadius.circular(40.w),
+        ),
+        child: InkWell(
+          onTap: onTap,
+          child: Row(
+            children: [
+              SizedBox(width: 10.w),
+              icon,
+              SizedBox(width: 10.w),
+              Text(
+                label,
+                style: TextStyle(
+                  color: CustomTheme.accent,
+                  fontSize: 15,
+                  fontWeight: FontWeight.w500,
+                ),
+              ),
+              selected
+                  ? Padding(
+                      padding: EdgeInsets.only(left: 6.w, right: 10.w),
+                      child: InkWell(
+                        onTap: onClearTap,
+                        child: Icon(
+                          Icons.highlight_remove,
+                          size: 25.w,
+                          color: CustomTheme.accent,
+                        ),
+                      ),
+                    )
+                  : SizedBox(width: 22.w),
+            ],
+          ),
+        ),
+      ),
     );
   }
 
@@ -336,46 +712,20 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  Stack buildCurrentCrimeCard() {
-    return Stack(
-      children: [
-        Container(
-          width: 366.w,
-          decoration: BoxDecoration(
-            color: CustomTheme.card,
-            borderRadius: BorderRadius.circular(15.w),
-            boxShadow: const [
-              BoxShadow(
-                color: Colors.grey,
-                blurRadius: 10.0,
-              )
-            ],
-          ),
-          // margin: EdgeInsets.only(bottom: 12.w),
-          padding: EdgeInsets.symmetric(horizontal: 18.w),
-          child: buildCrimeCard(crime!),
-        ),
-        Container(
-          width: 366.w,
-          alignment: Alignment.topRight,
-          padding: EdgeInsets.all(10.w),
-          child: InkWell(
-            onTap: () {
-              setState(() {
-                crime = null;
-              });
-            },
-            child: Icon(
-              Icons.close_rounded,
-              size: 26.w,
-            ),
-          ),
-        )
-      ],
-    );
-  }
+  Widget buildCurrentCard() {
+    Widget card;
+    if (current is Crime) {
+      card = buildCrimeCard(current);
+    } else if (current is Alert) {
+      card = buildAlertCard(current);
+    } else if (current is UserData) {
+      card = buildOfficerCard(current);
+    } else if (current is Cluster) {
+      card = buildClusterCard(current);
+    } else {
+      return const SizedBox.shrink();
+    }
 
-  Stack buildCurrentAlertCard() {
     return Stack(
       children: [
         Container(
@@ -392,7 +742,7 @@ class _HomePageState extends State<HomePage> {
           ),
           // margin: EdgeInsets.only(bottom: 12.w),
           padding: EdgeInsets.symmetric(horizontal: 18.w),
-          child: buildAlertCard(alert!),
+          child: card,
         ),
         Container(
           width: 366.w,
@@ -401,46 +751,7 @@ class _HomePageState extends State<HomePage> {
           child: InkWell(
             onTap: () {
               setState(() {
-                alert = null;
-              });
-            },
-            child: Icon(
-              Icons.close_rounded,
-              size: 26.w,
-            ),
-          ),
-        )
-      ],
-    );
-  }
-
-  Stack buildCurrentOfficerCard() {
-    return Stack(
-      children: [
-        Container(
-          width: 366.w,
-          decoration: BoxDecoration(
-            color: CustomTheme.card,
-            borderRadius: BorderRadius.circular(15.w),
-            boxShadow: const [
-              BoxShadow(
-                color: Colors.grey,
-                blurRadius: 10.0,
-              )
-            ],
-          ),
-          // margin: EdgeInsets.only(bottom: 12.w),
-          padding: EdgeInsets.symmetric(horizontal: 18.w),
-          child: buildOfficerCard(officer!),
-        ),
-        Container(
-          width: 366.w,
-          alignment: Alignment.topRight,
-          padding: EdgeInsets.all(10.w),
-          child: InkWell(
-            onTap: () {
-              setState(() {
-                officer = null;
+                current = null;
               });
             },
             child: Icon(
@@ -539,7 +850,7 @@ class _HomePageState extends State<HomePage> {
   Widget buildDirectionButton(MapState state) {
     return Container(
       alignment: Alignment.bottomRight,
-      padding: EdgeInsets.only(right: 24.w, top: 24.w),
+      padding: EdgeInsets.only(right: 24.w),
       child: StreamBuilder<MapEvent>(
         stream: mapController.mapEventStream,
         builder: (context, snapshot) {
@@ -998,64 +1309,207 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
+  Widget buildClusterCard(Cluster cluster) {
+    return SizedBox(
+      // height: 126.w,
+      width: 310.w,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(height: 12.w),
+          Text(
+            cluster.eventType,
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.w500,
+              color: CustomTheme.t1,
+            ),
+          ),
+          // SizedBox(height: 6.w),
+          // Text(
+          //   'ID: ${officer.policeId}',
+          //   style: TextStyle(
+          //     fontSize: 16,
+          //     fontWeight: FontWeight.w600,
+          //     color: CustomTheme.t2,
+          //   ),
+          // ),
+          // SizedBox(height: 6.w),
+          // Text(
+          //   'Post: ${officer.post}',
+          //   style: TextStyle(
+          //     fontSize: 15,
+          //     fontWeight: FontWeight.w400,
+          //     color: CustomTheme.t1,
+          //   ),
+          // ),
+          // SizedBox(height: 6.w),
+          // Text(
+          //   'Station: ${officer.policeStation}',
+          //   style: TextStyle(
+          //     fontSize: 15,
+          //     fontWeight: FontWeight.w400,
+          //     color: CustomTheme.t1,
+          //   ),
+          // ),
+          SizedBox(height: 16.w),
+        ],
+      ),
+    );
+  }
+
   List<Marker> markersFromState(MapState state) {
     List<Marker> markers = [];
-
-    if (state.showCrimes) {
-      for (var crime in state.crimes) {
+    if (showClusters) {
+      for (var cluster in state.clusters) {
         markers.add(Marker(
-          point: LatLng(crime.lat, crime.long),
+          height: 70.w,
+          width: 70.w,
+          point: LatLng(cluster.lat, cluster.long),
           builder: (context) {
             return InkWell(
               onTap: () async {
                 await scrollDrawerToTop();
                 setState(() {
-                  officer = null;
-                  alert = null;
-                  this.crime = crime;
+                  // crime = null;
+                  // officer = null;
+                  // this.alert = cluster;
+                  current = cluster;
                 });
                 mapController.moveAndRotate(
-                  LatLng(crime.lat, crime.long),
+                  LatLng(cluster.lat, cluster.long),
                   14,
                   0,
                 );
               },
               child: Container(
-                height: crime.isLive ? 30.w : 10.w,
-                width: crime.isLive ? 30.w : 10.w,
                 decoration: BoxDecoration(
-                  color: crime.isLive ? Colors.redAccent[700] : Colors.grey,
+                  color: Colors.yellow.withOpacity(0.3),
                   shape: BoxShape.circle,
                   border: Border.all(
                     color: Colors.white,
                     width: 2.w,
                   ),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.grey,
-                      blurRadius: 10.0,
-                    )
-                  ],
                 ),
                 alignment: Alignment.center,
+                // child: Icon(
+                //   Icons.priority_high,
+                //   size: 20.w,
+                // ),
               ),
             );
           },
         ));
       }
     }
-    if (state.showOfficers) {
+
+    if (showOldCrimes) {
+      for (var crime in state.crimes) {
+        if (!crime.isLive) {
+          markers.add(Marker(
+            height: 20.w,
+            width: 20.w,
+            point: LatLng(crime.lat, crime.long),
+            builder: (context) {
+              return InkWell(
+                onTap: () async {
+                  await scrollDrawerToTop();
+                  setState(() {
+                    // officer = null;
+                    // alert = null;
+                    // this.crime = crime;
+                    current = crime;
+                  });
+                  mapController.moveAndRotate(
+                    LatLng(crime.lat, crime.long),
+                    14,
+                    0,
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.grey,
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.white,
+                      width: 2.w,
+                    ),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.grey,
+                        blurRadius: 10.0,
+                      )
+                    ],
+                  ),
+                  alignment: Alignment.center,
+                ),
+              );
+            },
+          ));
+        }
+      }
+    }
+    if (showActiveCrimes) {
+      for (var crime in state.crimes) {
+        if (crime.isLive) {
+          markers.add(Marker(
+            height: 30.w,
+            width: 30.w,
+            point: LatLng(crime.lat, crime.long),
+            builder: (context) {
+              return InkWell(
+                onTap: () async {
+                  await scrollDrawerToTop();
+                  setState(() {
+                    // officer = null;
+                    // alert = null;
+                    // this.crime = crime;
+                    current = crime;
+                  });
+                  mapController.moveAndRotate(
+                    LatLng(crime.lat, crime.long),
+                    14,
+                    0,
+                  );
+                },
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: Colors.redAccent[700],
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: Colors.white,
+                      width: 2.w,
+                    ),
+                    boxShadow: const [
+                      BoxShadow(
+                        color: Colors.grey,
+                        blurRadius: 10.0,
+                      )
+                    ],
+                  ),
+                  alignment: Alignment.center,
+                ),
+              );
+            },
+          ));
+        }
+      }
+    }
+    if (showOfficers) {
       for (var officer in state.officers) {
         markers.add(Marker(
+          height: 30.w,
+          width: 30.w,
           point: LatLng(officer.lat, officer.long),
           builder: (context) {
             return InkWell(
               onTap: () async {
                 await scrollDrawerToTop();
                 setState(() {
-                  crime = null;
-                  alert = null;
-                  this.officer = officer;
+                  // crime = null;
+                  // alert = null;
+                  // this.officer = officer;
+                  current = officer;
                 });
                 mapController.moveAndRotate(
                   LatLng(officer.lat, officer.long),
@@ -1064,10 +1518,8 @@ class _HomePageState extends State<HomePage> {
                 );
               },
               child: Container(
-                height: 30.w,
-                width: 30.w,
                 decoration: BoxDecoration(
-                  color: Color(0xFF05FF4B),
+                  color: const Color(0xFF05FF4B),
                   shape: BoxShape.circle,
                   border: Border.all(
                     color: Colors.white,
@@ -1087,18 +1539,21 @@ class _HomePageState extends State<HomePage> {
         ));
       }
     }
-    if (state.showAlerts) {
+    if (showAlerts) {
       for (var alert in state.alerts) {
         markers.add(Marker(
+          height: 35.w,
+          width: 35.w,
           point: LatLng(alert.lat, alert.long),
           builder: (context) {
             return InkWell(
               onTap: () async {
                 await scrollDrawerToTop();
                 setState(() {
-                  crime = null;
-                  officer = null;
-                  this.alert = alert;
+                  // crime = null;
+                  // officer = null;
+                  // this.alert = alert;
+                  current = alert;
                 });
                 mapController.moveAndRotate(
                   LatLng(alert.lat, alert.long),
@@ -1107,8 +1562,8 @@ class _HomePageState extends State<HomePage> {
                 );
               },
               child: Container(
-                height: 30.w,
-                width: 30.w,
+                // height: 30.w,
+                // width: 30.w,
                 decoration: BoxDecoration(
                   color: Colors.yellow,
                   shape: BoxShape.circle,
@@ -1116,12 +1571,6 @@ class _HomePageState extends State<HomePage> {
                     color: Colors.white,
                     width: 2.w,
                   ),
-                  boxShadow: const [
-                    BoxShadow(
-                      color: Colors.grey,
-                      blurRadius: 10.0,
-                    )
-                  ],
                 ),
                 alignment: Alignment.center,
                 child: Icon(
@@ -1134,12 +1583,13 @@ class _HomePageState extends State<HomePage> {
         ));
       }
     }
+
     markers.add(Marker(
+      height: 30.w,
+      width: 30.w,
       point: LatLng(state.currentLat, state.currentLong),
       builder: (context) {
         return Container(
-          height: 32.w,
-          width: 32.w,
           decoration: BoxDecoration(
             color: Colors.blueAccent,
             shape: BoxShape.circle,
