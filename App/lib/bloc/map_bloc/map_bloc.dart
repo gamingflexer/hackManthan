@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hackmanthan_app/bloc/map_bloc/map_bloc_files.dart';
 import 'package:hackmanthan_app/models/alert.dart';
+import 'package:hackmanthan_app/models/cluster.dart';
 import 'package:hackmanthan_app/models/crime.dart';
 import 'package:hackmanthan_app/models/helper_models.dart';
 import 'package:hackmanthan_app/models/user.dart';
@@ -76,6 +76,14 @@ class MapBloc extends Bloc<MapEvents, MapState> {
             );
           },
         );
+        emit.forEach<List<Cluster>>(
+          databaseRepository.getClusterStream(),
+          onData: (data) {
+            return state.copyWith(
+              clusters: data,
+            );
+          },
+        );
         while (true) {
           LocationData? locationData = await LocationRepository.getLocation();
           if (locationData != null) {
@@ -99,7 +107,6 @@ class MapBloc extends Bloc<MapEvents, MapState> {
     try {
       emit(state.copyWith(locationStreaming: true));
       while (state.locationStreaming) {
-        print('hi');
         LocationData? locationData = await LocationRepository.getLocation();
         if (locationData != null) {
           UserData newUser = user.copyWith(
