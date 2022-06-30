@@ -17,8 +17,12 @@ Result:
   with the Hindi Language will be given preference)
 
 
+PPT - https://www.canva.com/design/DAFDZ8cKA6I/ogg_iIPYVJ5KGMtty7igcA/view?utm_content=DAFDZ8cKA6I&utm_campaign=designshare&utm_medium=link&utm_source=publishsharelink
+
+APK - https://github.com/gamingflexer/hackManthan/releases/download/V0.1/origin
+
 # hackManthan-production
-Version 1.0.0 - 19 June 2022
+Version 1.1.0 - 29 June 2022
 
 ### Add Firebase creditialsby making a folder ```backend/config``` and check config.py once 
 
