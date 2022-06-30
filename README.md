@@ -1,6 +1,5 @@
 # hackManthan
 
-
 Explanation:
 - Criminology is an area where the scientific study of crime and criminal behavior focuses.
   As part of criminology, crime analysis is tasked with exploring and discovering crime and
@@ -22,6 +21,8 @@ Result:
 Version 1.0.0 - 19 June 2022
 
 ### Add Firebase creditialsby making a folder ```backend/config``` and check config.py once 
+
+#### Python 3.7
 
 ```
 cd backend 

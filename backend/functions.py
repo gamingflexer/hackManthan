@@ -15,6 +15,9 @@ import seaborn as sns; sns.set()
 import csv
 import pandas as pd
 from upload import *
+from corpus import *
+
+#some functions where used to make custom report & others are working
 
 
 def translator(text):
@@ -24,10 +27,10 @@ def translator(text):
 
 def pandas_profiling(file_path):
     data1 = pd.read_csv(file_path).head(100)
-    data1 = add_date_time(data1)
+    data2 = add_date_time(data1)
     file_name = os.path.splitext(file_path)[0]
     print(file_name)
-    profile = ProfileReport (data1, title='Report - Crime Analysis', explorative=True)
+    profile = ProfileReport (data2, title='Report - Crime Analysis', explorative=True)
     path_of_file = basepath+"/static/"+f'{file_name}_anylasis.html'
     print(path_of_file)
     profile.to_widgets()

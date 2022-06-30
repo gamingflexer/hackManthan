@@ -11,6 +11,7 @@ from werkzeug.utils import secure_filename
 from werkzeug.datastructures import  FileStorage
 from functions import pandas_profiling,predict_crime,kmeans_centers,delete_collection
 from config import *
+from corpus import *
 import json
 
 #constant functions

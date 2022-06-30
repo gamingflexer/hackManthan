@@ -1,7 +1,7 @@
 # hackManthan
 
 
-## Completed
+## Graphs
 
 - Most Frequents Event Types - Bar
 - No. of Events Updated by Date - Line
@@ -19,6 +19,6 @@
 - per 15 day data - Line
 
 
-## Not Completed
+## K Means
 
 - Prominent Point - Clustering
