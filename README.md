@@ -21,6 +21,12 @@ PPT - https://www.canva.com/design/DAFDZ8cKA6I/ogg_iIPYVJ5KGMtty7igcA/view?utm_c
 
 APK - https://github.com/gamingflexer/hackManthan/releases/download/V0.1/origin
 
+#### Youtube Videos
+
+v1 - https://youtu.be/GKOxvCil6Xg
+
+V2 - https://youtu.be/37Cm_YkFv4Q
+
 # hackManthan-production
 Version 1.1.0 - 29 June 2022
 
