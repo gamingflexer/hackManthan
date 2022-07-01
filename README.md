@@ -27,7 +27,7 @@ v1 - https://youtu.be/GKOxvCil6Xg
 
 V2 - https://youtu.be/37Cm_YkFv4Q
 
-# hackManthan-production
+# hackManthan-production - BACKEND
 Version 1.1.0 - 29 June 2022
 
 ### Add Firebase creditialsby making a folder ```backend/config``` and check config.py once 
@@ -48,4 +48,20 @@ python app.py
 
 ```
 pip install -U scikit-learn==0.21.3
+```
+
+# hackManthan-production - FRONTEND
+
+#### Node 16.0.0
+
+```
+cd Web 
+```
+
+```
+npm install
+```
+
+```
+npm start dev
 ```
