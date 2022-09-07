@@ -1,4 +1,9 @@
-# hackManthan
+# HackManthan
+
+# In Collaboration with Chhattisgarh Police
+
+<img width="200" alt="" src="https://raw.githubusercontent.com/gamingflexer/hackManthan/main/data/cgpolice.png">
+
 
 Explanation:
 - Criminology is an area where the scientific study of crime and criminal behavior focuses.
